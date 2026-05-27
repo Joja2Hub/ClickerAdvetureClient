@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5889f909e1dc3f14a9b35c5211f5ab0b, type: 3}
+  m_Name: crystal_cave
+  m_EditorClassIdentifier: Assembly-CSharp::ClickerAdventure.MapNodeConfig
+  NodeId: crystal_cave
+  DisplayName: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u044C\u043D\u0430\u044F
+    \u043F\u0435\u0449\u0435\u0440\u0430"
+  Type: 0
+  RequiredLevel: 3
+  MapPosition: {x: 40, y: -230}
+  Dungeon: {fileID: 11400000, guid: e9a155fa642b6be479071968cab223fe, type: 2}
+  Town: {fileID: 0}

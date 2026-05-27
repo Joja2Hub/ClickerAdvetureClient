@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adece25d1abd175449aac3da0714cf73, type: 3}
+  m_Name: crystal_cave
+  m_EditorClassIdentifier: Assembly-CSharp::ClickerAdventure.DungeonConfig
+  DungeonId: crystal_cave
+  DisplayName: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u044C\u043D\u0430\u044F
+    \u043F\u0435\u0449\u0435\u0440\u0430"
+  BiomeId: starter
+  RequiredLevel: 3
+  WavesCount: 2
+  EnemiesPerWave: 2
+  EnemyPool:
+  - {fileID: 11400000, guid: 971b0f0c0c26b4944abfdc5434d8e26f, type: 2}
+  - {fileID: 11400000, guid: 2e682e3ba9b50254a8ffe4ac58e18e29, type: 2}
+  Boss: {fileID: 11400000, guid: 2e682e3ba9b50254a8ffe4ac58e18e29, type: 2}
+  BaseXpReward: 45
+  BaseGoldReward: 22
+  LootTable: {fileID: 11400000, guid: 9bfad4cf1a2427e4d82a870f5f09bac9, type: 2}

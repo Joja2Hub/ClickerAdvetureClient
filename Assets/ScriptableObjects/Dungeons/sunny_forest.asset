@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adece25d1abd175449aac3da0714cf73, type: 3}
+  m_Name: sunny_forest
+  m_EditorClassIdentifier: Assembly-CSharp::ClickerAdventure.DungeonConfig
+  DungeonId: sunny_forest
+  DisplayName: "\u0421\u043E\u043B\u043D\u0435\u0447\u043D\u044B\u0439 \u043B\u0435\u0441"
+  BiomeId: starter
+  RequiredLevel: 1
+  WavesCount: 2
+  EnemiesPerWave: 2
+  EnemyPool:
+  - {fileID: 11400000, guid: 0acc34c7b69bc7149ae2665687c98ce0, type: 2}
+  - {fileID: 11400000, guid: 971b0f0c0c26b4944abfdc5434d8e26f, type: 2}
+  Boss: {fileID: 11400000, guid: 971b0f0c0c26b4944abfdc5434d8e26f, type: 2}
+  BaseXpReward: 20
+  BaseGoldReward: 12
+  LootTable: {fileID: 11400000, guid: 9bfad4cf1a2427e4d82a870f5f09bac9, type: 2}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5889f909e1dc3f14a9b35c5211f5ab0b, type: 3}
+  m_Name: home_village
+  m_EditorClassIdentifier: Assembly-CSharp::ClickerAdventure.MapNodeConfig
+  NodeId: home_village
+  DisplayName: "\u0414\u043E\u043C\u0430\u0448\u043D\u044F\u044F \u0434\u0435\u0440\u0435\u0432\u043D\u044F"
+  Type: 1
+  RequiredLevel: 1
+  MapPosition: {x: 220, y: 80}
+  Dungeon: {fileID: 0}
+  Town: {fileID: 11400000, guid: fd9e4485025fe24409c25a947dfd7c7e, type: 2}

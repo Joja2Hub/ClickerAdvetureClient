@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5889f909e1dc3f14a9b35c5211f5ab0b, type: 3}
+  m_Name: sunny_forest
+  m_EditorClassIdentifier: Assembly-CSharp::ClickerAdventure.MapNodeConfig
+  NodeId: sunny_forest
+  DisplayName: "\u0421\u043E\u043B\u043D\u0435\u0447\u043D\u044B\u0439 \u043B\u0435\u0441"
+  Type: 0
+  RequiredLevel: 1
+  MapPosition: {x: -260, y: 240}
+  Dungeon: {fileID: 11400000, guid: c1b8705ae2a916c47a0c70df83b0326d, type: 2}
+  Town: {fileID: 0}
