@@ -28,6 +28,20 @@ async function assertParentForChild(uid, childId) {
 function todayId(date = new Date()) {
     return date.toISOString().slice(0, 10);
 }
+function authErrorToHttps(error) {
+    const code = typeof error === "object" && error && "code" in error ? String(error.code) : "";
+    const message = error instanceof Error ? error.message : "Ошибка Firebase Auth.";
+    if (code === "auth/email-already-exists") {
+        return new https_1.HttpsError("already-exists", "Этот email уже занят другим аккаунтом.");
+    }
+    if (code === "auth/invalid-email") {
+        return new https_1.HttpsError("invalid-argument", "Некорректный email ребёнка.");
+    }
+    if (code === "auth/invalid-password") {
+        return new https_1.HttpsError("invalid-argument", "Некорректный пароль ребёнка.");
+    }
+    return new https_1.HttpsError("internal", message);
+}
 exports.approveQuest = (0, https_1.onCall)({ region: "europe-west1" }, async (request) => {
     const { childId, questId } = request.data;
     if (!childId || !questId)
@@ -104,23 +118,37 @@ exports.createChildLogin = (0, https_1.onCall)({ region: "europe-west1" }, async
     try {
         childUser = await auth.getUserByEmail(email);
         const existingProfile = await db.doc(`users/${childUser.uid}`).get();
-        const existingChildId = existingProfile.data()?.childId;
-        if (existingChildId && existingChildId !== childId) {
-            throw new https_1.HttpsError("already-exists", "Этот email уже привязан к другому ребёнку.");
+        const existing = existingProfile.data();
+        if (existing && (existing.role !== "child" || existing.childId !== childId)) {
+            throw new https_1.HttpsError("already-exists", "Этот email уже привязан к другому профилю.");
         }
-        await auth.updateUser(childUser.uid, {
-            password,
-            displayName: displayName || child.displayName || "Юный герой",
-        });
+        try {
+            await auth.updateUser(childUser.uid, {
+                password,
+                displayName: displayName || child.displayName || "Юный герой",
+            });
+        }
+        catch (error) {
+            throw authErrorToHttps(error);
+        }
     }
     catch (error) {
         if (error instanceof https_1.HttpsError)
             throw error;
-        childUser = await auth.createUser({
-            email,
-            password,
-            displayName: displayName || child.displayName || "Юный герой",
-        });
+        const code = typeof error === "object" && error && "code" in error ? String(error.code) : "";
+        if (code !== "auth/user-not-found") {
+            throw authErrorToHttps(error);
+        }
+        try {
+            childUser = await auth.createUser({
+                email,
+                password,
+                displayName: displayName || child.displayName || "Юный герой",
+            });
+        }
+        catch (createError) {
+            throw authErrorToHttps(createError);
+        }
     }
     await db.doc(`users/${childUser.uid}`).set({
         uid: childUser.uid,
