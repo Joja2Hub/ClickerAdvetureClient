@@ -415,8 +415,18 @@ namespace ClickerAdventure
             var reward = new BattleReward { Xp = quest.RewardXp, Gold = quest.RewardGold };
             if (firebaseRest is { IsSignedIn: true })
             {
-                await firebaseRest.ClaimQuestRewardAsync(childId, quest.Id);
-                await gameStateService.LoadAsync(childId);
+                try
+                {
+                    await firebaseRest.ClaimQuestRewardAsync(childId, quest.Id);
+                    await gameStateService.LoadAsync(childId);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning($"Cloud reward claim failed, using direct Firestore MVP flow: {ex.Message}");
+                    await firebaseRest.ClaimQuestRewardDirectAsync(childId, quest.Id);
+                    await gameStateService.AddBattleRewardAsync(childId, reward);
+                }
+
                 return reward;
             }
 

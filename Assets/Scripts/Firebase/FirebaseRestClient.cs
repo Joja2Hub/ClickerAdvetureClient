@@ -148,6 +148,20 @@ namespace ClickerAdventure
             await SendJsonAsync("POST", url, body, true);
         }
 
+        public async Task ClaimQuestRewardDirectAsync(string childId, string questId)
+        {
+            var url = FirestoreUrl($"children/{childId}/quests/{questId}?updateMask.fieldPaths=status&updateMask.fieldPaths=claimedAt");
+            var body = new Dictionary<string, object>
+            {
+                ["fields"] = new Dictionary<string, object>
+                {
+                    ["status"] = StringField("claimed"),
+                    ["claimedAt"] = TimestampField(DateTime.UtcNow)
+                }
+            };
+            await SendJsonAsync("PATCH", url, body, true);
+        }
+
         public async Task<bool> TrySaveGameStateAsync(string childId, GameState state)
         {
             try

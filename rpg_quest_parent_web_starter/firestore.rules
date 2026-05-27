@@ -55,7 +55,8 @@ service cloud.firestore {
       match /gameState/{stateId} {
         allow read: if sameFamily(childFamily(childId))
           || (isChild() && currentUser().childId == childId);
-        allow create, update: if isParent() && sameFamily(childFamily(childId));
+        allow create, update: if (isParent() && sameFamily(childFamily(childId)))
+          || (isChild() && currentUser().childId == childId);
         allow delete: if false;
       }
 
@@ -84,6 +85,12 @@ service cloud.firestore {
           && currentUser().childId == childId
           && resource.data.status in ["assigned", "rejected"]
           && request.resource.data.status == "submitted";
+
+        // MVP without Cloud Functions: the Unity client may claim an approved reward directly.
+        allow update: if isChild()
+          && currentUser().childId == childId
+          && resource.data.status == "approved"
+          && request.resource.data.status == "claimed";
 
         allow delete: if false;
       }

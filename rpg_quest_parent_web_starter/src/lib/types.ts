@@ -39,6 +39,10 @@ export interface ChildProfile {
   id: string;
   familyId: string;
   displayName: string;
+  unityLoginEmail?: string;
+  unityLoginPasswordForTesting?: string;
+  unityAuthUid?: string;
+  unityLoginUpdatedAt?: unknown;
   level: number;
   xp: number;
   gold: number;

@@ -22,6 +22,8 @@ namespace ClickerAdventure
             var candidates = new[]
             {
                 Path.Combine(Application.streamingAssetsPath, "firebase-web-config.env"),
+                Path.GetFullPath(Path.Combine(Application.dataPath, "..", "rpg_quest_parent_web_starter", ".env.local")),
+                Path.GetFullPath(Path.Combine(Application.dataPath, "..", "rpg_quest_parent_web_starter", ".env.example")),
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "rpg_quest_parent_web_starter", ".env.local"),
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "rpg_quest_parent_web_starter", ".env.example")
             };
