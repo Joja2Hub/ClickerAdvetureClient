@@ -19,7 +19,7 @@ export default function DashboardPage() {
   }, [profile?.familyId]);
 
   return (
-    <AuthGate>
+    <AuthGate requireParent>
       <main className="page">
         <TopNav />
         <section className="toolbar">

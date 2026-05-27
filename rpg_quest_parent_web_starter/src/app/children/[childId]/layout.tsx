@@ -6,7 +6,7 @@ import { TopNav } from "@/components/TopNav";
 export default async function ChildLayout({ children, params }: { children: ReactNode; params: Promise<{ childId: string }> }) {
   const { childId } = await params;
   return (
-    <AuthGate>
+    <AuthGate requireParent>
       <main className="page">
         <TopNav />
         <div className="tabs">

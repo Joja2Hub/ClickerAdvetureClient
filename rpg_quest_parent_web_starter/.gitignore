@@ -4,4 +4,5 @@ node_modules
 .env*.local
 firebase-debug.log
 firestore-debug.log
+dev-server*.log
 .DS_Store

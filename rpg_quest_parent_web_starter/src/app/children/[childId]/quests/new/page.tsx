@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthProvider";
+import { getChildProfile } from "@/lib/services/childService";
 import { createQuest } from "@/lib/services/questService";
 import { QuestCategory } from "@/lib/types";
 
@@ -21,7 +22,7 @@ export default function NewQuestPage() {
   const params = useParams<{ childId: string }>();
   const childId = params.childId;
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [title, setTitle] = useState("Почитать 20 минут");
   const [description, setDescription] = useState("Прочитай книгу или учебный материал 20 минут и отправь комментарий о том, что прочитал.");
   const [category, setCategory] = useState<QuestCategory>("reading");
@@ -36,6 +37,19 @@ export default function NewQuestPage() {
     setError("");
     setLoading(true);
     try {
+      if (!profile || profile.role !== "parent") {
+        throw new Error("Создавать квесты может только родительский аккаунт. Выйдите и войдите как родитель.");
+      }
+
+      const child = await getChildProfile(childId);
+      if (!child) {
+        throw new Error("Ребенок не найден. Вернитесь на dashboard и выберите ребенка из списка.");
+      }
+
+      if (child.familyId !== profile.familyId) {
+        throw new Error("Этот ребенок привязан к другой семье. Выберите ребенка из своего dashboard.");
+      }
+
       await createQuest({ childId, title, description, category, rewardXp, rewardGold, createdByParentId: user.uid });
       router.push(`/children/${childId}/quests`);
     } catch (err) {
