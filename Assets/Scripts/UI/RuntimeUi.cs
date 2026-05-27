@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 namespace ClickerAdventure
@@ -41,7 +42,8 @@ namespace ClickerAdventure
                 return;
             }
 
-            new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+            var eventSystem = new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+            eventSystem.GetComponent<InputSystemUIInputModule>().AssignDefaultActions();
         }
 
         public static void AdventureBackground(Transform parent, Color top, Color middle, Color bottom)

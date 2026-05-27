@@ -1,0 +1,142 @@
+:root {
+  --bg: #f6f2ea;
+  --panel: #fffaf2;
+  --panel-strong: #fff2d7;
+  --text: #25160b;
+  --muted: #735b44;
+  --border: #e5d4ba;
+  --accent: #9b5c20;
+  --accent-strong: #6d3510;
+  --green: #2e7d32;
+  --red: #a33a2f;
+  --blue: #2f5f9b;
+  --purple: #6c3aa3;
+  --shadow: 0 16px 40px rgba(57, 37, 18, 0.12);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(255, 218, 151, 0.5), transparent 32rem),
+    linear-gradient(180deg, #f8f2e6 0%, #efe3d0 100%);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+button, input, textarea, select { font: inherit; }
+
+.page {
+  min-height: 100vh;
+  padding: 32px;
+}
+.centerPage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.card {
+  background: rgba(255, 250, 242, 0.94);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+.narrow { width: min(100%, 480px); }
+.grid { display: grid; gap: 18px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+
+h1, h2, h3 { margin: 0 0 10px; line-height: 1.08; }
+p { color: var(--muted); line-height: 1.55; }
+label { display: grid; gap: 8px; color: var(--muted); font-weight: 700; }
+input, textarea, select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: white;
+  padding: 12px 14px;
+  color: var(--text);
+}
+textarea { min-height: 110px; resize: vertical; }
+
+.button, button {
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 16px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.button:hover, button:hover { background: var(--accent-strong); }
+.secondary { background: var(--panel-strong); color: var(--accent-strong); border: 1px solid var(--border); }
+.secondary:hover { background: #ffe7bd; }
+.danger { background: var(--red); }
+.success { background: var(--green); }
+.linkButton { background: transparent; color: var(--text); padding: 0; }
+.linkButton:hover { background: transparent; color: var(--accent); }
+
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+  background: rgba(255, 250, 242, 0.84);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 14px 18px;
+  box-shadow: var(--shadow);
+}
+.brand { font-weight: 900; color: var(--accent-strong); }
+.topnav nav { display: flex; gap: 16px; align-items: center; }
+
+.childCard, .questCard, .statCard {
+  background: rgba(255,255,255,0.64);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 18px;
+}
+.childCard:hover, .questCard:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(57, 37, 18, 0.08); }
+.questHeader { display: flex; justify-content: space-between; gap: 16px; align-items: start; }
+.rewardRow, .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.rewardRow span {
+  background: var(--panel-strong);
+  border: 1px solid var(--border);
+  color: var(--accent-strong);
+  border-radius: 999px;
+  padding: 8px 10px;
+  font-weight: 800;
+}
+.badge {
+  border-radius: 999px;
+  padding: 8px 10px;
+  color: white;
+  font-size: 13px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.status-assigned { background: var(--blue); }
+.status-submitted { background: var(--purple); }
+.status-approved { background: var(--green); }
+.status-rejected { background: var(--red); }
+.status-claimed { background: var(--accent); }
+.status-cancelled { background: #777; }
+.note { background: #fff3d9; border-radius: 14px; padding: 10px 12px; }
+.error { color: var(--red); font-weight: 800; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+.tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+.tabs a { background: var(--panel); border: 1px solid var(--border); border-radius: 999px; padding: 10px 14px; font-weight: 800; }
+
+@media (max-width: 800px) {
+  .page { padding: 16px; }
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+  .topnav { align-items: start; flex-direction: column; gap: 12px; }
+  .toolbar { align-items: start; flex-direction: column; }
+}

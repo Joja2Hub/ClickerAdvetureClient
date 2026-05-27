@@ -58,7 +58,23 @@
 
 ## Firebase
 
-Сейчас Firebase слой работает как dev/offline adapter, чтобы проект компилировался без SDK. Когда Firebase Unity SDK будет добавлен, реальные вызовы нужно подключить внутри:
+Для PC/Editor тестов Unity умеет подключаться к той же Firebase базе, что и родительский Next.js сайт, через REST bridge без Firebase Unity SDK.
+
+Unity ищет web-конфиг здесь:
+
+- `Assets/StreamingAssets/firebase-web-config.env`
+- `C:/Users/erush/Desktop/rpg_quest_parent_web_starter/.env.local`
+
+Рабочий поток:
+
+1. В родительском сайте открыть ребёнка.
+2. Перейти во вкладку `Unity вход`.
+3. Создать email/password для ребёнка.
+4. В Unity на Login ввести этот email/password и нажать `Войти`.
+
+После входа Unity загружает `users/{uid}`, проверяет `role == "child"`, берёт `childId`, загружает `children/{childId}`, `gameState/main` и квесты из `children/{childId}/quests`.
+
+Сейчас Firebase слой работает через REST adapter. Когда Firebase Unity SDK будет добавлен, реальные вызовы можно перенести внутрь тех же сервисов:
 
 - `FirebaseInitializer`
 - `AuthService`

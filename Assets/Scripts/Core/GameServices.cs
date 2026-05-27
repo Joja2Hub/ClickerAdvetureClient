@@ -10,6 +10,7 @@ namespace ClickerAdventure
     public static class ServiceRegistry
     {
         public static FirebaseInitializer Firebase { get; private set; }
+        public static FirebaseRestClient FirebaseRest { get; private set; }
         public static AuthService Auth { get; private set; }
         public static PlayerProfileService PlayerProfiles { get; private set; }
         public static GameStateService GameState { get; private set; }
@@ -34,11 +35,13 @@ namespace ClickerAdventure
             }
 
             Firebase = new FirebaseInitializer();
-            Auth = new AuthService();
-            PlayerProfiles = new PlayerProfileService();
-            GameState = new GameStateService();
-            CloudFunctions = new CloudFunctionsService(GameState);
-            Quests = new QuestService(CloudFunctions);
+            await Firebase.InitializeAsync();
+            FirebaseRest = new FirebaseRestClient(Firebase.WebConfig);
+            Auth = new AuthService(FirebaseRest);
+            PlayerProfiles = new PlayerProfileService(FirebaseRest);
+            GameState = new GameStateService(FirebaseRest);
+            CloudFunctions = new CloudFunctionsService(GameState, FirebaseRest);
+            Quests = new QuestService(CloudFunctions, FirebaseRest);
             Rewards = new RewardService(GameState);
             Inventory = new InventoryService();
             Equipment = new EquipmentService(Inventory);
@@ -48,7 +51,6 @@ namespace ClickerAdventure
             Levels = new LevelService();
             Network = new NetworkStateService();
 
-            await Firebase.InitializeAsync();
             IsReady = true;
         }
     }
@@ -92,28 +94,45 @@ namespace ClickerAdventure
     public sealed class FirebaseInitializer
     {
         public bool IsAvailable { get; private set; }
+        public FirebaseWebConfig WebConfig { get; private set; }
 
         public async Task InitializeAsync()
         {
             await Task.Yield();
-            IsAvailable = false;
-            Debug.Log("Firebase SDK is not configured yet. Running in dev/offline mode.");
+            WebConfig = FirebaseWebConfig.LoadForLocalTesting();
+            IsAvailable = WebConfig.IsValid;
+            Debug.Log(IsAvailable
+                ? "Firebase REST bridge is configured for parent web project."
+                : "Firebase config is missing. Running in dev/offline mode.");
         }
     }
 
     public sealed class AuthService
     {
+        private readonly FirebaseRestClient firebaseRest;
+
         public UserProfile CurrentUser { get; private set; }
         public bool IsSignedIn => CurrentUser != null;
 
+        public AuthService(FirebaseRestClient firebaseRest)
+        {
+            this.firebaseRest = firebaseRest;
+        }
+
         public async Task<UserProfile> SignInWithEmailAsync(string email, string password)
         {
-            await Task.Yield();
             if (string.IsNullOrWhiteSpace(email))
             {
                 throw new ArgumentException("Введите email ребёнка.");
             }
 
+            if (firebaseRest is { IsConfigured: true })
+            {
+                CurrentUser = await firebaseRest.SignInChildAsync(email, password);
+                return CurrentUser;
+            }
+
+            await Task.Yield();
             CurrentUser = CreateDevUser(email);
             return CurrentUser;
         }
@@ -127,6 +146,7 @@ namespace ClickerAdventure
 
         public void SignOut()
         {
+            firebaseRest?.SignOut();
             CurrentUser = null;
         }
 
@@ -146,10 +166,23 @@ namespace ClickerAdventure
 
     public sealed class PlayerProfileService
     {
+        private readonly FirebaseRestClient firebaseRest;
+
         public ChildProfile CurrentChild { get; private set; }
+
+        public PlayerProfileService(FirebaseRestClient firebaseRest)
+        {
+            this.firebaseRest = firebaseRest;
+        }
 
         public async Task<ChildProfile> LoadChildProfileAsync(string childId)
         {
+            if (firebaseRest is { IsSignedIn: true })
+            {
+                CurrentChild = await firebaseRest.LoadChildProfileAsync(childId);
+                return CurrentChild;
+            }
+
             await Task.Yield();
             CurrentChild = new ChildProfile
             {
@@ -166,11 +199,26 @@ namespace ClickerAdventure
 
     public sealed class GameStateService
     {
+        private readonly FirebaseRestClient firebaseRest;
+
         public GameState Current { get; private set; }
         public event Action<GameState> Changed;
 
+        public GameStateService(FirebaseRestClient firebaseRest)
+        {
+            this.firebaseRest = firebaseRest;
+        }
+
         public async Task<GameState> LoadAsync(string childId)
         {
+            if (firebaseRest is { IsSignedIn: true })
+            {
+                Current = await firebaseRest.LoadGameStateAsync(childId);
+                EnsureDefaultUnlocks(Current);
+                Changed?.Invoke(Current);
+                return Current;
+            }
+
             await Task.Yield();
             Current ??= new GameState
             {
@@ -190,6 +238,11 @@ namespace ClickerAdventure
 
         public async Task SaveAsync(string childId, GameState state)
         {
+            if (firebaseRest is { IsSignedIn: true })
+            {
+                await firebaseRest.TrySaveGameStateAsync(childId, state);
+            }
+
             await Task.Yield();
             Current = state.Clone();
             Changed?.Invoke(Current);
@@ -203,11 +256,23 @@ namespace ClickerAdventure
             ServiceRegistry.Levels.TryLevelUp(state, out _);
             await SaveAsync(childId, state);
         }
+
+        private static void EnsureDefaultUnlocks(GameState state)
+        {
+            state.UnlockedLocations ??= new List<string>();
+            state.CompletedDungeons ??= new List<string>();
+            if (state.UnlockedLocations.Count == 0)
+            {
+                state.UnlockedLocations.Add("sunny_forest");
+                state.UnlockedLocations.Add("home_village");
+            }
+        }
     }
 
     public sealed class QuestService
     {
         private readonly CloudFunctionsService cloudFunctions;
+        private readonly FirebaseRestClient firebaseRest;
         private readonly List<RealLifeQuest> quests = new()
         {
             new RealLifeQuest
@@ -232,15 +297,21 @@ namespace ClickerAdventure
             }
         };
 
-        public QuestService(CloudFunctionsService cloudFunctions)
+        public QuestService(CloudFunctionsService cloudFunctions, FirebaseRestClient firebaseRest)
         {
             this.cloudFunctions = cloudFunctions;
+            this.firebaseRest = firebaseRest;
         }
 
         public event Action<List<RealLifeQuest>> Changed;
 
         public async Task<List<RealLifeQuest>> LoadQuestsAsync(string childId)
         {
+            if (firebaseRest is { IsSignedIn: true })
+            {
+                return await firebaseRest.LoadQuestsAsync(childId);
+            }
+
             await Task.Yield();
             return quests.Select(CloneQuest).ToList();
         }
@@ -253,6 +324,13 @@ namespace ClickerAdventure
 
         public async Task SubmitQuestAsync(string childId, string questId, string childComment)
         {
+            if (firebaseRest is { IsSignedIn: true })
+            {
+                await firebaseRest.SubmitQuestAsync(childId, questId, childComment);
+                Changed?.Invoke(await firebaseRest.LoadQuestsAsync(childId));
+                return;
+            }
+
             await Task.Yield();
             var quest = quests.FirstOrDefault(q => q.Id == questId);
             if (quest == null)
@@ -272,6 +350,20 @@ namespace ClickerAdventure
 
         public async Task<BattleReward> ClaimQuestRewardAsync(string childId, string questId)
         {
+            if (firebaseRest is { IsSignedIn: true })
+            {
+                var liveQuests = await firebaseRest.LoadQuestsAsync(childId);
+                var liveQuest = liveQuests.FirstOrDefault(q => q.Id == questId);
+                if (liveQuest == null)
+                {
+                    throw new InvalidOperationException("Квест не найден.");
+                }
+
+                var liveReward = await cloudFunctions.ClaimQuestRewardAsync(childId, liveQuest);
+                Changed?.Invoke(await firebaseRest.LoadQuestsAsync(childId));
+                return liveReward;
+            }
+
             var quest = quests.FirstOrDefault(q => q.Id == questId);
             if (quest == null)
             {
@@ -310,16 +402,25 @@ namespace ClickerAdventure
     public sealed class CloudFunctionsService
     {
         private readonly GameStateService gameStateService;
+        private readonly FirebaseRestClient firebaseRest;
 
-        public CloudFunctionsService(GameStateService gameStateService)
+        public CloudFunctionsService(GameStateService gameStateService, FirebaseRestClient firebaseRest)
         {
             this.gameStateService = gameStateService;
+            this.firebaseRest = firebaseRest;
         }
 
         public async Task<BattleReward> ClaimQuestRewardAsync(string childId, RealLifeQuest quest)
         {
-            await Task.Yield();
             var reward = new BattleReward { Xp = quest.RewardXp, Gold = quest.RewardGold };
+            if (firebaseRest is { IsSignedIn: true })
+            {
+                await firebaseRest.ClaimQuestRewardAsync(childId, quest.Id);
+                await gameStateService.LoadAsync(childId);
+                return reward;
+            }
+
+            await Task.Yield();
             await gameStateService.AddBattleRewardAsync(childId, reward);
             return reward;
         }

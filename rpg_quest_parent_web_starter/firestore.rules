@@ -1,0 +1,105 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userPath(uid) {
+      return /databases/$(database)/documents/users/$(uid);
+    }
+
+    function currentUser() {
+      return get(userPath(request.auth.uid)).data;
+    }
+
+    function isParent() {
+      return signedIn()
+        && exists(userPath(request.auth.uid))
+        && currentUser().role == "parent";
+    }
+
+    function isChild() {
+      return signedIn()
+        && exists(userPath(request.auth.uid))
+        && currentUser().role == "child";
+    }
+
+    function sameFamily(familyId) {
+      return signedIn()
+        && exists(userPath(request.auth.uid))
+        && currentUser().familyId == familyId;
+    }
+
+    function childFamily(childId) {
+      return get(/databases/$(database)/documents/children/$(childId)).data.familyId;
+    }
+
+    match /users/{userId} {
+      allow read, create, update: if signedIn() && request.auth.uid == userId;
+    }
+
+    match /families/{familyId} {
+      allow create: if signedIn() && request.resource.data.ownerParentId == request.auth.uid;
+      allow read, update: if isParent() && sameFamily(familyId);
+      allow delete: if false;
+    }
+
+    match /children/{childId} {
+      allow create: if isParent() && sameFamily(request.resource.data.familyId);
+      allow read: if sameFamily(resource.data.familyId)
+        || (isChild() && currentUser().childId == childId);
+      allow update: if isParent() && sameFamily(resource.data.familyId);
+      allow delete: if false;
+
+      match /gameState/{stateId} {
+        allow read: if sameFamily(childFamily(childId))
+          || (isChild() && currentUser().childId == childId);
+        allow create, update: if isParent() && sameFamily(childFamily(childId));
+        allow delete: if false;
+      }
+
+      match /inventory/{itemInstanceId} {
+        allow read: if sameFamily(childFamily(childId))
+          || (isChild() && currentUser().childId == childId);
+        allow create, update: if isParent() && sameFamily(childFamily(childId));
+        allow delete: if false;
+      }
+
+      match /quests/{questId} {
+        allow read: if sameFamily(childFamily(childId))
+          || (isChild() && currentUser().childId == childId);
+
+        allow create: if isParent()
+          && sameFamily(childFamily(childId))
+          && request.resource.data.status == "assigned"
+          && request.resource.data.createdByParentId == request.auth.uid;
+
+        // Родительская панель MVP: родитель может менять задания ребёнка.
+        // В production одобрение/claim наград лучше перенести в Cloud Functions.
+        allow update: if isParent() && sameFamily(childFamily(childId));
+
+        // Unity-клиент ребёнка сможет только отправлять назначенный квест на проверку.
+        allow update: if isChild()
+          && currentUser().childId == childId
+          && resource.data.status in ["assigned", "rejected"]
+          && request.resource.data.status == "submitted";
+
+        allow delete: if false;
+      }
+
+      match /rewardLedger/{rewardId} {
+        allow read: if sameFamily(childFamily(childId))
+          || (isChild() && currentUser().childId == childId);
+        allow create, update: if false; // только Cloud Functions через Admin SDK
+        allow delete: if false;
+      }
+
+      match /analyticsDaily/{dateId} {
+        allow read: if sameFamily(childFamily(childId));
+        allow create, update: if false; // только Cloud Functions через Admin SDK
+        allow delete: if false;
+      }
+    }
+  }
+}
