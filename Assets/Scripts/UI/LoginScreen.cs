@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,8 +7,8 @@ namespace ClickerAdventure
 {
     public class LoginScreen : MonoBehaviour
     {
-        private InputField emailInput;
-        private InputField passwordInput;
+        private TMP_InputField emailInput;
+        private TMP_InputField passwordInput;
         private Text statusText;
         private bool isLoggingIn;
 
@@ -64,7 +65,7 @@ namespace ClickerAdventure
 
             emailInput = CreateInput(canvas.transform, "Email", "child@example.com", new Vector2(0.5f, 0.50f));
             passwordInput = CreateInput(canvas.transform, "Password", "password", new Vector2(0.5f, 0.41f));
-            passwordInput.contentType = InputField.ContentType.Password;
+            passwordInput.contentType = TMP_InputField.ContentType.Password;
 
             var login = RuntimeUi.Button(canvas.transform, "LoginButton", "Войти", new Color(0.21f, 0.51f, 0.76f), () => _ = LoginAsync(false));
             RuntimeUi.SetRect(login.GetComponent<RectTransform>(), new Vector2(0.5f, 0.29f), new Vector2(650, 86), Vector2.zero);
@@ -76,25 +77,43 @@ namespace ClickerAdventure
             RuntimeUi.SetRect(statusText.rectTransform, new Vector2(0.5f, 0.11f), new Vector2(850, 100), Vector2.zero);
         }
 
-        private static InputField CreateInput(Transform parent, string name, string placeholder, Vector2 anchor)
+        private static TMP_InputField CreateInput(Transform parent, string name, string placeholder, Vector2 anchor)
         {
-            var go = new GameObject(name, typeof(Image), typeof(InputField), typeof(Shadow), typeof(Outline));
+            var go = new GameObject(name, typeof(Image), typeof(TMP_InputField), typeof(Shadow), typeof(Outline));
             go.transform.SetParent(parent, false);
-            go.GetComponent<Image>().color = new Color(0.95f, 0.91f, 0.82f);
+            var image = go.GetComponent<Image>();
+            image.color = new Color(0.95f, 0.91f, 0.82f);
+            image.raycastTarget = true;
             go.GetComponent<Shadow>().effectColor = new Color(0f, 0f, 0f, 0.25f);
             go.GetComponent<Shadow>().effectDistance = new Vector2(0, -4);
             go.GetComponent<Outline>().effectColor = new Color(0.28f, 0.20f, 0.13f, 0.55f);
-            var input = go.GetComponent<InputField>();
-            var text = RuntimeUi.Text(go.transform, "Text", "", 30, RuntimeUi.Ink, TextAnchor.MiddleLeft);
-            text.rectTransform.offsetMin = new Vector2(24, 0);
-            text.rectTransform.offsetMax = new Vector2(-24, 0);
-            var placeholderText = RuntimeUi.Text(go.transform, "Placeholder", placeholder, 30, new Color(0.42f, 0.35f, 0.27f), TextAnchor.MiddleLeft);
-            placeholderText.rectTransform.offsetMin = new Vector2(24, 0);
-            placeholderText.rectTransform.offsetMax = new Vector2(-24, 0);
+            var input = go.GetComponent<TMP_InputField>();
+            input.targetGraphic = image;
+            input.caretColor = RuntimeUi.Ink;
+            input.selectionColor = new Color(0.21f, 0.51f, 0.76f, 0.35f);
+
+            var text = CreateInputText(go.transform, "Text", "", RuntimeUi.Ink);
+            var placeholderText = CreateInputText(go.transform, "Placeholder", placeholder, new Color(0.42f, 0.35f, 0.27f));
             input.textComponent = text;
             input.placeholder = placeholderText;
             RuntimeUi.SetRect(go.GetComponent<RectTransform>(), anchor, new Vector2(760, 78), Vector2.zero);
             return input;
+        }
+
+        private static TextMeshProUGUI CreateInputText(Transform parent, string name, string value, Color color)
+        {
+            var go = new GameObject(name, typeof(TextMeshProUGUI));
+            go.transform.SetParent(parent, false);
+            var text = go.GetComponent<TextMeshProUGUI>();
+            text.text = value;
+            text.fontSize = 30;
+            text.color = color;
+            text.alignment = TextAlignmentOptions.MidlineLeft;
+            text.raycastTarget = false;
+            RuntimeUi.Stretch(text.rectTransform);
+            text.rectTransform.offsetMin = new Vector2(24, 0);
+            text.rectTransform.offsetMax = new Vector2(-24, 0);
+            return text;
         }
 
         private async Task LoginAsync(bool dev)

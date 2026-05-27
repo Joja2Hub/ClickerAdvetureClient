@@ -102,6 +102,7 @@ namespace ClickerAdventure
             text.alignment = anchor;
             text.horizontalOverflow = HorizontalWrapMode.Wrap;
             text.verticalOverflow = VerticalWrapMode.Overflow;
+            text.raycastTarget = false;
             var shadow = go.GetComponent<Shadow>();
             shadow.effectColor = new Color(0f, 0f, 0f, 0.28f);
             shadow.effectDistance = new Vector2(1.5f, -1.5f);
