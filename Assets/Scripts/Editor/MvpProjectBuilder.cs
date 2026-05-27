@@ -49,6 +49,31 @@ namespace ClickerAdventure.EditorTools
             Debug.Log("RPG Quest MVP project generated.");
         }
 
+        [MenuItem("RPG Quest/Build Windows Test Player")]
+        public static void BuildWindowsTestPlayer()
+        {
+            Build();
+            Directory.CreateDirectory("Builds/WindowsTest");
+            var options = new BuildPlayerOptions
+            {
+                scenes = new[]
+                {
+                    "Assets/Scenes/00_Boot.unity",
+                    "Assets/Scenes/01_Login.unity",
+                    "Assets/Scenes/02_Map.unity",
+                    "Assets/Scenes/03_Battle.unity",
+                    "Assets/Scenes/04_Town.unity",
+                    "Assets/Scenes/05_Loading.unity"
+                },
+                locationPathName = "Builds/WindowsTest/RPGQuestAdventure.exe",
+                target = BuildTarget.StandaloneWindows64,
+                options = BuildOptions.Development
+            };
+
+            var report = BuildPipeline.BuildPlayer(options);
+            Debug.Log($"Windows test build finished with status: {report.summary.result}");
+        }
+
         private static void EnsureFolders()
         {
             string[] folders =

@@ -20,6 +20,7 @@ namespace ClickerAdventure
         private Image playerHpBar;
         private Image rageBar;
         private RectTransform rewardCard;
+        private bool isCompleted;
 
         private async void Start()
         {
@@ -34,6 +35,45 @@ namespace ClickerAdventure
             playerHp = ServiceRegistry.GameState.Current.MaxHp;
             Build();
             SpawnEnemy();
+        }
+
+        private void Update()
+        {
+            if (!DesktopTestMode.IsEnabled)
+            {
+                return;
+            }
+
+            if (DesktopTestMode.Pressed(KeyCode.Escape))
+            {
+                SceneLoader.LoadMap();
+                return;
+            }
+
+            if (isCompleted)
+            {
+                if (DesktopTestMode.PressedAny(KeyCode.Return, KeyCode.KeypadEnter, KeyCode.Space))
+                {
+                    SceneLoader.LoadMap();
+                }
+
+                return;
+            }
+
+            if (DesktopTestMode.PressedAny(KeyCode.Space, KeyCode.Return, KeyCode.KeypadEnter))
+            {
+                OnEnemyClicked();
+            }
+
+            if (DesktopTestMode.Pressed(KeyCode.Q))
+            {
+                DealDamage(35, true);
+            }
+
+            if (DesktopTestMode.Pressed(KeyCode.E))
+            {
+                HealPlayer();
+            }
         }
 
         private void Build()
@@ -84,8 +124,7 @@ namespace ClickerAdventure
 
             var heal = RuntimeUi.Button(canvas.transform, "Heal", "Heal", new Color(0.25f, 0.55f, 0.36f), () =>
             {
-                playerHp = Mathf.Min(ServiceRegistry.GameState.Current.MaxHp, playerHp + 25);
-                Refresh();
+                HealPlayer();
             });
             RuntimeUi.SetRect(heal.GetComponent<RectTransform>(), new Vector2(0.5f, 0.08f), new Vector2(250, 76), Vector2.zero);
 
@@ -178,6 +217,7 @@ namespace ClickerAdventure
 
         private async System.Threading.Tasks.Task CompleteVictoryAsync()
         {
+            isCompleted = true;
             enemyButton.interactable = false;
             StopAllCoroutines();
             var childId = ServiceRegistry.Auth.CurrentUser.ChildId;
@@ -190,6 +230,18 @@ namespace ClickerAdventure
             var rewardText = RuntimeUi.Text(rewardCard, "RewardText", $"+{session.Reward.Xp} XP\n+{session.Reward.Gold} золота", 42, RuntimeUi.Ink);
             rewardText.fontStyle = FontStyle.Bold;
             RuntimeUi.Stretch(rewardText.rectTransform);
+        }
+
+        private void HealPlayer()
+        {
+            if (isCompleted || playerHp <= 0)
+            {
+                return;
+            }
+
+            playerHp = Mathf.Min(ServiceRegistry.GameState.Current.MaxHp, playerHp + 25);
+            feedbackText.text = "+25 HP";
+            Refresh();
         }
 
         private void Refresh()

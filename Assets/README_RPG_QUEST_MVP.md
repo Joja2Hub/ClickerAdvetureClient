@@ -45,6 +45,17 @@
 
 Основная сцена для старта: `Assets/Scenes/00_Boot.unity`.
 
+## PC test controls
+
+Эти клавиши нужны только для Editor/Standalone тестов:
+
+- Login: `Enter` обычный вход, `F1` dev вход, `Tab` переключение полей.
+- Map: `1-9` открыть локацию по порядку, `G` открыть город/гильдию, `F5` добавить тестовые XP/gold, `Esc` вернуться на Login.
+- Battle: `Space`/`Enter` удар, `Q` Power Attack, `E` Heal, `Esc` карта.
+- Town: `1-5` фильтры гильдии, `Space`/`Enter` действие с первым доступным квестом, `R` обновить список, `Esc` карта.
+
+Для тестовой Windows-сборки: `RPG Quest -> Build Windows Test Player`.
+
 ## Firebase
 
 Сейчас Firebase слой работает как dev/offline adapter, чтобы проект компилировался без SDK. Когда Firebase Unity SDK будет добавлен, реальные вызовы нужно подключить внутри:

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +10,10 @@ namespace ClickerAdventure
     {
         [SerializeField] private MapNodeConfig[] nodes = System.Array.Empty<MapNodeConfig>();
         private Text header;
+        private Text statusText;
         private RectTransform mapSurface;
+        private List<MapNodeState> nodeStates = new();
+        private bool isApplyingTestReward;
 
         private async void Start()
         {
@@ -47,11 +52,14 @@ namespace ClickerAdventure
             RuntimeUi.PathSegment(mapSurface, "Path_Forest_Town", new Vector2(-20, 145), 520, -20);
             RuntimeUi.PathSegment(mapSurface, "Path_Town_Cave", new Vector2(125, -115), 420, -55);
 
-            var states = ServiceRegistry.Map.BuildNodeStates(nodes, ServiceRegistry.GameState.Current);
-            foreach (var state in states)
+            nodeStates = ServiceRegistry.Map.BuildNodeStates(nodes, ServiceRegistry.GameState.Current).ToList();
+            foreach (var state in nodeStates)
             {
                 CreateNodeButton(mapSurface, state);
             }
+
+            statusText = RuntimeUi.Text(canvas.transform, "Status", "", 26, RuntimeUi.Gold);
+            RuntimeUi.SetRect(statusText.rectTransform, new Vector2(0.5f, 0.14f), new Vector2(920, 70), Vector2.zero);
 
             var quests = RuntimeUi.Button(canvas.transform, "QuestButton", "Гильдия", new Color(0.42f, 0.36f, 0.72f), OpenTownFromFirstTownNode);
             RuntimeUi.SetRect(quests.GetComponent<RectTransform>(), new Vector2(0.24f, 0.08f), new Vector2(300, 76), Vector2.zero);
@@ -67,6 +75,40 @@ namespace ClickerAdventure
         {
             var state = ServiceRegistry.GameState.Current;
             header.text = $"Уровень {state.Level}   XP {state.Xp}   Золото {state.Gold}";
+        }
+
+        private void Update()
+        {
+            if (!DesktopTestMode.IsEnabled || isApplyingTestReward)
+            {
+                return;
+            }
+
+            for (var i = 0; i < Mathf.Min(9, nodeStates.Count); i++)
+            {
+                var alphaKey = (KeyCode)((int)KeyCode.Alpha1 + i);
+                var keypadKey = (KeyCode)((int)KeyCode.Keypad1 + i);
+                if (DesktopTestMode.Pressed(alphaKey) || DesktopTestMode.Pressed(keypadKey))
+                {
+                    OnNodeClicked(nodeStates[i]);
+                    return;
+                }
+            }
+
+            if (DesktopTestMode.Pressed(KeyCode.G))
+            {
+                OpenTownFromFirstTownNode();
+            }
+
+            if (DesktopTestMode.Pressed(KeyCode.F5))
+            {
+                _ = AddTestProgressAsync();
+            }
+
+            if (DesktopTestMode.Pressed(KeyCode.Escape))
+            {
+                SceneLoader.LoadLogin();
+            }
         }
 
         private void CreateNodeButton(Transform parent, MapNodeState state)
@@ -94,6 +136,11 @@ namespace ClickerAdventure
         {
             if (!state.IsUnlocked)
             {
+                if (statusText != null)
+                {
+                    statusText.text = $"Локация откроется на уровне {state.Config.RequiredLevel}.";
+                }
+
                 return;
             }
 
@@ -110,6 +157,16 @@ namespace ClickerAdventure
         {
             var town = nodes.FirstOrDefault(node => node != null && node.Town != null)?.Town;
             SceneLoader.LoadTown(town);
+        }
+
+        private async Task AddTestProgressAsync()
+        {
+            isApplyingTestReward = true;
+            var childId = ServiceRegistry.Auth.CurrentUser.ChildId;
+            await ServiceRegistry.GameState.AddBattleRewardAsync(childId, new BattleReward { Xp = 125, Gold = 25 });
+            RefreshHeader();
+            statusText.text = "Тестовый прогресс добавлен.";
+            isApplyingTestReward = false;
         }
     }
 }

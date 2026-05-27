@@ -10,6 +10,8 @@ namespace ClickerAdventure
         private RectTransform questList;
         private Text statusText;
         private QuestStatus? filter;
+        private List<RealLifeQuest> visibleQuests = new();
+        private bool isBusy;
 
         private async void Start()
         {
@@ -22,6 +24,55 @@ namespace ClickerAdventure
 
             Build();
             await RefreshQuestsAsync();
+        }
+
+        private void Update()
+        {
+            if (!DesktopTestMode.IsEnabled || isBusy)
+            {
+                return;
+            }
+
+            if (DesktopTestMode.Pressed(KeyCode.Escape))
+            {
+                SceneLoader.LoadMap();
+                return;
+            }
+
+            if (DesktopTestMode.Pressed(KeyCode.Alpha1))
+            {
+                SetFilter(null);
+            }
+            else if (DesktopTestMode.Pressed(KeyCode.Alpha2))
+            {
+                SetFilter(QuestStatus.Assigned);
+            }
+            else if (DesktopTestMode.Pressed(KeyCode.Alpha3))
+            {
+                SetFilter(QuestStatus.Submitted);
+            }
+            else if (DesktopTestMode.Pressed(KeyCode.Alpha4))
+            {
+                SetFilter(QuestStatus.Approved);
+            }
+            else if (DesktopTestMode.Pressed(KeyCode.Alpha5))
+            {
+                SetFilter(QuestStatus.Claimed);
+            }
+
+            if (DesktopTestMode.Pressed(KeyCode.R))
+            {
+                _ = RefreshQuestsAsync();
+            }
+
+            if (DesktopTestMode.PressedAny(KeyCode.Return, KeyCode.KeypadEnter, KeyCode.Space))
+            {
+                var quest = visibleQuests.FirstOrDefault(q => q.Status is QuestStatus.Assigned or QuestStatus.Rejected or QuestStatus.Approved);
+                if (quest != null)
+                {
+                    _ = OnQuestActionAsync(quest);
+                }
+            }
         }
 
         private void Build()
@@ -74,7 +125,7 @@ namespace ClickerAdventure
                 Destroy(child.gameObject);
             }
 
-            var visibleQuests = filter.HasValue ? quests.Where(q => q.Status == filter.Value).ToList() : quests;
+            visibleQuests = filter.HasValue ? quests.Where(q => q.Status == filter.Value).ToList() : quests;
             for (var i = 0; i < visibleQuests.Count; i++)
             {
                 CreateQuestRow(visibleQuests[i], i);
@@ -138,10 +189,15 @@ namespace ClickerAdventure
         {
             var button = RuntimeUi.Button(parent, $"Filter_{label}", label, new Color(0.25f, 0.34f, 0.38f), () =>
             {
-                filter = status;
-                _ = RefreshQuestsAsync();
+                SetFilter(status);
             });
             RuntimeUi.SetRect(button.GetComponent<RectTransform>(), new Vector2(x, 0.86f), new Vector2(160, 54), Vector2.zero);
+        }
+
+        private void SetFilter(QuestStatus? status)
+        {
+            filter = status;
+            _ = RefreshQuestsAsync();
         }
 
         private static string StatusLabel(QuestStatus status)
@@ -173,6 +229,12 @@ namespace ClickerAdventure
 
         private async System.Threading.Tasks.Task OnQuestActionAsync(RealLifeQuest quest)
         {
+            if (isBusy)
+            {
+                return;
+            }
+
+            isBusy = true;
             var childId = ServiceRegistry.Auth.CurrentUser.ChildId;
             try
             {
@@ -192,6 +254,10 @@ namespace ClickerAdventure
             catch (System.Exception ex)
             {
                 statusText.text = ex.Message;
+            }
+            finally
+            {
+                isBusy = false;
             }
         }
     }
