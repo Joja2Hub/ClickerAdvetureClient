@@ -6,4 +6,7 @@ export const paths = {
   childQuests: (childId: string) => `children/${childId}/quests`,
   childQuest: (childId: string, questId: string) => `children/${childId}/quests/${questId}`,
   childAnalyticsDaily: (childId: string) => `children/${childId}/analyticsDaily`,
+  childQuestEvents: (childId: string) => `children/${childId}/questEvents`,
+  childCategoryAnalytics: (childId: string) => `children/${childId}/analyticsByCategory`,
+  childRecommendations: (childId: string) => `children/${childId}/recommendations`,
 };

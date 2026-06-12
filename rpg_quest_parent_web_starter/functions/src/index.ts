@@ -1,9 +1,12 @@
-import { initializeApp } from "firebase-admin/app";
+import { getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore, FieldValue, Timestamp } from "firebase-admin/firestore";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 
-initializeApp();
+export { onQuestEventCreated, rebuildChildAnalytics } from "./analytics.js";
+export { generateQuestRecommendations } from "./recommendations.js";
+
+if (getApps().length === 0) initializeApp();
 const db = getFirestore();
 
 async function assertParentForChild(uid: string | undefined, childId: string) {

@@ -133,10 +133,33 @@ textarea { min-height: 110px; resize: vertical; }
 .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
 .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
 .tabs a { background: var(--panel); border: 1px solid var(--border); border-radius: 999px; padding: 10px 14px; font-weight: 800; }
+.metricLabel { display: block; color: var(--muted); font-weight: 800; margin-bottom: 8px; }
+.statCard strong { font-size: 30px; color: var(--text); }
+.compactList { margin: 8px 0 14px; padding-left: 20px; color: var(--muted); line-height: 1.5; }
+.tableWrap { overflow-x: auto; }
+.analyticsTable { width: 100%; border-collapse: collapse; min-width: 760px; }
+.analyticsTable th, .analyticsTable td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+.analyticsTable th { color: var(--muted); font-size: 13px; }
+.recommendationGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.recommendationCard { border: 1px solid var(--border); border-left: 5px solid #777; padding: 18px; background: white; }
+.recommendationCard.recommended { border-left-color: var(--green); }
+.recommendationCard.neutral { border-left-color: #b47718; }
+.recommendationCard.not_recommended { border-left-color: var(--red); }
+.recommendationBadge { display: inline-flex; padding: 6px 9px; border-radius: 6px; color: white; font-weight: 900; }
+.recommendationBadge.recommended, .recommendationScore.recommended { background: var(--green); }
+.recommendationBadge.neutral, .recommendationScore.neutral { background: #a96b13; }
+.recommendationBadge.not_recommended, .recommendationScore.not_recommended { background: var(--red); }
+.dailyStrip { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(210px, 1fr); overflow-x: auto; gap: 14px; padding-bottom: 6px; }
+.questCreateLayout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.8fr); gap: 20px; align-items: start; }
+.recommendationAside { position: sticky; top: 20px; }
+.recommendationScore { color: white; display: flex; align-items: baseline; justify-content: space-between; padding: 16px; margin: 14px 0; }
+.recommendationScore strong { font-size: 32px; }
 
 @media (max-width: 800px) {
   .page { padding: 16px; }
   .grid2, .grid3 { grid-template-columns: 1fr; }
   .topnav { align-items: start; flex-direction: column; gap: 12px; }
   .toolbar { align-items: start; flex-direction: column; }
+  .questCreateLayout { grid-template-columns: 1fr; }
+  .recommendationAside { position: static; }
 }

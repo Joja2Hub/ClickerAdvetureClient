@@ -82,6 +82,13 @@ namespace ClickerAdventure
         public string ChildComment;
         public string ParentComment;
         public string ProofImageUrl;
+        public string Difficulty = "normal";
+        public int RecommendationScore;
+        public bool Recommended;
+        public string AssignedAt;
+        public string SubmittedAt;
+        public string ApprovedAt;
+        public string ClaimedAt;
     }
 
     [Serializable]

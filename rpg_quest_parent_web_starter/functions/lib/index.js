@@ -1,11 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.claimQuestReward = exports.createChildLogin = exports.rejectQuest = exports.approveQuest = void 0;
+exports.claimQuestReward = exports.createChildLogin = exports.rejectQuest = exports.approveQuest = exports.generateQuestRecommendations = exports.rebuildChildAnalytics = exports.onQuestEventCreated = void 0;
 const app_1 = require("firebase-admin/app");
 const auth_1 = require("firebase-admin/auth");
 const firestore_1 = require("firebase-admin/firestore");
 const https_1 = require("firebase-functions/v2/https");
-(0, app_1.initializeApp)();
+var analytics_js_1 = require("./analytics.js");
+Object.defineProperty(exports, "onQuestEventCreated", { enumerable: true, get: function () { return analytics_js_1.onQuestEventCreated; } });
+Object.defineProperty(exports, "rebuildChildAnalytics", { enumerable: true, get: function () { return analytics_js_1.rebuildChildAnalytics; } });
+var recommendations_js_1 = require("./recommendations.js");
+Object.defineProperty(exports, "generateQuestRecommendations", { enumerable: true, get: function () { return recommendations_js_1.generateQuestRecommendations; } });
+if ((0, app_1.getApps)().length === 0)
+    (0, app_1.initializeApp)();
 const db = (0, firestore_1.getFirestore)();
 async function assertParentForChild(uid, childId) {
     if (!uid)

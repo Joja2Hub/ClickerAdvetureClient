@@ -1,0 +1,11 @@
+
+> rpg-quest-parent-dashboard@0.1.0 dev
+> next dev --webpack -p 3000
+
+▲ Next.js 16.2.6 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://26.148.243.5:3000
+- Environments: .env.local
+✓ Ready in 641ms
+
+ GET /children/demo-child/analytics 200 in 5.1s (next.js: 4.6s, application-code: 449ms)

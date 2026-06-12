@@ -21,6 +21,7 @@ namespace ClickerAdventure
         public static MapService Map { get; private set; }
         public static BattleService Battle { get; private set; }
         public static AnalyticsService Analytics { get; private set; }
+        public static AnalyticsEventService AnalyticsEvents { get; private set; }
         public static CloudFunctionsService CloudFunctions { get; private set; }
         public static LevelService Levels { get; private set; }
         public static NetworkStateService Network { get; private set; }
@@ -48,6 +49,7 @@ namespace ClickerAdventure
             Map = new MapService();
             Battle = new BattleService(GameState, Rewards);
             Analytics = new AnalyticsService();
+            AnalyticsEvents = new AnalyticsEventService(FirebaseRest);
             Levels = new LevelService();
             Network = new NetworkStateService();
 
@@ -394,7 +396,14 @@ namespace ClickerAdventure
                 RewardGold = quest.RewardGold,
                 ChildComment = quest.ChildComment,
                 ParentComment = quest.ParentComment,
-                ProofImageUrl = quest.ProofImageUrl
+                ProofImageUrl = quest.ProofImageUrl,
+                Difficulty = quest.Difficulty,
+                RecommendationScore = quest.RecommendationScore,
+                Recommended = quest.Recommended,
+                AssignedAt = quest.AssignedAt,
+                SubmittedAt = quest.SubmittedAt,
+                ApprovedAt = quest.ApprovedAt,
+                ClaimedAt = quest.ClaimedAt
             };
         }
     }

@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   onSnapshot,
   orderBy,
@@ -11,7 +12,8 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
-import { Quest, QuestCategory, QuestStatus } from "@/lib/types";
+import { trackQuestEvent } from "@/services/analyticsService";
+import { Quest, QuestCategory, QuestDifficulty, QuestStatus } from "@/lib/types";
 
 export interface CreateQuestInput {
   childId: string;
@@ -21,6 +23,9 @@ export interface CreateQuestInput {
   rewardXp: number;
   rewardGold: number;
   createdByParentId: string;
+  difficulty?: QuestDifficulty;
+  recommendationScore?: number;
+  recommended?: boolean;
   dueDate?: Date | null;
 }
 
@@ -34,8 +39,18 @@ export async function createQuest(input: CreateQuestInput): Promise<string> {
     rewardGold: input.rewardGold,
     rewardItems: [],
     createdByParentId: input.createdByParentId,
+    difficulty: input.difficulty ?? "normal",
+    recommendationScore: input.recommendationScore ?? 0,
+    recommended: input.recommended ?? false,
     createdAt: serverTimestamp(),
     dueDate: input.dueDate ?? null,
+  });
+  await trackParentEventSafely(input.childId, ref.id, "quest_created", {
+    category: input.category,
+    difficulty: input.difficulty ?? "normal",
+    rewardXp: input.rewardXp,
+    rewardGold: input.rewardGold,
+    statusAfter: "assigned",
   });
   return ref.id;
 }
@@ -61,23 +76,93 @@ export async function listChildQuests(childId: string): Promise<Quest[]> {
 }
 
 export async function approveQuestDirect(childId: string, questId: string): Promise<void> {
+  const quest = await getQuest(childId, questId);
   await updateDoc(doc(db, "children", childId, "quests", questId), {
     status: "approved",
     approvedAt: serverTimestamp(),
     parentComment: "",
   });
+  await trackParentEventSafely(childId, questId, "quest_approved", {
+    ...eventFields(quest),
+    statusBefore: quest.status,
+    statusAfter: "approved",
+  });
 }
 
 export async function rejectQuestDirect(childId: string, questId: string, parentComment: string): Promise<void> {
+  const quest = await getQuest(childId, questId);
   await updateDoc(doc(db, "children", childId, "quests", questId), {
     status: "rejected",
     rejectedAt: serverTimestamp(),
     parentComment,
   });
+  await trackParentEventSafely(childId, questId, "quest_rejected", {
+    ...eventFields(quest),
+    statusBefore: quest.status,
+    statusAfter: "rejected",
+  });
 }
 
 export async function cancelQuestDirect(childId: string, questId: string): Promise<void> {
+  const quest = await getQuest(childId, questId);
   await updateDoc(doc(db, "children", childId, "quests", questId), {
     status: "cancelled",
   });
+  await trackParentEventSafely(childId, questId, "quest_cancelled", {
+    ...eventFields(quest),
+    statusBefore: quest.status,
+    statusAfter: "cancelled",
+  });
+}
+
+async function getQuest(childId: string, questId: string): Promise<Quest> {
+  const snap = await getDoc(doc(db, "children", childId, "quests", questId));
+  if (!snap.exists()) throw new Error("Квест не найден.");
+  return { id: snap.id, ...snap.data() } as Quest;
+}
+
+function eventFields(quest: Quest) {
+  return {
+    category: quest.category,
+    difficulty: quest.difficulty ?? "normal" as QuestDifficulty,
+    rewardXp: quest.rewardXp,
+    rewardGold: quest.rewardGold,
+    assignedAt: quest.createdAt,
+    submittedAt: quest.submittedAt,
+    approvedAt: quest.approvedAt,
+    claimedAt: quest.claimedAt,
+  };
+}
+
+async function trackParentEventSafely(
+  childId: string,
+  questId: string,
+  eventType: "quest_created" | "quest_approved" | "quest_rejected" | "quest_cancelled",
+  fields: {
+    category: QuestCategory;
+    difficulty: QuestDifficulty;
+    rewardXp: number;
+    rewardGold: number;
+    statusBefore?: string;
+    statusAfter?: string;
+    assignedAt?: unknown;
+    submittedAt?: unknown;
+    approvedAt?: unknown;
+    claimedAt?: unknown;
+  }
+) {
+  try {
+    const childSnap = await getDoc(doc(db, "children", childId));
+    await trackQuestEvent({
+      familyId: childSnap.data()?.familyId ?? "",
+      childId,
+      questId,
+      eventType,
+      actorRole: "parent",
+      sourceClient: "web",
+      ...fields,
+    });
+  } catch (error) {
+    console.warn("Quest analytics event was not recorded:", error);
+  }
 }

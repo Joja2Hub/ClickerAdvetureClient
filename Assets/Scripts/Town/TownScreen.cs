@@ -14,6 +14,7 @@ namespace ClickerAdventure
         private Text statusText;
         private QuestStatus? filter;
         private List<RealLifeQuest> visibleQuests = new();
+        private readonly HashSet<string> viewedQuestIdsThisScreenSession = new();
         private bool isBusy;
 
         private async void Start()
@@ -162,7 +163,12 @@ namespace ClickerAdventure
 
             for (var i = 0; i < visibleQuests.Count; i++)
             {
-                CreateQuestRow(visibleQuests[i], i);
+                var quest = visibleQuests[i];
+                CreateQuestRow(quest, i);
+                if (viewedQuestIdsThisScreenSession.Add(quest.Id))
+                {
+                    _ = ServiceRegistry.AnalyticsEvents.TrackQuestViewedAsync(quest);
+                }
             }
 
             if (visibleQuests.Count == 0)
@@ -184,6 +190,12 @@ namespace ClickerAdventure
 
             var title = RuntimeUi.Text(row.transform, "Title", $"{quest.Title}\n{quest.Description}", 24, RuntimeUi.Ink, TextAnchor.MiddleLeft);
             RuntimeUi.SetRect(title.rectTransform, new Vector2(0.42f, 0.62f), new Vector2(470, 118), Vector2.zero);
+
+            if (quest.Recommended || quest.RecommendationScore >= 70)
+            {
+                var recommended = RuntimeUi.Badge(row, "Recommended", "Совет дня", new Color(0.86f, 0.58f, 0.12f), Color.white);
+                RuntimeUi.SetRect(recommended, new Vector2(0.50f, 0.88f), new Vector2(180, 42), Vector2.zero);
+            }
 
             var goldIcon = RuntimeUi.SpriteImage(row.transform, "GoldIcon", ArtLibrary.Item("item_gold_coin_stack"));
             RuntimeUi.SetRect(goldIcon.rectTransform, new Vector2(0.71f, 0.75f), new Vector2(44, 44), Vector2.zero);
@@ -317,12 +329,15 @@ namespace ClickerAdventure
             {
                 if (quest.Status is QuestStatus.Assigned or QuestStatus.Rejected)
                 {
+                    var previousStatus = quest.Status.ToString().ToLowerInvariant();
                     await ServiceRegistry.Quests.SubmitQuestAsync(childId, quest.Id, "Готово!");
+                    _ = ServiceRegistry.AnalyticsEvents.TrackQuestSubmittedAsync(quest, previousStatus);
                     statusText.text = "Квест отправлен родителю на проверку.";
                 }
                 else if (quest.Status == QuestStatus.Approved)
                 {
                     var reward = await ServiceRegistry.Quests.ClaimQuestRewardAsync(childId, quest.Id);
+                    _ = ServiceRegistry.AnalyticsEvents.TrackQuestClaimedAsync(quest);
                     statusText.text = $"Награда получена: +{reward.Xp} XP, +{reward.Gold} золота.";
                 }
 

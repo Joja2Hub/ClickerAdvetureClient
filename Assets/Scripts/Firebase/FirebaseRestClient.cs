@@ -195,6 +195,50 @@ namespace ClickerAdventure
             }
         }
 
+        public async Task WriteQuestEventAsync(string childId, QuestEvent analyticsEvent)
+        {
+            var fields = new Dictionary<string, object>
+            {
+                ["familyId"] = StringField(analyticsEvent.FamilyId),
+                ["childId"] = StringField(analyticsEvent.ChildId),
+                ["questId"] = StringField(analyticsEvent.QuestId),
+                ["eventType"] = StringField(analyticsEvent.EventType),
+                ["actorRole"] = StringField(analyticsEvent.ActorRole),
+                ["sourceClient"] = StringField(analyticsEvent.SourceClient),
+                ["category"] = StringField(analyticsEvent.Category),
+                ["difficulty"] = StringField(analyticsEvent.Difficulty),
+                ["rewardXp"] = IntegerField(analyticsEvent.RewardXp),
+                ["rewardGold"] = IntegerField(analyticsEvent.RewardGold),
+                ["eventAt"] = TimestampField(ParseTimestamp(analyticsEvent.EventAt, DateTime.UtcNow)),
+                ["localDate"] = StringField(analyticsEvent.LocalDate),
+                ["dayOfWeek"] = IntegerField(analyticsEvent.DayOfWeek),
+                ["localHour"] = IntegerField(analyticsEvent.LocalHour),
+                ["locationQuest"] = BooleanField(analyticsEvent.LocationQuest),
+                ["checkInDistanceMeters"] = DoubleField(analyticsEvent.CheckInDistanceMeters),
+                ["checkInResult"] = StringField(analyticsEvent.CheckInResult)
+            };
+            AddOptionalString(fields, "statusBefore", analyticsEvent.StatusBefore);
+            AddOptionalString(fields, "statusAfter", analyticsEvent.StatusAfter);
+            AddOptionalTimestamp(fields, "assignedAt", analyticsEvent.AssignedAt);
+            AddOptionalTimestamp(fields, "submittedAt", analyticsEvent.SubmittedAt);
+            AddOptionalTimestamp(fields, "approvedAt", analyticsEvent.ApprovedAt);
+            AddOptionalTimestamp(fields, "claimedAt", analyticsEvent.ClaimedAt);
+            if (analyticsEvent.TimeFromAssignedHours > 0f)
+            {
+                fields["timeFromAssignedHours"] = DoubleField(analyticsEvent.TimeFromAssignedHours);
+            }
+            if (analyticsEvent.TimeFromSubmittedHours > 0f)
+            {
+                fields["timeFromSubmittedHours"] = DoubleField(analyticsEvent.TimeFromSubmittedHours);
+            }
+
+            await SendJsonAsync(
+                "POST",
+                FirestoreUrl($"children/{childId}/questEvents"),
+                new Dictionary<string, object> { ["fields"] = fields },
+                true);
+        }
+
         private async Task<Dictionary<string, object>> GetDocumentAsync(string path)
         {
             return await SendJsonAsync("GET", FirestoreUrl(path), null, true);
@@ -249,7 +293,14 @@ namespace ClickerAdventure
                 RewardGold = FireInt(fields, "rewardGold"),
                 ChildComment = FireString(fields, "childComment"),
                 ParentComment = FireString(fields, "parentComment"),
-                ProofImageUrl = FireString(fields, "proofImageUrl")
+                ProofImageUrl = FireString(fields, "proofImageUrl"),
+                Difficulty = FireString(fields, "difficulty", "normal"),
+                RecommendationScore = FireInt(fields, "recommendationScore"),
+                Recommended = FireBool(fields, "recommended"),
+                AssignedAt = FireTimestamp(fields, "createdAt"),
+                SubmittedAt = FireTimestamp(fields, "submittedAt"),
+                ApprovedAt = FireTimestamp(fields, "approvedAt"),
+                ClaimedAt = FireTimestamp(fields, "claimedAt")
             };
         }
 
@@ -286,6 +337,11 @@ namespace ClickerAdventure
             return new Dictionary<string, object> { ["doubleValue"] = value };
         }
 
+        private static Dictionary<string, object> BooleanField(bool value)
+        {
+            return new Dictionary<string, object> { ["booleanValue"] = value };
+        }
+
         private static Dictionary<string, object> TimestampField(DateTime value)
         {
             return new Dictionary<string, object> { ["timestampValue"] = value.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture) };
@@ -310,6 +366,49 @@ namespace ClickerAdventure
             }
 
             return GetString(field, "stringValue", fallback);
+        }
+
+        private static bool FireBool(Dictionary<string, object> fields, string key, bool fallback = false)
+        {
+            if (!fields.TryGetValue(key, out var value) || value is not Dictionary<string, object> field)
+            {
+                return fallback;
+            }
+
+            return field.TryGetValue("booleanValue", out var raw) ? Convert.ToBoolean(raw, CultureInfo.InvariantCulture) : fallback;
+        }
+
+        private static string FireTimestamp(Dictionary<string, object> fields, string key)
+        {
+            if (!fields.TryGetValue(key, out var value) || value is not Dictionary<string, object> field)
+            {
+                return string.Empty;
+            }
+
+            return GetString(field, "timestampValue");
+        }
+
+        private static void AddOptionalString(Dictionary<string, object> fields, string key, string value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                fields[key] = StringField(value);
+            }
+        }
+
+        private static void AddOptionalTimestamp(Dictionary<string, object> fields, string key, string value)
+        {
+            if (DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var parsed))
+            {
+                fields[key] = TimestampField(parsed);
+            }
+        }
+
+        private static DateTime ParseTimestamp(string value, DateTime fallback)
+        {
+            return DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var parsed)
+                ? parsed
+                : fallback;
         }
 
         private static int FireInt(Dictionary<string, object> fields, string key, int fallback = 0)

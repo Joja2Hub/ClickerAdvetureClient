@@ -70,41 +70,57 @@ service cloud.firestore {
       match /quests/{questId} {
         allow read: if sameFamily(childFamily(childId))
           || (isChild() && currentUser().childId == childId);
-
         allow create: if isParent()
           && sameFamily(childFamily(childId))
           && request.resource.data.status == "assigned"
           && request.resource.data.createdByParentId == request.auth.uid;
-
-        // Родительская панель MVP: родитель может менять задания ребёнка.
-        // В production одобрение/claim наград лучше перенести в Cloud Functions.
         allow update: if isParent() && sameFamily(childFamily(childId));
-
-        // Unity-клиент ребёнка сможет только отправлять назначенный квест на проверку.
         allow update: if isChild()
           && currentUser().childId == childId
           && resource.data.status in ["assigned", "rejected"]
           && request.resource.data.status == "submitted";
-
-        // MVP without Cloud Functions: the Unity client may claim an approved reward directly.
         allow update: if isChild()
           && currentUser().childId == childId
           && resource.data.status == "approved"
           && request.resource.data.status == "claimed";
-
         allow delete: if false;
       }
 
       match /rewardLedger/{rewardId} {
         allow read: if sameFamily(childFamily(childId))
           || (isChild() && currentUser().childId == childId);
-        allow create, update: if false; // только Cloud Functions через Admin SDK
-        allow delete: if false;
+        allow create, update, delete: if false;
+      }
+
+      match /questEvents/{eventId} {
+        allow read: if isParent() && sameFamily(childFamily(childId));
+        allow create: if (isParent() && sameFamily(childFamily(childId)))
+          || (isChild()
+            && currentUser().childId == childId
+            && request.resource.data.childId == childId
+            && request.resource.data.actorRole == "child"
+            && request.resource.data.sourceClient == "unity");
+        allow update, delete: if false;
       }
 
       match /analyticsDaily/{dateId} {
-        allow read: if sameFamily(childFamily(childId));
-        allow create, update: if false; // только Cloud Functions через Admin SDK
+        allow read: if isParent() && sameFamily(childFamily(childId));
+        // TODO production: write aggregates only from Cloud Functions.
+        allow create, update: if isParent() && sameFamily(childFamily(childId));
+        allow delete: if false;
+      }
+
+      match /analyticsByCategory/{categoryId} {
+        allow read: if isParent() && sameFamily(childFamily(childId));
+        // TODO production: write aggregates only from Cloud Functions.
+        allow create, update: if isParent() && sameFamily(childFamily(childId));
+        allow delete: if false;
+      }
+
+      match /recommendations/{recommendationId} {
+        allow read: if isParent() && sameFamily(childFamily(childId));
+        // TODO production: generate recommendations only from Cloud Functions.
+        allow create, update: if isParent() && sameFamily(childFamily(childId));
         allow delete: if false;
       }
     }
