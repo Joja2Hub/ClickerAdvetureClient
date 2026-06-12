@@ -219,7 +219,10 @@ export async function getRecommendationForCategory(
 }
 
 export async function rebuildAnalyticsForChild(childId: string): Promise<void> {
-  const rebuild = httpsCallable<{ childId: string }, { ok: boolean }>(
+  const rebuild = httpsCallable<
+    { childId: string },
+    { ok: boolean; eventCount: number; writeCount: number }
+  >(
     functions,
     "rebuildChildAnalytics"
   );
@@ -229,10 +232,12 @@ export async function rebuildAnalyticsForChild(childId: string): Promise<void> {
     const code = typeof error === "object" && error && "code" in error
       ? String(error.code)
       : "";
-    if (code.includes("not-found") || code.includes("unavailable")) {
-      throw new Error("Функция пересчета еще не развернута. Запустите DEPLOY_FIREBASE.bat и повторите попытку.");
+    if (code.includes("not-found") || code.includes("unavailable") || code.includes("internal")) {
+      await rebuildAnalyticsForChildLocally(childId);
+      return;
     }
-    throw error;
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(message.replace(/^Firebase:\s*/i, ""));
   }
 }
 
@@ -257,6 +262,7 @@ export async function rebuildAnalyticsForChildLocally(childId: string): Promise<
   }
 
   const batch = writeBatch(db);
+  let writeCount = 0;
   for (const [date, dateEvents] of byDate) {
     const total = emptyStats();
     const categoryMap = new Map<string, MutableStats>();
@@ -292,6 +298,7 @@ export async function rebuildAnalyticsForChildLocally(childId: string): Promise<
       categoryStats,
       updatedAt: serverTimestamp(),
     });
+    writeCount++;
   }
 
   const today = localDateParts().localDate;
@@ -363,6 +370,7 @@ export async function rebuildAnalyticsForChildLocally(childId: string): Promise<
       recommendationActions: recommendation.suggestedActions,
       updatedAt: serverTimestamp(),
     }));
+    writeCount++;
 
     batch.set(doc(db, "children", childId, "recommendations", category), {
       familyId,
@@ -379,9 +387,10 @@ export async function rebuildAnalyticsForChildLocally(childId: string): Promise<
       generatedAt: serverTimestamp(),
       engineVersion: recommendation.engineVersion,
     });
+    writeCount++;
   }
 
-  await batch.commit();
+  if (writeCount > 0) await batch.commit();
 }
 
 function preferredHour(events: QuestEvent[]): number | null {

@@ -154,6 +154,57 @@ textarea { min-height: 110px; resize: vertical; }
 .recommendationAside { position: sticky; top: 20px; }
 .recommendationScore { color: white; display: flex; align-items: baseline; justify-content: space-between; padding: 16px; margin: 14px 0; }
 .recommendationScore strong { font-size: 32px; }
+.templateSection { display: grid; gap: 12px; }
+.sectionHeading { display: flex; justify-content: space-between; gap: 16px; align-items: end; }
+.sectionHeading p { margin: 0; }
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 2px;
+}
+.templateOption {
+  min-height: 78px;
+  align-items: start;
+  flex-direction: column;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  color: var(--text);
+  padding: 12px;
+}
+.templateOption:hover { background: var(--panel-strong); }
+.templateOption.selected {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  background: var(--panel-strong);
+}
+.templateOption span { color: var(--muted); font-size: 13px; font-weight: 700; }
+.rewardPreview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-strong);
+}
+.rewardPreview div { display: grid; gap: 4px; }
+.rewardPreview span, .rewardPreview small { color: var(--muted); font-weight: 700; }
+.rewardPreview strong { color: var(--accent-strong); font-size: 18px; }
+.advancedSettings { border-top: 1px solid var(--border); padding-top: 14px; }
+.advancedSettings summary {
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-weight: 800;
+}
+.advancedSettingsBody { display: grid; gap: 14px; padding-top: 14px; }
+.advancedSettingsBody p { margin: 0; }
+.advancedSettingsBody .secondary { justify-self: start; }
 
 @media (max-width: 800px) {
   .page { padding: 16px; }
@@ -162,4 +213,5 @@ textarea { min-height: 110px; resize: vertical; }
   .toolbar { align-items: start; flex-direction: column; }
   .questCreateLayout { grid-template-columns: 1fr; }
   .recommendationAside { position: static; }
+  .rewardPreview { align-items: start; flex-direction: column; }
 }

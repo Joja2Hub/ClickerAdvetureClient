@@ -110,6 +110,7 @@ export async function rebuildChildAnalyticsData(childId: string) {
   }
 
   const batch = db.batch();
+  let writeCount = 0;
   for (const [date, dateEvents] of byDate) {
     const total = emptyStats();
     const categoryStats: Record<string, unknown> = {};
@@ -155,6 +156,7 @@ export async function rebuildChildAnalyticsData(childId: string) {
       categoryStats,
       updatedAt: FieldValue.serverTimestamp(),
     });
+    writeCount++;
   }
 
   const today = new Date().toISOString().slice(0, 10);
@@ -209,6 +211,7 @@ export async function rebuildChildAnalyticsData(childId: string) {
       recommendationActions: recommendation.suggestedActions,
       updatedAt: FieldValue.serverTimestamp(),
     });
+    writeCount++;
     batch.set(db.doc(`children/${childId}/recommendations/${category}`), {
       familyId,
       childId,
@@ -216,8 +219,10 @@ export async function rebuildChildAnalyticsData(childId: string) {
       ...recommendation,
       generatedAt: FieldValue.serverTimestamp(),
     });
+    writeCount++;
   }
-  await batch.commit();
+  if (writeCount > 0) await batch.commit();
+  return { eventCount: events.length, writeCount };
 }
 
 export const onQuestEventCreated = onDocumentCreated(
@@ -235,6 +240,17 @@ export const rebuildChildAnalytics = onCall({ region: "europe-west1" }, async (r
   if (!childId || userSnap.data()?.role !== "parent" || userSnap.data()?.familyId !== childSnap.data()?.familyId) {
     throw new HttpsError("permission-denied", "Нет доступа к аналитике ребенка.");
   }
-  await rebuildChildAnalyticsData(childId);
-  return { ok: true };
+  try {
+    const result = await rebuildChildAnalyticsData(childId);
+    return { ok: true, ...result };
+  } catch (error) {
+    console.error("rebuildChildAnalytics failed", {
+      childId,
+      uid: request.auth.uid,
+      error,
+    });
+    if (error instanceof HttpsError) throw error;
+    const message = error instanceof Error ? error.message : String(error);
+    throw new HttpsError("failed-precondition", `Не удалось пересчитать аналитику: ${message}`);
+  }
 });

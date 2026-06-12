@@ -7,6 +7,7 @@ import { getChildProfile } from "@/lib/services/childService";
 import { createQuest } from "@/lib/services/questService";
 import { getRecommendationForCategory } from "@/services/analyticsService";
 import { QuestCategory, QuestDifficulty, QuestRecommendation } from "@/lib/types";
+import { questTemplates, rewardsByDifficulty } from "@/lib/questTemplates";
 
 const categories: { value: QuestCategory; label: string }[] = [
   { value: "study", label: "Учеба" },
@@ -30,6 +31,8 @@ export default function NewQuestPage() {
   const [difficulty, setDifficulty] = useState<QuestDifficulty>("normal");
   const [rewardXp, setRewardXp] = useState(80);
   const [rewardGold, setRewardGold] = useState(40);
+  const [customReward, setCustomReward] = useState(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>("read-20");
   const [recommendation, setRecommendation] = useState<QuestRecommendation | null>(null);
   const [recommendationLoading, setRecommendationLoading] = useState(false);
   const [error, setError] = useState("");
@@ -87,9 +90,41 @@ export default function NewQuestPage() {
 
   function applyRecommendation() {
     if (!recommendation) return;
+    setSelectedTemplateId(null);
     setDifficulty(recommendation.suggestedDifficulty);
     setRewardXp(recommendation.suggestedRewardXp);
     setRewardGold(recommendation.suggestedRewardGold);
+    setCustomReward(true);
+  }
+
+  function changeDifficulty(value: QuestDifficulty) {
+    setSelectedTemplateId(null);
+    setDifficulty(value);
+    if (!customReward) {
+      setRewardXp(rewardsByDifficulty[value].xp);
+      setRewardGold(rewardsByDifficulty[value].gold);
+    }
+  }
+
+  function applyTemplate(templateId: string) {
+    const template = questTemplates.find((item) => item.id === templateId);
+    if (!template) return;
+    const reward = rewardsByDifficulty[template.difficulty];
+    setSelectedTemplateId(template.id);
+    setTitle(template.title);
+    setDescription(template.description);
+    setCategory(template.category);
+    setDifficulty(template.difficulty);
+    setRewardXp(reward.xp);
+    setRewardGold(reward.gold);
+    setCustomReward(false);
+  }
+
+  function useAutomaticReward() {
+    const reward = rewardsByDifficulty[difficulty];
+    setRewardXp(reward.xp);
+    setRewardGold(reward.gold);
+    setCustomReward(false);
   }
 
   return (
@@ -99,14 +134,51 @@ export default function NewQuestPage() {
           <h1>Создать real-life квест</h1>
           <p>Квест появится у ребенка на доске приключений в Unity.</p>
         </div>
-        <label>Название<input value={title} onChange={(e) => setTitle(e.target.value)} required /></label>
-        <label>Описание<textarea value={description} onChange={(e) => setDescription(e.target.value)} required /></label>
-        <div className="grid2">
-          <label>Категория<select value={category} onChange={(e) => setCategory(e.target.value as QuestCategory)}>{categories.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
-          <label>Сложность<select value={difficulty} onChange={(e) => setDifficulty(e.target.value as QuestDifficulty)}><option value="easy">Легкая</option><option value="normal">Обычная</option><option value="hard">Сложная</option></select></label>
-          <label>XP<input type="number" min={0} value={rewardXp} onChange={(e) => setRewardXp(Number(e.target.value))} /></label>
-          <label>Золото<input type="number" min={0} value={rewardGold} onChange={(e) => setRewardGold(Number(e.target.value))} /></label>
+        <div className="templateSection">
+          <div className="sectionHeading">
+            <div>
+              <h2>Готовые задания</h2>
+              <p>Выберите основу и при необходимости измените текст.</p>
+            </div>
+          </div>
+          <div className="templateGrid">
+            {questTemplates.map((template) => (
+              <button
+                type="button"
+                key={template.id}
+                className={`templateOption ${selectedTemplateId === template.id ? "selected" : ""}`}
+                onClick={() => applyTemplate(template.id)}
+              >
+                <strong>{template.title}</strong>
+                <span>{categories.find((item) => item.value === template.category)?.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
+        <label>Название<input value={title} onChange={(e) => { setTitle(e.target.value); setSelectedTemplateId(null); }} required /></label>
+        <label>Описание<textarea value={description} onChange={(e) => { setDescription(e.target.value); setSelectedTemplateId(null); }} required /></label>
+        <div className="grid2">
+          <label>Категория<select value={category} onChange={(e) => { setCategory(e.target.value as QuestCategory); setSelectedTemplateId(null); }}>{categories.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
+          <label>Сложность<select value={difficulty} onChange={(e) => changeDifficulty(e.target.value as QuestDifficulty)}><option value="easy">Легкая</option><option value="normal">Обычная</option><option value="hard">Сложная</option></select></label>
+        </div>
+        <div className="rewardPreview">
+          <div>
+            <span>Награда за задание</span>
+            <strong>{rewardXp} XP и {rewardGold} золота</strong>
+          </div>
+          <small>{customReward ? "Настроена вручную" : "Рассчитана по сложности"}</small>
+        </div>
+        <details className="advancedSettings">
+          <summary>Расширенные настройки</summary>
+          <div className="advancedSettingsBody">
+            <p>Здесь можно вручную изменить награду. По умолчанию она определяется сложностью задания.</p>
+            <div className="grid2">
+              <label>XP<input type="number" min={0} value={rewardXp} onChange={(e) => { setRewardXp(Number(e.target.value)); setCustomReward(true); }} /></label>
+              <label>Золото<input type="number" min={0} value={rewardGold} onChange={(e) => { setRewardGold(Number(e.target.value)); setCustomReward(true); }} /></label>
+            </div>
+            {customReward && <button type="button" className="secondary" onClick={useAutomaticReward}>Вернуть автоматическую награду</button>}
+          </div>
+        </details>
         {error && <p className="error">{error}</p>}
         <button disabled={loading}>{loading ? "Создание..." : "Создать квест"}</button>
       </form>

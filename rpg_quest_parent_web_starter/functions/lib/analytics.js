@@ -82,6 +82,7 @@ async function rebuildChildAnalyticsData(childId) {
         byCategory.set(category, [...(byCategory.get(category) ?? []), event]);
     }
     const batch = db.batch();
+    let writeCount = 0;
     for (const [date, dateEvents] of byDate) {
         const total = emptyStats();
         const categoryStats = {};
@@ -127,6 +128,7 @@ async function rebuildChildAnalyticsData(childId) {
             categoryStats,
             updatedAt: firestore_1.FieldValue.serverTimestamp(),
         });
+        writeCount++;
     }
     const today = new Date().toISOString().slice(0, 10);
     const last7 = new Date();
@@ -174,6 +176,7 @@ async function rebuildChildAnalyticsData(childId) {
             recommendationActions: recommendation.suggestedActions,
             updatedAt: firestore_1.FieldValue.serverTimestamp(),
         });
+        writeCount++;
         batch.set(db.doc(`children/${childId}/recommendations/${category}`), {
             familyId,
             childId,
@@ -181,8 +184,11 @@ async function rebuildChildAnalyticsData(childId) {
             ...recommendation,
             generatedAt: firestore_1.FieldValue.serverTimestamp(),
         });
+        writeCount++;
     }
-    await batch.commit();
+    if (writeCount > 0)
+        await batch.commit();
+    return { eventCount: events.length, writeCount };
 }
 exports.onQuestEventCreated = (0, firestore_2.onDocumentCreated)({ document: "children/{childId}/questEvents/{eventId}", region: "europe-west1" }, async (event) => rebuildChildAnalyticsData(event.params.childId));
 exports.rebuildChildAnalytics = (0, https_1.onCall)({ region: "europe-west1" }, async (request) => {
@@ -196,7 +202,20 @@ exports.rebuildChildAnalytics = (0, https_1.onCall)({ region: "europe-west1" }, 
     if (!childId || userSnap.data()?.role !== "parent" || userSnap.data()?.familyId !== childSnap.data()?.familyId) {
         throw new https_1.HttpsError("permission-denied", "Нет доступа к аналитике ребенка.");
     }
-    await rebuildChildAnalyticsData(childId);
-    return { ok: true };
+    try {
+        const result = await rebuildChildAnalyticsData(childId);
+        return { ok: true, ...result };
+    }
+    catch (error) {
+        console.error("rebuildChildAnalytics failed", {
+            childId,
+            uid: request.auth.uid,
+            error,
+        });
+        if (error instanceof https_1.HttpsError)
+            throw error;
+        const message = error instanceof Error ? error.message : String(error);
+        throw new https_1.HttpsError("failed-precondition", `Не удалось пересчитать аналитику: ${message}`);
+    }
 });
 //# sourceMappingURL=analytics.js.map
