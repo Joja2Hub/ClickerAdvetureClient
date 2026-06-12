@@ -10,8 +10,11 @@ namespace ClickerAdventure
         private const float QuestRowHeight = 210f;
         private const float QuestRowGap = 18f;
 
+        private RectTransform root;
         private RectTransform questList;
+        private RectTransform detailOverlay;
         private Text statusText;
+        private ResourceHud resourceHud;
         private QuestStatus? filter;
         private List<RealLifeQuest> visibleQuests = new();
         private readonly HashSet<string> viewedQuestIdsThisScreenSession = new();
@@ -74,7 +77,7 @@ namespace ClickerAdventure
                 var quest = visibleQuests.FirstOrDefault(q => q.Status is QuestStatus.Assigned or QuestStatus.Rejected or QuestStatus.Approved);
                 if (quest != null)
                 {
-                    _ = OnQuestActionAsync(quest);
+                    _ = OnQuestActionAsync(quest, null);
                 }
             }
         }
@@ -92,11 +95,12 @@ namespace ClickerAdventure
                 RuntimeUi.AdventureBackground(canvas.transform, new Color(0.30f, 0.45f, 0.52f), new Color(0.32f, 0.38f, 0.28f), new Color(0.12f, 0.13f, 0.12f));
             }
 
-            var root = RuntimeUi.SafeAreaRoot(canvas.transform);
+            root = RuntimeUi.SafeAreaRoot(canvas.transform);
+            resourceHud = ResourceHud.Create(root);
             var town = SelectionContext.SelectedTown;
             var title = RuntimeUi.Text(root, "TownTitle", town != null ? town.DisplayName : "Гильдия", 46, new Color(1f, 0.88f, 0.56f));
             title.fontStyle = FontStyle.Bold;
-            RuntimeUi.SetRect(title.rectTransform, new Vector2(0.5f, 0.94f), new Vector2(900, 74), Vector2.zero);
+            RuntimeUi.SetRect(title.rectTransform, new Vector2(0.5f, 0.90f), new Vector2(900, 74), Vector2.zero);
 
             CreateTownActions(root);
 
@@ -208,12 +212,125 @@ namespace ClickerAdventure
             var status = RuntimeUi.Badge(row, "Status", StatusLabel(quest.Status), StatusColor(quest.Status), Color.white);
             RuntimeUi.SetRect(status, new Vector2(0.20f, 0.20f), new Vector2(230, 48), Vector2.zero);
 
-            var stamp = RuntimeUi.SpriteImage(row.transform, "Stamp", StatusStamp(quest.Status));
-            RuntimeUi.SetRect(stamp.rectTransform, new Vector2(0.56f, 0.20f), new Vector2(86, 86), Vector2.zero);
+            var details = RuntimeUi.Button(row.transform, "Details", "Подробнее", new Color(0.46f, 0.32f, 0.20f), () => ShowQuestDetails(quest));
+            RuntimeUi.SetRect(details.GetComponent<RectTransform>(), new Vector2(0.55f, 0.22f), new Vector2(190, 56), Vector2.zero);
 
-            var action = RuntimeUi.Button(row.transform, "Action", ActionLabel(quest.Status), new Color(0.36f, 0.45f, 0.70f), () => _ = OnQuestActionAsync(quest));
+            Button action = null;
+            action = RuntimeUi.Button(row.transform, "Action", ActionLabel(quest.Status), new Color(0.36f, 0.45f, 0.70f), () => _ = OnQuestActionAsync(quest, action.GetComponent<RectTransform>()));
             RuntimeUi.SetRect(action.GetComponent<RectTransform>(), new Vector2(0.82f, 0.22f), new Vector2(220, 56), Vector2.zero);
             action.interactable = quest.Status is QuestStatus.Assigned or QuestStatus.Rejected or QuestStatus.Approved;
+        }
+
+        private void ShowQuestDetails(RealLifeQuest quest)
+        {
+            CloseQuestDetails();
+
+            detailOverlay = RuntimeUi.Panel(root, "QuestDetailsOverlay", new Color(0.02f, 0.025f, 0.03f, 0.90f));
+            detailOverlay.SetAsLastSibling();
+            detailOverlay.gameObject.AddComponent<Button>().onClick.AddListener(CloseQuestDetails);
+
+            var card = RuntimeUi.SpriteCard(
+                detailOverlay,
+                "QuestDetailsCard",
+                ArtLibrary.Panel("ui_panel_parchment"),
+                new Color(1f, 0.97f, 0.86f, 1f));
+            RuntimeUi.SetRect(card, new Vector2(0.5f, 0.46f), new Vector2(940, 1420), Vector2.zero);
+
+            var icon = RuntimeUi.SpriteImage(card, "CategoryIcon", QuestCategoryIcon(quest.Category));
+            RuntimeUi.SetRect(icon.rectTransform, new Vector2(0.14f, 0.90f), new Vector2(120, 120), Vector2.zero);
+
+            var title = RuntimeUi.Text(card, "Title", quest.Title, 42, RuntimeUi.Ink, TextAnchor.MiddleLeft);
+            title.fontStyle = FontStyle.Bold;
+            RuntimeUi.SetRect(title.rectTransform, new Vector2(0.58f, 0.91f), new Vector2(690, 120), Vector2.zero);
+
+            var status = RuntimeUi.Badge(card, "Status", StatusLabel(quest.Status), StatusColor(quest.Status), Color.white);
+            RuntimeUi.SetRect(status, new Vector2(0.22f, 0.81f), new Vector2(280, 58), Vector2.zero);
+            var difficulty = RuntimeUi.Badge(card, "Difficulty", DifficultyLabel(quest.Difficulty), new Color(0.42f, 0.34f, 0.26f), Color.white);
+            RuntimeUi.SetRect(difficulty, new Vector2(0.57f, 0.81f), new Vector2(240, 58), Vector2.zero);
+
+            var descriptionPanel = RuntimeUi.Card(card, "DescriptionPanel", new Color(1f, 1f, 1f, 0.35f));
+            RuntimeUi.SetRect(descriptionPanel, new Vector2(0.5f, 0.58f), new Vector2(820, 520), Vector2.zero);
+            descriptionPanel.gameObject.AddComponent<RectMask2D>();
+            var descriptionScroll = descriptionPanel.gameObject.AddComponent<ScrollRect>();
+            descriptionScroll.horizontal = false;
+            descriptionScroll.movementType = ScrollRect.MovementType.Clamped;
+            descriptionScroll.scrollSensitivity = 38f;
+
+            var description = RuntimeUi.Text(descriptionPanel, "Description", quest.Description, 31, RuntimeUi.Ink, TextAnchor.UpperLeft);
+            var descriptionRect = description.rectTransform;
+            descriptionRect.anchorMin = new Vector2(0f, 1f);
+            descriptionRect.anchorMax = new Vector2(1f, 1f);
+            descriptionRect.pivot = new Vector2(0.5f, 1f);
+            descriptionRect.offsetMin = new Vector2(34, 0);
+            descriptionRect.offsetMax = new Vector2(-34, 0);
+            descriptionRect.sizeDelta = new Vector2(-68, Mathf.Max(470f, description.preferredHeight + 60f));
+            descriptionRect.anchoredPosition = new Vector2(0, -28);
+            descriptionScroll.content = descriptionRect;
+
+            var rewardTitle = RuntimeUi.Text(card, "RewardTitle", "Награда", 30, RuntimeUi.Ink);
+            rewardTitle.fontStyle = FontStyle.Bold;
+            RuntimeUi.SetRect(rewardTitle.rectTransform, new Vector2(0.5f, 0.36f), new Vector2(500, 60), Vector2.zero);
+
+            var xpIcon = RuntimeUi.SpriteImage(card, "XpIcon", ArtLibrary.Item("item_xp_star"));
+            RuntimeUi.SetRect(xpIcon.rectTransform, new Vector2(0.29f, 0.29f), new Vector2(76, 76), Vector2.zero);
+            var xp = RuntimeUi.Text(card, "Xp", $"+{quest.RewardXp} XP", 31, RuntimeUi.Ink);
+            RuntimeUi.SetRect(xp.rectTransform, new Vector2(0.41f, 0.29f), new Vector2(210, 70), Vector2.zero);
+
+            var goldIcon = RuntimeUi.SpriteImage(card, "GoldIcon", ArtLibrary.Item("item_gold_coin_stack"));
+            RuntimeUi.SetRect(goldIcon.rectTransform, new Vector2(0.62f, 0.29f), new Vector2(76, 76), Vector2.zero);
+            var gold = RuntimeUi.Text(card, "Gold", $"+{quest.RewardGold}", 31, RuntimeUi.Ink);
+            RuntimeUi.SetRect(gold.rectTransform, new Vector2(0.73f, 0.29f), new Vector2(160, 70), Vector2.zero);
+
+            var comment = BuildComment(quest);
+            if (!string.IsNullOrWhiteSpace(comment))
+            {
+                var commentText = RuntimeUi.Text(card, "Comment", comment, 25, new Color(0.38f, 0.24f, 0.13f), TextAnchor.UpperLeft);
+                RuntimeUi.SetRect(commentText.rectTransform, new Vector2(0.5f, 0.18f), new Vector2(800, 150), Vector2.zero);
+            }
+
+            var close = RuntimeUi.Button(card, "Close", "Закрыть", new Color(0.38f, 0.34f, 0.31f), CloseQuestDetails);
+            RuntimeUi.SetRect(close.GetComponent<RectTransform>(), new Vector2(0.28f, 0.07f), new Vector2(300, 76), Vector2.zero);
+
+            Button action = null;
+            action = RuntimeUi.Button(card, "Action", ActionLabel(quest.Status), new Color(0.31f, 0.48f, 0.71f), () => _ = OnQuestActionAsync(quest, action.GetComponent<RectTransform>()));
+            RuntimeUi.SetRect(action.GetComponent<RectTransform>(), new Vector2(0.70f, 0.07f), new Vector2(360, 76), Vector2.zero);
+            action.interactable = quest.Status is QuestStatus.Assigned or QuestStatus.Rejected or QuestStatus.Approved;
+
+            resourceHud.transform.SetAsLastSibling();
+        }
+
+        private void CloseQuestDetails()
+        {
+            if (detailOverlay == null)
+            {
+                return;
+            }
+
+            Destroy(detailOverlay.gameObject);
+            detailOverlay = null;
+        }
+
+        private static string BuildComment(RealLifeQuest quest)
+        {
+            if (!string.IsNullOrWhiteSpace(quest.ParentComment))
+            {
+                return $"Комментарий родителя:\n{quest.ParentComment}";
+            }
+            if (!string.IsNullOrWhiteSpace(quest.ChildComment))
+            {
+                return $"Комментарий ребенка:\n{quest.ChildComment}";
+            }
+            return string.Empty;
+        }
+
+        private static string DifficultyLabel(string difficulty)
+        {
+            return difficulty switch
+            {
+                "easy" => "Легкое",
+                "hard" => "Сложное",
+                _ => "Обычное"
+            };
         }
 
         private void CreateTownActions(Transform parent)
@@ -316,7 +433,7 @@ namespace ClickerAdventure
             };
         }
 
-        private async System.Threading.Tasks.Task OnQuestActionAsync(RealLifeQuest quest)
+        private async System.Threading.Tasks.Task OnQuestActionAsync(RealLifeQuest quest, RectTransform rewardSource)
         {
             if (isBusy)
             {
@@ -336,11 +453,14 @@ namespace ClickerAdventure
                 }
                 else if (quest.Status == QuestStatus.Approved)
                 {
+                    var beforeState = ServiceRegistry.GameState.Current.Clone();
                     var reward = await ServiceRegistry.Quests.ClaimQuestRewardAsync(childId, quest.Id);
                     _ = ServiceRegistry.AnalyticsEvents.TrackQuestClaimedAsync(quest);
+                    resourceHud.AnimateReward(rewardSource, reward, beforeState);
                     statusText.text = $"Награда получена: +{reward.Xp} XP, +{reward.Gold} золота.";
                 }
 
+                CloseQuestDetails();
                 await RefreshQuestsAsync();
             }
             catch (System.Exception ex)

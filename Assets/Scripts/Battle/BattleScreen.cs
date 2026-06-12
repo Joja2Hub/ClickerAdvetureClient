@@ -22,6 +22,7 @@ namespace ClickerAdventure
         private Image playerHpBar;
         private Image rageBar;
         private RectTransform rewardCard;
+        private ResourceHud resourceHud;
         private bool isCompleted;
 
         private async void Start()
@@ -81,6 +82,7 @@ namespace ClickerAdventure
         private void Build()
         {
             var canvas = RuntimeUi.CreateCanvas();
+            resourceHud = ResourceHud.Create(canvas.transform);
             var battleBackground = ArtLibrary.DungeonBackground(SelectionContext.SelectedDungeon?.DungeonId);
             if (battleBackground != null)
             {
@@ -239,6 +241,7 @@ namespace ClickerAdventure
             enemyButton.interactable = false;
             StopAllCoroutines();
             var childId = ServiceRegistry.Auth.CurrentUser.ChildId;
+            var beforeState = ServiceRegistry.GameState.Current.Clone();
             await ServiceRegistry.Battle.CompleteVictoryAsync(childId, session);
             await ServiceRegistry.Analytics.TrackBattleCompletedAsync(session.Reward);
             titleText.text = "Победа!";
@@ -248,6 +251,7 @@ namespace ClickerAdventure
             var rewardText = RuntimeUi.Text(rewardCard, "RewardText", $"+{session.Reward.Xp} XP\n+{session.Reward.Gold} золота", 42, RuntimeUi.Ink);
             rewardText.fontStyle = FontStyle.Bold;
             RuntimeUi.Stretch(rewardText.rectTransform);
+            resourceHud.AnimateReward(rewardCard, session.Reward, beforeState);
         }
 
         private void HealPlayer()

@@ -10,7 +10,6 @@ namespace ClickerAdventure
     {
         [SerializeField] private MapNodeConfig[] nodes = System.Array.Empty<MapNodeConfig>();
 
-        private Text header;
         private Text statusText;
         private RectTransform mapSurface;
         private List<MapNodeState> nodeStates = new();
@@ -45,13 +44,7 @@ namespace ClickerAdventure
 
             var root = RuntimeUi.SafeAreaRoot(canvas.transform);
 
-            var topBar = RuntimeUi.SpriteCard(root, "TopBar", ArtLibrary.Panel("ui_panel_dark_wood"), new Color(0.15f, 0.12f, 0.10f, 0.92f));
-            RuntimeUi.SetRect(topBar, new Vector2(0.5f, 0.95f), new Vector2(980, 86), Vector2.zero);
-
-            header = RuntimeUi.Text(topBar, "Header", "", 28, Color.white, TextAnchor.MiddleLeft);
-            header.rectTransform.offsetMin = new Vector2(28, 0);
-            header.rectTransform.offsetMax = new Vector2(-24, 0);
-            RefreshHeader();
+            ResourceHud.Create(root);
 
             var title = RuntimeUi.Text(root, "MapTitle", "Карта приключений", 46, new Color(0.30f, 0.18f, 0.10f));
             title.fontStyle = FontStyle.Bold;
@@ -76,12 +69,6 @@ namespace ClickerAdventure
             CreateBottomButton(root, "GuildButton", "Гильдия", ArtLibrary.Icon("ui_icon_guild"), new Vector2(0.24f, 0.07f), OpenTownFromFirstTownNode);
             CreateBottomButton(root, "InventoryButton", "Инвентарь", ArtLibrary.Icon("ui_icon_bag"), new Vector2(0.5f, 0.07f), () => statusText.text = "Инвентарь откроется в следующем этапе.");
             CreateBottomButton(root, "SettingsButton", "Настройки", ArtLibrary.Icon("ui_icon_settings"), new Vector2(0.76f, 0.07f), () => statusText.text = "Настройки откроются в следующем этапе.");
-        }
-
-        private void RefreshHeader()
-        {
-            var state = ServiceRegistry.GameState.Current;
-            header.text = $"Уровень {state.Level}   XP {state.Xp}   Золото {state.Gold}";
         }
 
         private void Update()
@@ -202,7 +189,6 @@ namespace ClickerAdventure
             isApplyingTestReward = true;
             var childId = ServiceRegistry.Auth.CurrentUser.ChildId;
             await ServiceRegistry.GameState.AddBattleRewardAsync(childId, new BattleReward { Xp = 125, Gold = 25 });
-            RefreshHeader();
             statusText.text = "Тестовый прогресс добавлен.";
             isApplyingTestReward = false;
         }

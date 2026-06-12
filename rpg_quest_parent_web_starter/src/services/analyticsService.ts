@@ -11,7 +11,8 @@ import {
   Timestamp,
   writeBatch,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { httpsCallable } from "firebase/functions";
+import { db, functions } from "@/lib/firebase/client";
 import { evaluateRecommendation } from "@/lib/recommendations/recommendationEngine";
 import { RecommendationFeatures } from "@/lib/recommendations/types";
 import {
@@ -218,6 +219,24 @@ export async function getRecommendationForCategory(
 }
 
 export async function rebuildAnalyticsForChild(childId: string): Promise<void> {
+  const rebuild = httpsCallable<{ childId: string }, { ok: boolean }>(
+    functions,
+    "rebuildChildAnalytics"
+  );
+  try {
+    await rebuild({ childId });
+  } catch (error) {
+    const code = typeof error === "object" && error && "code" in error
+      ? String(error.code)
+      : "";
+    if (code.includes("not-found") || code.includes("unavailable")) {
+      throw new Error("Функция пересчета еще не развернута. Запустите DEPLOY_FIREBASE.bat и повторите попытку.");
+    }
+    throw error;
+  }
+}
+
+export async function rebuildAnalyticsForChildLocally(childId: string): Promise<void> {
   const [eventSnap, childSnap] = await Promise.all([
     getDocs(query(collection(db, "children", childId, "questEvents"), orderBy("eventAt", "asc"))),
     getDoc(doc(db, "children", childId)),
