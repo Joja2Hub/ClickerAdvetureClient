@@ -9,6 +9,7 @@ namespace ClickerAdventure
     public class MapScreen : MonoBehaviour
     {
         [SerializeField] private MapNodeConfig[] nodes = System.Array.Empty<MapNodeConfig>();
+
         private Text header;
         private Text statusText;
         private RectTransform mapSurface;
@@ -32,22 +33,33 @@ namespace ClickerAdventure
         private void Build()
         {
             var canvas = RuntimeUi.CreateCanvas();
-            RuntimeUi.AdventureBackground(canvas.transform, new Color(0.28f, 0.52f, 0.65f), new Color(0.14f, 0.42f, 0.31f), new Color(0.11f, 0.17f, 0.18f));
+            var mapBackground = ArtLibrary.Background("bg_world_map_parchment");
+            if (mapBackground != null)
+            {
+                RuntimeUi.SpriteBackground(canvas.transform, "MapBackground", mapBackground, new Color(0.11f, 0.17f, 0.18f));
+            }
+            else
+            {
+                RuntimeUi.AdventureBackground(canvas.transform, new Color(0.28f, 0.52f, 0.65f), new Color(0.14f, 0.42f, 0.31f), new Color(0.11f, 0.17f, 0.18f));
+            }
 
-            var topBar = RuntimeUi.Card(canvas.transform, "TopBar", new Color(0.08f, 0.12f, 0.14f, 0.86f));
-            RuntimeUi.SetRect(topBar, new Vector2(0.5f, 0.94f), new Vector2(980, 88), Vector2.zero);
+            var root = RuntimeUi.SafeAreaRoot(canvas.transform);
 
-            header = RuntimeUi.Text(topBar, "Header", "", 30, Color.white, TextAnchor.MiddleLeft);
+            var topBar = RuntimeUi.SpriteCard(root, "TopBar", ArtLibrary.Panel("ui_panel_dark_wood"), new Color(0.15f, 0.12f, 0.10f, 0.92f));
+            RuntimeUi.SetRect(topBar, new Vector2(0.5f, 0.95f), new Vector2(980, 86), Vector2.zero);
+
+            header = RuntimeUi.Text(topBar, "Header", "", 28, Color.white, TextAnchor.MiddleLeft);
             header.rectTransform.offsetMin = new Vector2(28, 0);
             header.rectTransform.offsetMax = new Vector2(-24, 0);
             RefreshHeader();
 
-            var title = RuntimeUi.Text(canvas.transform, "MapTitle", "Карта приключений", 52, new Color(0.98f, 0.9f, 0.65f));
+            var title = RuntimeUi.Text(root, "MapTitle", "Карта приключений", 46, new Color(0.30f, 0.18f, 0.10f));
             title.fontStyle = FontStyle.Bold;
-            RuntimeUi.SetRect(title.rectTransform, new Vector2(0.5f, 0.86f), new Vector2(900, 84), Vector2.zero);
+            RuntimeUi.SetRect(title.rectTransform, new Vector2(0.5f, 0.88f), new Vector2(900, 78), Vector2.zero);
 
-            mapSurface = RuntimeUi.Card(canvas.transform, "MapSurface", new Color(0.78f, 0.65f, 0.43f, 0.94f));
-            RuntimeUi.SetRect(mapSurface, new Vector2(0.5f, 0.48f), new Vector2(940, 1040), Vector2.zero);
+            mapSurface = new GameObject("MapSurface", typeof(RectTransform)).GetComponent<RectTransform>();
+            mapSurface.SetParent(root, false);
+            RuntimeUi.SetRect(mapSurface, new Vector2(0.5f, 0.51f), new Vector2(980, 1120), Vector2.zero);
 
             RuntimeUi.PathSegment(mapSurface, "Path_Forest_Town", new Vector2(-20, 145), 520, -20);
             RuntimeUi.PathSegment(mapSurface, "Path_Town_Cave", new Vector2(125, -115), 420, -55);
@@ -55,20 +67,15 @@ namespace ClickerAdventure
             nodeStates = ServiceRegistry.Map.BuildNodeStates(nodes, ServiceRegistry.GameState.Current).ToList();
             foreach (var state in nodeStates)
             {
-                CreateNodeButton(mapSurface, state);
+                CreateMapNode(mapSurface, state);
             }
 
-            statusText = RuntimeUi.Text(canvas.transform, "Status", "", 26, RuntimeUi.Gold);
-            RuntimeUi.SetRect(statusText.rectTransform, new Vector2(0.5f, 0.14f), new Vector2(920, 70), Vector2.zero);
+            statusText = RuntimeUi.Text(root, "Status", "", 25, new Color(0.28f, 0.16f, 0.08f));
+            RuntimeUi.SetRect(statusText.rectTransform, new Vector2(0.5f, 0.15f), new Vector2(900, 68), Vector2.zero);
 
-            var quests = RuntimeUi.Button(canvas.transform, "QuestButton", "Гильдия", new Color(0.42f, 0.36f, 0.72f), OpenTownFromFirstTownNode);
-            RuntimeUi.SetRect(quests.GetComponent<RectTransform>(), new Vector2(0.24f, 0.08f), new Vector2(300, 76), Vector2.zero);
-
-            var inventory = RuntimeUi.Button(canvas.transform, "InventoryButton", "Инвентарь", new Color(0.35f, 0.47f, 0.55f), () => Debug.Log("Inventory panel placeholder"));
-            RuntimeUi.SetRect(inventory.GetComponent<RectTransform>(), new Vector2(0.5f, 0.08f), new Vector2(300, 76), Vector2.zero);
-
-            var settings = RuntimeUi.Button(canvas.transform, "SettingsButton", "Настройки", new Color(0.45f, 0.45f, 0.45f), () => Debug.Log("Settings panel placeholder"));
-            RuntimeUi.SetRect(settings.GetComponent<RectTransform>(), new Vector2(0.76f, 0.08f), new Vector2(300, 76), Vector2.zero);
+            CreateBottomButton(root, "GuildButton", "Гильдия", ArtLibrary.Icon("ui_icon_guild"), new Vector2(0.24f, 0.07f), OpenTownFromFirstTownNode);
+            CreateBottomButton(root, "InventoryButton", "Инвентарь", ArtLibrary.Icon("ui_icon_bag"), new Vector2(0.5f, 0.07f), () => statusText.text = "Инвентарь откроется в следующем этапе.");
+            CreateBottomButton(root, "SettingsButton", "Настройки", ArtLibrary.Icon("ui_icon_settings"), new Vector2(0.76f, 0.07f), () => statusText.text = "Настройки откроются в следующем этапе.");
         }
 
         private void RefreshHeader()
@@ -111,25 +118,56 @@ namespace ClickerAdventure
             }
         }
 
-        private void CreateNodeButton(Transform parent, MapNodeState state)
+        private void CreateMapNode(Transform parent, MapNodeState state)
         {
-            var color = state.IsUnlocked
-                ? state.Config.Type == MapNodeType.Dungeon ? new Color(0.55f, 0.20f, 0.18f) : new Color(0.18f, 0.49f, 0.36f)
-                : new Color(0.31f, 0.29f, 0.26f);
-            var typeLabel = state.Config.Type == MapNodeType.Dungeon ? "Бой" : "Город";
-            var label = state.IsUnlocked
-                ? $"{state.Config.DisplayName}\n{typeLabel}"
-                : $"{state.Config.DisplayName}\nОткроется на ур. {state.Config.RequiredLevel}";
+            var root = new GameObject($"Node_{state.Config.NodeId}", typeof(RectTransform)).GetComponent<RectTransform>();
+            root.SetParent(parent, false);
+            RuntimeUi.SetRect(root, new Vector2(0.5f, 0.5f), new Vector2(220, 230), state.Config.MapPosition);
 
-            var button = RuntimeUi.Button(parent, $"Node_{state.Config.NodeId}", label, color, () => OnNodeClicked(state));
-            var position = state.Config.MapPosition;
-            RuntimeUi.SetRect(button.GetComponent<RectTransform>(), new Vector2(0.5f, 0.5f), new Vector2(350, 120), position);
+            var sprite = ArtLibrary.Map(state.Config.NodeId switch
+            {
+                "home_village" => "map_node_home_village",
+                "sunny_forest" => "map_node_sunny_forest",
+                "crystal_cave" => "map_node_crystal_cave",
+                _ => state.IsUnlocked ? "map_star_marker" : "map_node_locked"
+            });
+
+            var icon = RuntimeUi.SpriteImage(root, "Icon", sprite);
+            icon.color = state.IsUnlocked ? Color.white : new Color(0.45f, 0.45f, 0.45f, 0.75f);
+            icon.raycastTarget = true;
+            RuntimeUi.SetRect(icon.rectTransform, new Vector2(0.5f, 0.58f), new Vector2(160, 160), Vector2.zero);
+
+            var button = icon.gameObject.AddComponent<Button>();
+            button.targetGraphic = icon;
             button.interactable = state.IsUnlocked;
+            button.onClick.AddListener(() => OnNodeClicked(state));
 
-            var markerColor = state.IsUnlocked ? RuntimeUi.Gold : new Color(0.45f, 0.45f, 0.45f);
-            var marker = RuntimeUi.Circle(parent, $"Marker_{state.Config.NodeId}", markerColor);
-            RuntimeUi.SetRect(marker.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(76, 76), position + new Vector2(-175, 0));
-            marker.raycastTarget = false;
+            if (!state.IsUnlocked)
+            {
+                var lockIcon = RuntimeUi.SpriteImage(root, "Lock", ArtLibrary.Icon("ui_icon_lock"));
+                RuntimeUi.SetRect(lockIcon.rectTransform, new Vector2(0.5f, 0.58f), new Vector2(64, 64), Vector2.zero);
+            }
+
+            var labelText = state.IsUnlocked
+                ? state.Config.DisplayName
+                : $"{state.Config.DisplayName}\nур. {state.Config.RequiredLevel}";
+            var label = RuntimeUi.Text(root, "Label", labelText, 24, new Color(0.23f, 0.13f, 0.07f));
+            label.fontStyle = FontStyle.Bold;
+            RuntimeUi.SetRect(label.rectTransform, new Vector2(0.5f, 0.13f), new Vector2(260, 70), Vector2.zero);
+        }
+
+        private void CreateBottomButton(Transform parent, string name, string label, Sprite iconSprite, Vector2 anchor, System.Action onClick)
+        {
+            var button = RuntimeUi.Button(parent, name, label, new Color(0.30f, 0.25f, 0.20f, 0.92f), onClick);
+            RuntimeUi.SetRect(button.GetComponent<RectTransform>(), anchor, new Vector2(280, 74), Vector2.zero);
+
+            if (iconSprite == null)
+            {
+                return;
+            }
+
+            var icon = RuntimeUi.SpriteImage(button.transform, "Icon", iconSprite);
+            RuntimeUi.SetRect(icon.rectTransform, new Vector2(0.17f, 0.5f), new Vector2(42, 42), Vector2.zero);
         }
 
         private void OnNodeClicked(MapNodeState state)

@@ -15,7 +15,7 @@ MonoBehaviour:
   EnemyId: cave_bat
   DisplayName: "\u041F\u0435\u0449\u0435\u0440\u043D\u0430\u044F \u043B\u0435\u0442\u0443\u0447\u0430\u044F
     \u043C\u044B\u0448\u044C"
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: 522cfcd31c37c1b4c9d2a24d8e987d51, type: 3}
   MaxHp: 26
   Damage: 7
   AttackInterval: 1.4

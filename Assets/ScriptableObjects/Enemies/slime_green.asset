@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClickerAdventure.EnemyConfig
   EnemyId: slime_green
   DisplayName: "\u041B\u0435\u0441\u043D\u043E\u0439 \u0441\u043B\u0430\u0439\u043C"
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: b3248ec009866f74cba2ed842b5a1185, type: 3}
   MaxHp: 34
   Damage: 5
   AttackInterval: 1.8

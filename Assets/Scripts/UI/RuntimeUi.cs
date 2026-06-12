@@ -29,10 +29,20 @@ namespace ClickerAdventure
             var canvasGo = new GameObject(name, typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             var canvas = canvasGo.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvasGo.GetComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            canvasGo.GetComponent<CanvasScaler>().referenceResolution = new Vector2(1080, 1920);
-            canvasGo.GetComponent<CanvasScaler>().matchWidthOrHeight = 0.5f;
+            var scaler = canvasGo.GetComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1080, 1920);
+            scaler.matchWidthOrHeight = Screen.width > Screen.height ? 1f : 0f;
             return canvas;
+        }
+
+        public static RectTransform SafeAreaRoot(Transform parent, string name = "SafeArea")
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(SafeAreaFitter));
+            go.transform.SetParent(parent, false);
+            var rect = go.GetComponent<RectTransform>();
+            Stretch(rect);
+            return rect;
         }
 
         public static void EnsureEventSystem()
@@ -52,6 +62,32 @@ namespace ClickerAdventure
             AddBand(root, "Sky", top, new Vector2(0.5f, 0.77f), new Vector2(1200, 900));
             AddBand(root, "Horizon", middle, new Vector2(0.5f, 0.47f), new Vector2(1200, 520));
             AddBand(root, "Ground", bottom, new Vector2(0.5f, 0.16f), new Vector2(1200, 620));
+        }
+
+        public static Image SpriteBackground(Transform parent, string name, Sprite sprite, Color fallback)
+        {
+            var go = new GameObject(name, typeof(Image), typeof(AspectFillImage));
+            go.transform.SetParent(parent, false);
+            var rect = go.GetComponent<RectTransform>();
+            Stretch(rect);
+            var image = go.GetComponent<Image>();
+            image.sprite = sprite;
+            image.color = sprite != null ? Color.white : fallback;
+            image.preserveAspect = false;
+            image.raycastTarget = false;
+            return image;
+        }
+
+        public static Image SpriteImage(Transform parent, string name, Sprite sprite, bool preserveAspect = true)
+        {
+            var go = new GameObject(name, typeof(Image));
+            go.transform.SetParent(parent, false);
+            var image = go.GetComponent<Image>();
+            image.sprite = sprite;
+            image.color = sprite != null ? Color.white : new Color(1f, 1f, 1f, 0f);
+            image.preserveAspect = preserveAspect;
+            image.raycastTarget = false;
+            return image;
         }
 
         public static RectTransform Panel(Transform parent, string name, Color color)
@@ -76,6 +112,23 @@ namespace ClickerAdventure
             var shadow = go.GetComponent<Shadow>();
             shadow.effectColor = new Color(0f, 0f, 0f, 0.28f);
             shadow.effectDistance = new Vector2(0, -8);
+            var outline = go.GetComponent<Outline>();
+            outline.effectColor = new Color(1f, 1f, 1f, 0.16f);
+            outline.effectDistance = new Vector2(2, 2);
+            return go.GetComponent<RectTransform>();
+        }
+
+        public static RectTransform SpriteCard(Transform parent, string name, Sprite sprite, Color color)
+        {
+            var go = new GameObject(name, typeof(Image), typeof(Shadow), typeof(Outline));
+            go.transform.SetParent(parent, false);
+            var image = go.GetComponent<Image>();
+            image.sprite = sprite;
+            image.color = color;
+            image.type = Image.Type.Simple;
+            var shadow = go.GetComponent<Shadow>();
+            shadow.effectColor = new Color(0f, 0f, 0f, 0.30f);
+            shadow.effectDistance = new Vector2(0, -7);
             var outline = go.GetComponent<Outline>();
             outline.effectColor = new Color(1f, 1f, 1f, 0.16f);
             outline.effectDistance = new Vector2(2, 2);

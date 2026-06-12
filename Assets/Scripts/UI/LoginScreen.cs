@@ -51,30 +51,42 @@ namespace ClickerAdventure
         private void Build()
         {
             var canvas = RuntimeUi.CreateCanvas();
-            RuntimeUi.AdventureBackground(canvas.transform, new Color(0.18f, 0.37f, 0.54f), new Color(0.14f, 0.42f, 0.31f), new Color(0.08f, 0.12f, 0.16f));
+            var loginBackground = ArtLibrary.Background("bg_login_adventure_gate");
+            if (loginBackground != null)
+            {
+                RuntimeUi.SpriteBackground(canvas.transform, "LoginBackground", loginBackground, new Color(0.08f, 0.12f, 0.16f));
+            }
+            else
+            {
+                RuntimeUi.AdventureBackground(canvas.transform, new Color(0.18f, 0.37f, 0.54f), new Color(0.14f, 0.42f, 0.31f), new Color(0.08f, 0.12f, 0.16f));
+            }
 
-            var crest = RuntimeUi.Circle(canvas.transform, "HeroCrest", new Color(0.95f, 0.72f, 0.28f));
-            RuntimeUi.SetRect(crest.rectTransform, new Vector2(0.5f, 0.79f), new Vector2(190, 190), Vector2.zero);
+            var root = RuntimeUi.SafeAreaRoot(canvas.transform);
+            var hero = RuntimeUi.SpriteImage(root, "HeroPortrait", ArtLibrary.Hero("char_child_hero_portrait"));
+            RuntimeUi.SetRect(hero.rectTransform, new Vector2(0.5f, 0.78f), new Vector2(250, 250), Vector2.zero);
 
-            var title = RuntimeUi.Text(canvas.transform, "Title", "RPG Quest Adventure", 58, Color.white);
+            var title = RuntimeUi.Text(root, "Title", "RPG Quest Adventure", 48, Color.white);
             title.fontStyle = FontStyle.Bold;
             RuntimeUi.SetRect(title.rectTransform, new Vector2(0.5f, 0.68f), new Vector2(900, 90), Vector2.zero);
 
-            var subtitle = RuntimeUi.Text(canvas.transform, "Subtitle", "Реальные дела усиливают героя", 30, new Color(1f, 0.88f, 0.58f));
-            RuntimeUi.SetRect(subtitle.rectTransform, new Vector2(0.5f, 0.62f), new Vector2(860, 70), Vector2.zero);
+            var subtitle = RuntimeUi.Text(root, "Subtitle", "Реальные дела усиливают героя", 28, new Color(1f, 0.88f, 0.58f));
+            RuntimeUi.SetRect(subtitle.rectTransform, new Vector2(0.5f, 0.62f), new Vector2(820, 70), Vector2.zero);
 
-            emailInput = CreateInput(canvas.transform, "Email", "child@example.com", new Vector2(0.5f, 0.50f));
-            passwordInput = CreateInput(canvas.transform, "Password", "password", new Vector2(0.5f, 0.41f));
+            var loginCard = RuntimeUi.SpriteCard(root, "LoginCard", ArtLibrary.Panel("ui_panel_parchment"), new Color(1f, 1f, 1f, 0.90f));
+            RuntimeUi.SetRect(loginCard, new Vector2(0.5f, 0.36f), new Vector2(840, 560), Vector2.zero);
+
+            emailInput = CreateInput(loginCard, "Email", "child@example.com", new Vector2(0.5f, 0.70f));
+            passwordInput = CreateInput(loginCard, "Password", "password", new Vector2(0.5f, 0.54f));
             passwordInput.contentType = TMP_InputField.ContentType.Password;
 
-            var login = RuntimeUi.Button(canvas.transform, "LoginButton", "Войти", new Color(0.21f, 0.51f, 0.76f), () => _ = LoginAsync(false));
-            RuntimeUi.SetRect(login.GetComponent<RectTransform>(), new Vector2(0.5f, 0.29f), new Vector2(650, 86), Vector2.zero);
+            var login = RuntimeUi.Button(loginCard, "LoginButton", "Войти", new Color(0.21f, 0.51f, 0.76f), () => _ = LoginAsync(false));
+            RuntimeUi.SetRect(login.GetComponent<RectTransform>(), new Vector2(0.5f, 0.34f), new Vector2(650, 82), Vector2.zero);
 
-            var dev = RuntimeUi.Button(canvas.transform, "DevLoginButton", "Dev вход", new Color(0.24f, 0.58f, 0.35f), () => _ = LoginAsync(true));
-            RuntimeUi.SetRect(dev.GetComponent<RectTransform>(), new Vector2(0.5f, 0.20f), new Vector2(650, 86), Vector2.zero);
+            var dev = RuntimeUi.Button(loginCard, "DevLoginButton", "Dev вход", new Color(0.24f, 0.58f, 0.35f), () => _ = LoginAsync(true));
+            RuntimeUi.SetRect(dev.GetComponent<RectTransform>(), new Vector2(0.5f, 0.18f), new Vector2(650, 82), Vector2.zero);
 
-            statusText = RuntimeUi.Text(canvas.transform, "Status", "", 28, new Color(1f, 0.85f, 0.45f));
-            RuntimeUi.SetRect(statusText.rectTransform, new Vector2(0.5f, 0.11f), new Vector2(850, 100), Vector2.zero);
+            statusText = RuntimeUi.Text(loginCard, "Status", "", 26, RuntimeUi.Ink);
+            RuntimeUi.SetRect(statusText.rectTransform, new Vector2(0.5f, 0.05f), new Vector2(760, 80), Vector2.zero);
         }
 
         private static TMP_InputField CreateInput(Transform parent, string name, string placeholder, Vector2 anchor)
@@ -96,7 +108,7 @@ namespace ClickerAdventure
             var placeholderText = CreateInputText(go.transform, "Placeholder", placeholder, new Color(0.42f, 0.35f, 0.27f));
             input.textComponent = text;
             input.placeholder = placeholderText;
-            RuntimeUi.SetRect(go.GetComponent<RectTransform>(), anchor, new Vector2(760, 78), Vector2.zero);
+            RuntimeUi.SetRect(go.GetComponent<RectTransform>(), anchor, new Vector2(720, 76), Vector2.zero);
             return input;
         }
 
@@ -133,7 +145,7 @@ namespace ClickerAdventure
 
                 if (user.Role != UserRole.Child)
                 {
-                    statusText.text = "Этот клиент доступен только ребёнку.";
+                    statusText.text = "Этот клиент доступен только ребенку.";
                     return;
                 }
 

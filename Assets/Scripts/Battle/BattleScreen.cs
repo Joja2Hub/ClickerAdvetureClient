@@ -16,6 +16,8 @@ namespace ClickerAdventure
         private Text playerText;
         private Text feedbackText;
         private Button enemyButton;
+        private Image enemyImage;
+        private Image heroImage;
         private Image enemyHpBar;
         private Image playerHpBar;
         private Image rageBar;
@@ -79,7 +81,15 @@ namespace ClickerAdventure
         private void Build()
         {
             var canvas = RuntimeUi.CreateCanvas();
-            RuntimeUi.AdventureBackground(canvas.transform, new Color(0.26f, 0.20f, 0.31f), new Color(0.28f, 0.18f, 0.20f), new Color(0.10f, 0.08f, 0.10f));
+            var battleBackground = ArtLibrary.DungeonBackground(SelectionContext.SelectedDungeon?.DungeonId);
+            if (battleBackground != null)
+            {
+                RuntimeUi.SpriteBackground(canvas.transform, "BattleBackground", battleBackground, new Color(0.10f, 0.08f, 0.10f));
+            }
+            else
+            {
+                RuntimeUi.AdventureBackground(canvas.transform, new Color(0.26f, 0.20f, 0.31f), new Color(0.28f, 0.18f, 0.20f), new Color(0.10f, 0.08f, 0.10f));
+            }
 
             var top = RuntimeUi.Card(canvas.transform, "BattleTop", new Color(0.08f, 0.08f, 0.10f, 0.86f));
             RuntimeUi.SetRect(top, new Vector2(0.5f, 0.92f), new Vector2(980, 110), Vector2.zero);
@@ -90,11 +100,14 @@ namespace ClickerAdventure
             var arena = RuntimeUi.Card(canvas.transform, "Arena", new Color(0.16f, 0.11f, 0.13f, 0.82f));
             RuntimeUi.SetRect(arena, new Vector2(0.5f, 0.58f), new Vector2(920, 730), Vector2.zero);
 
-            var enemyOrb = RuntimeUi.Circle(arena, "EnemyOrb", new Color(0.62f, 0.16f, 0.18f));
-            RuntimeUi.SetRect(enemyOrb.rectTransform, new Vector2(0.5f, 0.55f), new Vector2(360, 360), Vector2.zero);
+            enemyImage = RuntimeUi.SpriteImage(arena, "EnemyImage", null);
+            RuntimeUi.SetRect(enemyImage.rectTransform, new Vector2(0.5f, 0.53f), new Vector2(420, 360), Vector2.zero);
+            enemyImage.raycastTarget = true;
+            enemyButton = enemyImage.gameObject.AddComponent<Button>();
+            enemyButton.onClick.AddListener(OnEnemyClicked);
 
-            enemyButton = RuntimeUi.Button(arena, "EnemyButton", "Ударить", new Color(0.70f, 0.18f, 0.16f, 0.84f), OnEnemyClicked);
-            RuntimeUi.SetRect(enemyButton.GetComponent<RectTransform>(), new Vector2(0.5f, 0.55f), new Vector2(390, 150), new Vector2(0, -10));
+            heroImage = RuntimeUi.SpriteImage(arena, "HeroImage", ArtLibrary.Hero("char_child_hero_idle"));
+            RuntimeUi.SetRect(heroImage.rectTransform, new Vector2(0.18f, 0.34f), new Vector2(210, 290), Vector2.zero);
 
             enemyText = RuntimeUi.Text(arena, "EnemyText", "", 34, Color.white);
             RuntimeUi.SetRect(enemyText.rectTransform, new Vector2(0.5f, 0.86f), new Vector2(780, 100), Vector2.zero);
@@ -151,6 +164,11 @@ namespace ClickerAdventure
             }
 
             enemyHp = currentEnemy.MaxHp;
+            if (enemyImage != null)
+            {
+                enemyImage.sprite = currentEnemy.Sprite != null ? currentEnemy.Sprite : ArtLibrary.EnemyIdle(currentEnemy.EnemyId);
+                enemyImage.color = enemyImage.sprite != null ? Color.white : new Color(0.8f, 0.2f, 0.2f, 0.85f);
+            }
             StopAllCoroutines();
             StartCoroutine(EnemyAttackLoop());
             feedbackText.text = "Кликайте по врагу и держите комбо.";

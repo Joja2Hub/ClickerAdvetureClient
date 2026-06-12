@@ -18,6 +18,20 @@ export type QuestCategory =
   | "family_help"
   | "custom";
 
+export type QuestDifficulty = "easy" | "normal" | "hard";
+export type RecommendationLabel = "recommended" | "neutral" | "not_recommended";
+export type QuestEventType =
+  | "quest_created"
+  | "quest_viewed"
+  | "quest_submitted"
+  | "quest_approved"
+  | "quest_rejected"
+  | "quest_claimed"
+  | "quest_cancelled"
+  | "reminder_sent"
+  | "location_check_in_success"
+  | "location_check_in_failed";
+
 export interface UserProfile {
   uid: string;
   role: UserRole;
@@ -74,19 +88,125 @@ export interface Quest {
   childComment?: string;
   parentComment?: string;
   proofImageUrl?: string;
+  difficulty?: QuestDifficulty;
+  recommendationScore?: number;
+  recommended?: boolean;
+}
+
+export interface QuestEvent {
+  id: string;
+  familyId: string;
+  childId: string;
+  questId: string;
+  eventType: QuestEventType;
+  actorRole: UserRole | "system";
+  sourceClient: "web" | "unity" | "cloud_function";
+  category: string;
+  difficulty?: QuestDifficulty;
+  rewardXp: number;
+  rewardGold: number;
+  statusBefore?: string;
+  statusAfter?: string;
+  attemptNumber?: number;
+  reminderCount?: number;
+  assignedAt?: unknown;
+  submittedAt?: unknown;
+  approvedAt?: unknown;
+  claimedAt?: unknown;
+  eventAt: unknown;
+  localDate: string;
+  dayOfWeek: number;
+  localHour: number;
+  timeFromAssignedHours?: number;
+  timeFromSubmittedHours?: number;
+  locationQuest?: boolean;
+  checkInDistanceMeters?: number;
+  checkInResult?: "success" | "failed" | "not_required";
+  metadata?: Record<string, unknown>;
+}
+
+export interface DailyCategoryStats {
+  assigned: number;
+  viewed: number;
+  submitted: number;
+  approved: number;
+  rejected: number;
+  claimed: number;
+  avgSubmitHours: number | null;
+  completionRate: number;
+  rejectionRate: number;
 }
 
 export interface DailyAnalytics {
   id: string;
-  questsAssigned: number;
-  questsSubmitted: number;
-  questsApproved: number;
-  questsRejected: number;
-  battlesPlayed: number;
-  playSessions: number;
-  totalPlayTimeSeconds: number;
-  xpEarned: number;
-  goldEarned: number;
+  date: string;
+  familyId: string;
+  childId: string;
+  assignedCount: number;
+  viewedCount: number;
+  submittedCount: number;
+  approvedCount: number;
+  rejectedCount: number;
+  claimedCount: number;
+  cancelledCount: number;
+  reminderCount: number;
+  completionRate: number;
+  approvalRate: number;
+  rejectionRate: number;
+  claimRate: number;
+  avgSubmitHours: number | null;
+  avgClaimHours: number | null;
+  activeQuestCount: number;
+  categoryStats: Record<string, DailyCategoryStats>;
+  updatedAt: unknown;
+}
+
+export interface CategoryAnalytics {
+  id: string;
+  category: string;
+  familyId: string;
+  childId: string;
+  assignedTotal: number;
+  viewedTotal: number;
+  submittedTotal: number;
+  approvedTotal: number;
+  rejectedTotal: number;
+  claimedTotal: number;
+  cancelledTotal: number;
+  reminderTotal: number;
+  completionRate: number;
+  approvalRate: number;
+  rejectionRate: number;
+  viewToSubmitRate: number;
+  reminderNeedRate: number;
+  avgSubmitHours: number | null;
+  avgClaimHours: number | null;
+  avgRewardXp: number;
+  avgRewardGold: number;
+  lastAssignedAt?: unknown;
+  lastClaimedAt?: unknown;
+  recommendationScore: number;
+  recommendationLabel: RecommendationLabel;
+  recommendationReason: string;
+  recommendationActions: string[];
+  updatedAt: unknown;
+}
+
+export interface QuestRecommendation {
+  id: string;
+  familyId: string;
+  childId: string;
+  targetCategory: string;
+  suggestedDifficulty: QuestDifficulty;
+  suggestedRewardXp: number;
+  suggestedRewardGold: number;
+  score: number;
+  label: RecommendationLabel;
+  reasons: string[];
+  risks: string[];
+  suggestedActions: string[];
+  generatedAt: unknown;
+  engineVersion: string;
 }
 
 export interface GameState {
