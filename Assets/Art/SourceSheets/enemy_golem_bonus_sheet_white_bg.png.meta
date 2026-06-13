@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: enemy_golem_bonus_sheet_white_bg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1254
-        height: 1254
+        x: 201
+        y: 543
+        width: 272
+        height: 287
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -130,6 +130,138 @@ TextureImporter:
       bones: []
       spriteID: 5faa7dab61b834ec0800000000000000
       internalID: -3583867948716545291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_golem_bonus_sheet_white_bg_1
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 548
+        width: 257
+        height: 275
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6c17bd813c01c34a92cb13b4ad0693e
+      internalID: 1738598142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_golem_bonus_sheet_white_bg_2
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 545
+        width: 239
+        height: 268
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d151a642e70c20a4f8279136056dbedd
+      internalID: -981166444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_golem_bonus_sheet_white_bg_6
+      rect:
+        serializedVersion: 2
+        x: 1005
+        y: 531
+        width: 253
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c97ad12fda3e6b74d82645509eb5d70a
+      internalID: -1230520407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_golem_bonus_sheet_white_bg_8
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 216
+        width: 211
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4717781b4bf2f8d4780e5a1d7990e77f
+      internalID: -834124612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_golem_bonus_sheet_white_bg_9
+      rect:
+        serializedVersion: 2
+        x: 620
+        y: 222
+        width: 207
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa4ee7686b96ae6479c19120fd3b377d
+      internalID: 30271272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_golem_bonus_sheet_white_bg_10
+      rect:
+        serializedVersion: 2
+        x: 865
+        y: 203
+        width: 267
+        height: 203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a16f993dfe48bfa4f8f94c11f89207cb
+      internalID: 1213858065
       vertices: []
       indices: 
       edges: []
@@ -146,8 +278,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      enemy_golem_bonus_sheet_white_bg_0: -3583867948716545291
+      enemy_golem_bonus_sheet_white_bg_1: 1738598142
+      enemy_golem_bonus_sheet_white_bg_10: 1213858065
+      enemy_golem_bonus_sheet_white_bg_2: -981166444
+      enemy_golem_bonus_sheet_white_bg_3: -2138375271
+      enemy_golem_bonus_sheet_white_bg_4: -1778584287
+      enemy_golem_bonus_sheet_white_bg_5: 1467381545
+      enemy_golem_bonus_sheet_white_bg_6: -1230520407
+      enemy_golem_bonus_sheet_white_bg_7: 1233657213
+      enemy_golem_bonus_sheet_white_bg_8: -834124612
+      enemy_golem_bonus_sheet_white_bg_9: 30271272
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -563,15 +563,6 @@ namespace ClickerAdventure
         public async Task CompleteVictoryAsync(string childId, BattleSession session)
         {
             session.AddPerformanceBonus();
-            if (session.Dungeon != null && session.Dungeon.LootTable != null)
-            {
-                var itemId = session.Dungeon.LootTable.Roll();
-                if (!string.IsNullOrWhiteSpace(itemId))
-                {
-                    session.Reward.ItemIds.Add(itemId);
-                }
-            }
-
             await rewardService.ApplyBattleRewardAsync(childId, session.Reward);
         }
     }

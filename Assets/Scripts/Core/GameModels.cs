@@ -108,7 +108,6 @@ namespace ClickerAdventure
     {
         public int Xp;
         public int Gold;
-        public List<string> ItemIds = new();
 
         public static BattleReward Empty => new();
     }

@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: enemy_sheet_crab_sand_white_bg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1448
-        height: 1086
+        x: 437
+        y: 604
+        width: 280
+        height: 275
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -130,6 +130,204 @@ TextureImporter:
       bones: []
       spriteID: e7ba2c445eea94080800000000000000
       internalID: -9202632063830545538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_crab_sand_white_bg_4
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 613
+        width: 320
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c84947092d89a9a4297c721cb006c244
+      internalID: -494838625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_crab_sand_white_bg_5
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 612
+        width: 262
+        height: 199
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ec9a01e68d40ac43a71983721ae5b55
+      internalID: -79837290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_crab_sand_white_bg_9
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 604
+        width: 295
+        height: 163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b253d1b034722f44b0a115423026bf9
+      internalID: -1659430991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_crab_sand_white_bg_10
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 268
+        width: 296
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e412ea8e91bdf1428af3c0c43f79571
+      internalID: 820658976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_crab_sand_white_bg_12
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 256
+        width: 272
+        height: 187
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef031bee72898e347aa1ef98b829094f
+      internalID: 873502313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_crab_sand_white_bg_14
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 257
+        width: 297
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 673c55efc7749ad4a9dfa43671540f41
+      internalID: -1937757417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_crab_sand_white_bg_19
+      rect:
+        serializedVersion: 2
+        x: 1105
+        y: 256
+        width: 294
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b5939f10a9f70144bc32d79857d5b6c
+      internalID: 1907798598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_crab_sand_white_bg_20
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 267
+        width: 9
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4248b842d78f96b41803b4af173592c0
+      internalID: 643177973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_crab_sand_white_bg_21
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 265
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21d1d3619b03c0445aaf9b20c432f24b
+      internalID: 308007590
       vertices: []
       indices: 
       edges: []
@@ -146,8 +344,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      enemy_sheet_crab_sand_white_bg_0: -9202632063830545538
+      enemy_sheet_crab_sand_white_bg_1: -1704621955
+      enemy_sheet_crab_sand_white_bg_10: 820658976
+      enemy_sheet_crab_sand_white_bg_11: -2049335715
+      enemy_sheet_crab_sand_white_bg_12: 873502313
+      enemy_sheet_crab_sand_white_bg_13: -103818930
+      enemy_sheet_crab_sand_white_bg_14: -1937757417
+      enemy_sheet_crab_sand_white_bg_15: 1773091857
+      enemy_sheet_crab_sand_white_bg_16: -832860956
+      enemy_sheet_crab_sand_white_bg_17: 293610157
+      enemy_sheet_crab_sand_white_bg_18: 982646829
+      enemy_sheet_crab_sand_white_bg_19: 1907798598
+      enemy_sheet_crab_sand_white_bg_2: 964251726
+      enemy_sheet_crab_sand_white_bg_20: 643177973
+      enemy_sheet_crab_sand_white_bg_21: 308007590
+      enemy_sheet_crab_sand_white_bg_3: -787964705
+      enemy_sheet_crab_sand_white_bg_4: -494838625
+      enemy_sheet_crab_sand_white_bg_5: -79837290
+      enemy_sheet_crab_sand_white_bg_6: -844436267
+      enemy_sheet_crab_sand_white_bg_7: -507123562
+      enemy_sheet_crab_sand_white_bg_8: 166078303
+      enemy_sheet_crab_sand_white_bg_9: -1659430991
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

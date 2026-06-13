@@ -6,11 +6,12 @@ namespace ClickerAdventure
     public static class ArtLibrary
     {
         private static readonly Dictionary<string, Sprite> Cache = new();
+        private static ArtBindingDatabase bindings;
 
         public static Sprite Background(string id) => Load($"Art/Backgrounds/{id}");
         public static Sprite Hero(string id) => Load($"Art/Characters/Hero/{id}");
         public static Sprite Enemy(string id) => Load($"Art/Characters/Enemies/{id}");
-        public static Sprite Item(string id) => Load($"Art/Items/{id}");
+        public static Sprite Reward(string id) => Load($"Art/Rewards/{id}");
         public static Sprite Icon(string id) => Load($"Art/UI/Icons/{id}");
         public static Sprite Panel(string id) => Load($"Art/UI/Panels/{id}");
         public static Sprite Quest(string id) => Load($"Art/Quests/{id}");
@@ -44,9 +45,18 @@ namespace ClickerAdventure
                 return cached;
             }
 
-            var sprite = Resources.Load<Sprite>(path);
+            bindings ??= Resources.Load<ArtBindingDatabase>("Art/ArtBindings");
+            var sprite = bindings != null && bindings.TryGet(path, out var overridden)
+                ? overridden
+                : Resources.Load<Sprite>(path);
             Cache[path] = sprite;
             return sprite;
+        }
+
+        public static void ClearCache()
+        {
+            Cache.Clear();
+            bindings = null;
         }
     }
 }

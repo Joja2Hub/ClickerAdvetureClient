@@ -32,13 +32,13 @@ namespace ClickerAdventure
 
         private void Build(RectTransform root)
         {
-            var levelIcon = RuntimeUi.SpriteImage(root, "LevelIcon", ArtLibrary.Item("item_xp_star"));
+            var levelIcon = RuntimeUi.SpriteImage(root, "LevelIcon", ArtLibrary.Reward("reward_xp"));
             RuntimeUi.SetRect(levelIcon.rectTransform, new Vector2(0.08f, 0.5f), new Vector2(48, 48), Vector2.zero);
             levelText = RuntimeUi.Text(root, "Level", "", 24, Color.white, TextAnchor.MiddleLeft);
             RuntimeUi.SetRect(levelText.rectTransform, new Vector2(0.19f, 0.5f), new Vector2(190, 62), Vector2.zero);
 
-            xpTarget = CreateResource(root, "Xp", ArtLibrary.Item("item_xp_star"), new Vector2(0.52f, 0.5f), out xpText);
-            goldTarget = CreateResource(root, "Gold", ArtLibrary.Item("item_gold_coin_stack"), new Vector2(0.82f, 0.5f), out goldText);
+            xpTarget = CreateResource(root, "Xp", ArtLibrary.Reward("reward_xp"), new Vector2(0.52f, 0.5f), out xpText);
+            goldTarget = CreateResource(root, "Gold", ArtLibrary.Reward("reward_gold"), new Vector2(0.82f, 0.5f), out goldText);
 
             animationLayer = new GameObject("RewardAnimationLayer", typeof(RectTransform)).GetComponent<RectTransform>();
             animationLayer.SetParent(root.parent, false);
@@ -110,13 +110,13 @@ namespace ClickerAdventure
             {
                 StartCoroutine(FlyParticle(
                     "XpParticle",
-                    ArtLibrary.Item("item_xp_star"),
+                    ArtLibrary.Reward("reward_xp"),
                     start + Random.insideUnitCircle * 42f,
                     WorldToLayer(xpTarget.position),
                     i * 0.055f));
                 StartCoroutine(FlyParticle(
                     "GoldParticle",
-                    ArtLibrary.Item("item_gold_coin_stack"),
+                    ArtLibrary.Reward("reward_gold"),
                     start + Random.insideUnitCircle * 42f,
                     WorldToLayer(goldTarget.position),
                     i * 0.065f));

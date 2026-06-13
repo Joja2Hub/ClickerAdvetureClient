@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: equipment_icons_sheet_white_bg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1448
-        height: 1086
+        x: 75
+        y: 585
+        width: 229
+        height: 334
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -130,6 +130,204 @@ TextureImporter:
       bones: []
       spriteID: b083a7ee980efd370800000000000000
       internalID: 8349639117184317451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equipment_icons_sheet_white_bg_1
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 572
+        width: 211
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5205275003c8350459503824c6725321
+      internalID: -1452839932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equipment_icons_sheet_white_bg_2
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 579
+        width: 198
+        height: 347
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75d2f999f292eb747b3077bda1df4505
+      internalID: -1055928067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equipment_icons_sheet_white_bg_3
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 607
+        width: 217
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1487de10e14b7b74086c0fcab0c8e0fa
+      internalID: -587678528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equipment_icons_sheet_white_bg_4
+      rect:
+        serializedVersion: 2
+        x: 1107
+        y: 596
+        width: 287
+        height: 266
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2d0ea775fd46b54bb5593288e56b6cb
+      internalID: 752870820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equipment_icons_sheet_white_bg_5
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 209
+        width: 251
+        height: 243
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8cc3fd264fa9594393265f193535516
+      internalID: 1109916489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equipment_icons_sheet_white_bg_6
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 228
+        width: 159
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 455e9fac55ae9754e8c8db1865f31cfe
+      internalID: -1612213919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equipment_icons_sheet_white_bg_7
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 209
+        width: 170
+        height: 262
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff75fb2876b4cfe4a862d8acc31cb43a
+      internalID: 403841802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equipment_icons_sheet_white_bg_8
+      rect:
+        serializedVersion: 2
+        x: 846
+        y: 210
+        width: 215
+        height: 242
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9d1fe9153205634f95dc80ffe4fb985
+      internalID: -1661740792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equipment_icons_sheet_white_bg_9
+      rect:
+        serializedVersion: 2
+        x: 1138
+        y: 190
+        width: 232
+        height: 286
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 785b81d3d1f3a3842a33b0c8c14ac036
+      internalID: 874587680
       vertices: []
       indices: 
       edges: []
@@ -146,8 +344,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      equipment_icons_sheet_white_bg_0: 8349639117184317451
+      equipment_icons_sheet_white_bg_1: -1452839932
+      equipment_icons_sheet_white_bg_2: -1055928067
+      equipment_icons_sheet_white_bg_3: -587678528
+      equipment_icons_sheet_white_bg_4: 752870820
+      equipment_icons_sheet_white_bg_5: 1109916489
+      equipment_icons_sheet_white_bg_6: -1612213919
+      equipment_icons_sheet_white_bg_7: 403841802
+      equipment_icons_sheet_white_bg_8: -1661740792
+      equipment_icons_sheet_white_bg_9: 874587680
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

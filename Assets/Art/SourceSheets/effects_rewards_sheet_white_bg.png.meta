@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: effects_rewards_sheet_white_bg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1448
-        height: 1086
+        x: 68
+        y: 697
+        width: 299
+        height: 305
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -130,6 +130,248 @@ TextureImporter:
       bones: []
       spriteID: 235934219c48447a0800000000000000
       internalID: -6393839571829549774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_2
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 700
+        width: 315
+        height: 261
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af76231461bbcf844954ce80daab86a6
+      internalID: 536142189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_6
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 693
+        width: 296
+        height: 284
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3caabc7cfcbbadc44b313444cdf1fab9
+      internalID: -1881627952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_9
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 712
+        width: 269
+        height: 244
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4aed5e1bd2ca8ef4eb7ae35bf210e407
+      internalID: 2055077104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_12
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 766
+        width: 4
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44088f18e947e974093bb77638e230d3
+      internalID: -1535316407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_19
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 379
+        width: 302
+        height: 274
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 993793a840a61214282ce287628ed2e2
+      internalID: 1517910693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_20
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 377
+        width: 269
+        height: 294
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3e504955cd414c43a3bdb11b44fe64f
+      internalID: -1496100088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_27
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 376
+        width: 308
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e2c6a3577d74264799af21647fcf452
+      internalID: 61105679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_29
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 438
+        width: 328
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44a2cb1e18483764a96e4e5787c71f6e
+      internalID: -1343594089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_34
+      rect:
+        serializedVersion: 2
+        x: 1384
+        y: 498
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bb7533fcef88c144a697fda36d0e138
+      internalID: -19257658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_40
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 79
+        width: 253
+        height: 245
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 927c4092fb8621349926ba49f4a5f7c6
+      internalID: 1555492016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effects_rewards_sheet_white_bg_42
+      rect:
+        serializedVersion: 2
+        x: 573
+        y: 85
+        width: 305
+        height: 245
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c9a900dfad955d4c8df823c49aef5b6
+      internalID: -1204392861
       vertices: []
       indices: 
       edges: []
@@ -146,8 +388,53 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      effects_rewards_sheet_white_bg_0: -6393839571829549774
+      effects_rewards_sheet_white_bg_1: -2067944609
+      effects_rewards_sheet_white_bg_10: 784346906
+      effects_rewards_sheet_white_bg_11: -257139607
+      effects_rewards_sheet_white_bg_12: -1535316407
+      effects_rewards_sheet_white_bg_13: -263255635
+      effects_rewards_sheet_white_bg_14: 1210332202
+      effects_rewards_sheet_white_bg_15: 1557118167
+      effects_rewards_sheet_white_bg_16: 1191315680
+      effects_rewards_sheet_white_bg_17: 1888060950
+      effects_rewards_sheet_white_bg_18: 379948486
+      effects_rewards_sheet_white_bg_19: 1517910693
+      effects_rewards_sheet_white_bg_2: 536142189
+      effects_rewards_sheet_white_bg_20: -1496100088
+      effects_rewards_sheet_white_bg_21: -2092891954
+      effects_rewards_sheet_white_bg_22: -1004566907
+      effects_rewards_sheet_white_bg_23: -1916946020
+      effects_rewards_sheet_white_bg_24: 1090558293
+      effects_rewards_sheet_white_bg_25: 877875604
+      effects_rewards_sheet_white_bg_26: -21611066
+      effects_rewards_sheet_white_bg_27: 61105679
+      effects_rewards_sheet_white_bg_28: 986027172
+      effects_rewards_sheet_white_bg_29: -1343594089
+      effects_rewards_sheet_white_bg_3: -756981218
+      effects_rewards_sheet_white_bg_30: 2027362642
+      effects_rewards_sheet_white_bg_31: 1229631276
+      effects_rewards_sheet_white_bg_32: 1376491570
+      effects_rewards_sheet_white_bg_33: 487416100
+      effects_rewards_sheet_white_bg_34: -19257658
+      effects_rewards_sheet_white_bg_35: -1703985717
+      effects_rewards_sheet_white_bg_36: -1443499486
+      effects_rewards_sheet_white_bg_37: 1363748384
+      effects_rewards_sheet_white_bg_38: 518232381
+      effects_rewards_sheet_white_bg_39: 610639623
+      effects_rewards_sheet_white_bg_4: -1289719580
+      effects_rewards_sheet_white_bg_40: 1555492016
+      effects_rewards_sheet_white_bg_41: 2134303213
+      effects_rewards_sheet_white_bg_42: -1204392861
+      effects_rewards_sheet_white_bg_5: -597272084
+      effects_rewards_sheet_white_bg_6: -1881627952
+      effects_rewards_sheet_white_bg_7: -1962072370
+      effects_rewards_sheet_white_bg_8: -1584272188
+      effects_rewards_sheet_white_bg_9: 2055077104
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

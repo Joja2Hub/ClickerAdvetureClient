@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: map_nodes_paths_sheet_white_bg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1448
-        height: 1086
+        x: 24
+        y: 668
+        width: 285
+        height: 274
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -130,6 +130,226 @@ TextureImporter:
       bones: []
       spriteID: 898913eb816c28c10800000000000000
       internalID: 2054422189606803608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_nodes_paths_sheet_white_bg_1
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 677
+        width: 248
+        height: 268
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d1c721a937b4fb4f8ccd3a4f3ff23a6
+      internalID: -1843569369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_nodes_paths_sheet_white_bg_2
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 677
+        width: 245
+        height: 255
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8181a14ce8ba3c34db622bd69e90849d
+      internalID: -1094747954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_nodes_paths_sheet_white_bg_3
+      rect:
+        serializedVersion: 2
+        x: 875
+        y: 668
+        width: 275
+        height: 309
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2a401840b6742248bd9c6c17170846b
+      internalID: -1182113015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_nodes_paths_sheet_white_bg_4
+      rect:
+        serializedVersion: 2
+        x: 1174
+        y: 674
+        width: 255
+        height: 308
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6010891a2e88bbd45978e999923ccf08
+      internalID: -1234032196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_nodes_paths_sheet_white_bg_5
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 387
+        width: 237
+        height: 225
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc3096dbf6130724f83cda731ef9f27e
+      internalID: 624083330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_nodes_paths_sheet_white_bg_6
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 386
+        width: 245
+        height: 199
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f366da024b3e11c48abd92754e9fd7a4
+      internalID: -1034874189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_nodes_paths_sheet_white_bg_7
+      rect:
+        serializedVersion: 2
+        x: 892
+        y: 382
+        width: 264
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 848f9ef66b626064f9f11cc4a3db3329
+      internalID: -1364187137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_nodes_paths_sheet_white_bg_8
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 109
+        width: 296
+        height: 204
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5268826ed273988469e4b7cdbd27ff06
+      internalID: 2064306969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_nodes_paths_sheet_white_bg_9
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 105
+        width: 235
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb5376f05b3ff634b9105b5b0f5c1a6a
+      internalID: -732637172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_nodes_paths_sheet_white_bg_10
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 107
+        width: 159
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 239ac21a796a0ad4694265d01117a02f
+      internalID: -338128590
       vertices: []
       indices: 
       edges: []
@@ -146,8 +366,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      map_nodes_paths_sheet_white_bg_0: 2054422189606803608
+      map_nodes_paths_sheet_white_bg_1: -1843569369
+      map_nodes_paths_sheet_white_bg_10: -338128590
+      map_nodes_paths_sheet_white_bg_2: -1094747954
+      map_nodes_paths_sheet_white_bg_3: -1182113015
+      map_nodes_paths_sheet_white_bg_4: -1234032196
+      map_nodes_paths_sheet_white_bg_5: 624083330
+      map_nodes_paths_sheet_white_bg_6: -1034874189
+      map_nodes_paths_sheet_white_bg_7: -1364187137
+      map_nodes_paths_sheet_white_bg_8: 2064306969
+      map_nodes_paths_sheet_white_bg_9: -732637172
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

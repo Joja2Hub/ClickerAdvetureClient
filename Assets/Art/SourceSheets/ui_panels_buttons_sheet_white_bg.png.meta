@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: ui_panels_buttons_sheet_white_bg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1448
-        height: 1086
+        x: 47
+        y: 664
+        width: 658
+        height: 386
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -130,6 +130,270 @@ TextureImporter:
       bones: []
       spriteID: 875d733e8cbc0afa0800000000000000
       internalID: -5791405057132472968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_1
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 651
+        width: 641
+        height: 393
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 548762a797cffdf41a8544a2f1e16a42
+      internalID: 19337722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_2
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 387
+        width: 662
+        height: 258
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82ee3f27b8d42084b922e87344976a13
+      internalID: 880170184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_3
+      rect:
+        serializedVersion: 2
+        x: 753
+        y: 480
+        width: 313
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c461e066b1bd6ca4c983fd3e68783ab2
+      internalID: 726997341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_4
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 478
+        width: 316
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 168f82d7e89c8ef448745fc5dfbfb5c9
+      internalID: -421983014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_5
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 293
+        width: 663
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09ee89b922337b5478ec2b6d954a9177
+      internalID: 103056176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_6
+      rect:
+        serializedVersion: 2
+        x: 753
+        y: 332
+        width: 312
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c2cd07420bfb9d499034529e420bf40
+      internalID: -1647416732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_7
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 330
+        width: 315
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40332e38d1f4ee8439865c2082211066
+      internalID: -1162509210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_8
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 30
+        width: 206
+        height: 232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcb502854778f0a418f5c5238a13c0ca
+      internalID: 1777621040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_9
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 30
+        width: 205
+        height: 232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3250ee9c54c8487468d4692f1a0b367d
+      internalID: 730596429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_10
+      rect:
+        serializedVersion: 2
+        x: 620
+        y: 30
+        width: 205
+        height: 232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f159cc353837bfa43b3c592c8f56a86d
+      internalID: 195717119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_11
+      rect:
+        serializedVersion: 2
+        x: 887
+        y: 30
+        width: 205
+        height: 232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 126ec8b2a38db2f4ea547e76916d14b3
+      internalID: 2103191256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_panels_buttons_sheet_white_bg_12
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 30
+        width: 205
+        height: 232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 349ed44877a24204d80147e94329a75b
+      internalID: -2024026739
       vertices: []
       indices: 
       edges: []
@@ -146,8 +410,23 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      ui_panels_buttons_sheet_white_bg_0: -5791405057132472968
+      ui_panels_buttons_sheet_white_bg_1: 19337722
+      ui_panels_buttons_sheet_white_bg_10: 195717119
+      ui_panels_buttons_sheet_white_bg_11: 2103191256
+      ui_panels_buttons_sheet_white_bg_12: -2024026739
+      ui_panels_buttons_sheet_white_bg_2: 880170184
+      ui_panels_buttons_sheet_white_bg_3: 726997341
+      ui_panels_buttons_sheet_white_bg_4: -421983014
+      ui_panels_buttons_sheet_white_bg_5: 103056176
+      ui_panels_buttons_sheet_white_bg_6: -1647416732
+      ui_panels_buttons_sheet_white_bg_7: -1162509210
+      ui_panels_buttons_sheet_white_bg_8: 1777621040
+      ui_panels_buttons_sheet_white_bg_9: 730596429
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

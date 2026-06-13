@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: ui_icons_sheet_white_bg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1254
-        height: 1254
+        x: 263
+        y: 800
+        width: 187
+        height: 197
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -130,6 +130,358 @@ TextureImporter:
       bones: []
       spriteID: 047b877a7320457d0800000000000000
       internalID: -2930715019455187136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_1
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 792
+        width: 174
+        height: 212
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3133536704a6e2248ae9aad8078ed79d
+      internalID: 1205094775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_2
+      rect:
+        serializedVersion: 2
+        x: 751
+        y: 801
+        width: 185
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 096e343e3a61a0145a86ff9efd83307a
+      internalID: 1235999509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_3
+      rect:
+        serializedVersion: 2
+        x: 989
+        y: 795
+        width: 186
+        height: 204
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6b085916e4af1049b6d57ab1406d8aa
+      internalID: -52503116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 555
+        width: 195
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a960c884a0cf5040a067aeae48e7295
+      internalID: 570437282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_5
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 555
+        width: 216
+        height: 197
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ae09007c3cccde43a07bfa8e492b25c
+      internalID: 2133368348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_6
+      rect:
+        serializedVersion: 2
+        x: 744
+        y: 556
+        width: 191
+        height: 198
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c207c46b94ff27c4583c7bfc5a6b9da1
+      internalID: 178185153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_7
+      rect:
+        serializedVersion: 2
+        x: 989
+        y: 576
+        width: 176
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3ced2dec10eda94dac69de90c09f8c5
+      internalID: -1147234157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_8
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 328
+        width: 179
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a459cbd0a2ab1f4cbad639028354c29
+      internalID: 141888192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_10
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 329
+        width: 178
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 924e6be643fb8e6488147bc498ca7e38
+      internalID: 920875496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_11
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 329
+        width: 178
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8dbc0e8bf3eaf14cbc9a3a3a7dd52e2
+      internalID: 1070121899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_12
+      rect:
+        serializedVersion: 2
+        x: 1016
+        y: 324
+        width: 135
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9937bbf7ddaaaf64ea2eccfd36df258a
+      internalID: -261303171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_13
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 115
+        width: 160
+        height: 158
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2f93f004af9f444f87a893e4b6d2102
+      internalID: 2146992250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_14
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 109
+        width: 166
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 154391eb1d1afd54d80e420affa4c1ca
+      internalID: -1083685790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_15
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 112
+        width: 160
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dce6fc35ffc93e54fa438c8b087e492f
+      internalID: -1190917891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_16
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 110
+        width: 166
+        height: 153
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23116a9ff192dc445965363e3d59369c
+      internalID: 356307303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_icons_sheet_white_bg_17
+      rect:
+        serializedVersion: 2
+        x: 1029
+        y: 91
+        width: 132
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 579ba6106c544e84ebbbc6a91e0bc58a
+      internalID: 334706320
       vertices: []
       indices: 
       edges: []
@@ -146,8 +498,28 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      ui_icons_sheet_white_bg_0: -2930715019455187136
+      ui_icons_sheet_white_bg_1: 1205094775
+      ui_icons_sheet_white_bg_10: 920875496
+      ui_icons_sheet_white_bg_11: 1070121899
+      ui_icons_sheet_white_bg_12: -261303171
+      ui_icons_sheet_white_bg_13: 2146992250
+      ui_icons_sheet_white_bg_14: -1083685790
+      ui_icons_sheet_white_bg_15: -1190917891
+      ui_icons_sheet_white_bg_16: 356307303
+      ui_icons_sheet_white_bg_17: 334706320
+      ui_icons_sheet_white_bg_2: 1235999509
+      ui_icons_sheet_white_bg_3: -52503116
+      ui_icons_sheet_white_bg_4: 570437282
+      ui_icons_sheet_white_bg_5: 2133368348
+      ui_icons_sheet_white_bg_6: 178185153
+      ui_icons_sheet_white_bg_7: -1147234157
+      ui_icons_sheet_white_bg_8: 141888192
+      ui_icons_sheet_white_bg_9: 1645096682
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -145,6 +145,11 @@ namespace ClickerAdventure
 
         private void CreateBottomButton(Transform parent, string name, string label, Sprite iconSprite, Vector2 anchor, System.Action onClick)
         {
+            if (name == "InventoryButton")
+            {
+                return;
+            }
+
             var button = RuntimeUi.Button(parent, name, label, new Color(0.30f, 0.25f, 0.20f, 0.92f), onClick);
             RuntimeUi.SetRect(button.GetComponent<RectTransform>(), anchor, new Vector2(280, 74), Vector2.zero);
 

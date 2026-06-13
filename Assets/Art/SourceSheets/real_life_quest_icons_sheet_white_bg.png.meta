@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: real_life_quest_icons_sheet_white_bg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1448
-        height: 1086
+        x: 53
+        y: 616
+        width: 313
+        height: 318
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -130,6 +130,182 @@ TextureImporter:
       bones: []
       spriteID: d23348b703c4e8680800000000000000
       internalID: -8750973254819892435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: real_life_quest_icons_sheet_white_bg_1
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 625
+        width: 266
+        height: 319
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d8555dc10a4e3245baf29968e79bc71
+      internalID: 1461670275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: real_life_quest_icons_sheet_white_bg_2
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 620
+        width: 278
+        height: 325
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f2e973e947ab2941b19a5b7785d11cb
+      internalID: 928864643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: real_life_quest_icons_sheet_white_bg_3
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 618
+        width: 312
+        height: 331
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18a7442c889f2c345af01c98b8bbafdd
+      internalID: -498259937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: real_life_quest_icons_sheet_white_bg_4
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 618
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c98cb58533aea6844a48253e9c845de0
+      internalID: 437163074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: real_life_quest_icons_sheet_white_bg_5
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 208
+        width: 264
+        height: 319
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e16ecb86b895dd46b15ea2af91474e7
+      internalID: 71825679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: real_life_quest_icons_sheet_white_bg_6
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 203
+        width: 277
+        height: 330
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d3181184ae9e654796af0fcedfa5e27
+      internalID: -1120805803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: real_life_quest_icons_sheet_white_bg_8
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 216
+        width: 258
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81564895b07a7a5429b54685344b066c
+      internalID: -1165443838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: real_life_quest_icons_sheet_white_bg_10
+      rect:
+        serializedVersion: 2
+        x: 1077
+        y: 207
+        width: 310
+        height: 297
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7726feb36a294cb4db15a8535a99c51b
+      internalID: -130986431
       vertices: []
       indices: 
       edges: []
@@ -146,8 +322,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      real_life_quest_icons_sheet_white_bg_0: -8750973254819892435
+      real_life_quest_icons_sheet_white_bg_1: 1461670275
+      real_life_quest_icons_sheet_white_bg_10: -130986431
+      real_life_quest_icons_sheet_white_bg_2: 928864643
+      real_life_quest_icons_sheet_white_bg_3: -498259937
+      real_life_quest_icons_sheet_white_bg_4: 437163074
+      real_life_quest_icons_sheet_white_bg_5: 71825679
+      real_life_quest_icons_sheet_white_bg_6: -1120805803
+      real_life_quest_icons_sheet_white_bg_7: -669296462
+      real_life_quest_icons_sheet_white_bg_8: -1165443838
+      real_life_quest_icons_sheet_white_bg_9: 1499195594
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

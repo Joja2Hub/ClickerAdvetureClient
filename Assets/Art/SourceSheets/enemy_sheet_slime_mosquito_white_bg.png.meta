@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: enemy_sheet_slime_mosquito_white_bg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1448
-        height: 1086
+        x: 70
+        y: 633
+        width: 253
+        height: 224
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -130,6 +130,160 @@ TextureImporter:
       bones: []
       spriteID: 81c381cdd192c0450800000000000000
       internalID: 6056260807129840664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_slime_mosquito_white_bg_1
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 628
+        width: 388
+        height: 215
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67ea5c1cda2d09148b94df54465596f3
+      internalID: -1058664665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_slime_mosquito_white_bg_4
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 621
+        width: 249
+        height: 228
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd9aa59c320420f4aafff23e4e81600a
+      internalID: 2146529201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_slime_mosquito_white_bg_6
+      rect:
+        serializedVersion: 2
+        x: 1125
+        y: 615
+        width: 276
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: feb7f3409fa4dc84b948c47d69cca36e
+      internalID: 1424904035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_slime_mosquito_white_bg_9
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 256
+        width: 228
+        height: 233
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b7f213302865954695fa825411ce121
+      internalID: 1259912496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_slime_mosquito_white_bg_10
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 253
+        width: 269
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8b12c32ac1fb3344bc44238fbc55638
+      internalID: -641158489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_slime_mosquito_white_bg_11
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 245
+        width: 254
+        height: 257
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5e9fc50a46479249a1584dbe74292e7
+      internalID: 996440485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_sheet_slime_mosquito_white_bg_15
+      rect:
+        serializedVersion: 2
+        x: 1107
+        y: 238
+        width: 292
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26746a447a71c9d428bbbe03ea9837a1
+      internalID: -1139086767
       vertices: []
       indices: 
       edges: []
@@ -146,8 +300,31 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      enemy_sheet_slime_mosquito_white_bg_0: 6056260807129840664
+      enemy_sheet_slime_mosquito_white_bg_1: -1058664665
+      enemy_sheet_slime_mosquito_white_bg_10: -641158489
+      enemy_sheet_slime_mosquito_white_bg_11: 996440485
+      enemy_sheet_slime_mosquito_white_bg_12: 1986921606
+      enemy_sheet_slime_mosquito_white_bg_13: 312342453
+      enemy_sheet_slime_mosquito_white_bg_14: -748904421
+      enemy_sheet_slime_mosquito_white_bg_15: -1139086767
+      enemy_sheet_slime_mosquito_white_bg_16: 1933324233
+      enemy_sheet_slime_mosquito_white_bg_17: 1521230203
+      enemy_sheet_slime_mosquito_white_bg_18: -741346157
+      enemy_sheet_slime_mosquito_white_bg_19: 1888352918
+      enemy_sheet_slime_mosquito_white_bg_2: 319105537
+      enemy_sheet_slime_mosquito_white_bg_20: -547054549
+      enemy_sheet_slime_mosquito_white_bg_3: 132824790
+      enemy_sheet_slime_mosquito_white_bg_4: 2146529201
+      enemy_sheet_slime_mosquito_white_bg_5: -1995689568
+      enemy_sheet_slime_mosquito_white_bg_6: 1424904035
+      enemy_sheet_slime_mosquito_white_bg_7: 678246885
+      enemy_sheet_slime_mosquito_white_bg_8: 232458219
+      enemy_sheet_slime_mosquito_white_bg_9: 1259912496
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

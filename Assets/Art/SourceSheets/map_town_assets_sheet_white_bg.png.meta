@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: map_town_assets_sheet_white_bg_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1448
-        height: 1086
+        x: 63
+        y: 772
+        width: 261
+        height: 242
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -130,6 +130,358 @@ TextureImporter:
       bones: []
       spriteID: 37200e73e02727a00800000000000000
       internalID: 752789493116830323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_1
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 775
+        width: 241
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 589f6f4bd028dae49ba7f7cacc4f535c
+      internalID: -224120723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_2
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 782
+        width: 237
+        height: 222
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5420c5d909c9c3499affe8f3dc40692
+      internalID: 19301633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_3
+      rect:
+        serializedVersion: 2
+        x: 934
+        y: 779
+        width: 232
+        height: 212
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d48974c6b94804e4fa77656fe370a99f
+      internalID: -670660833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_4
+      rect:
+        serializedVersion: 2
+        x: 1202
+        y: 796
+        width: 187
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61de4a9c51109a249ade714a2801566c
+      internalID: -660744212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_5
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 552
+        width: 222
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55d65780b671cb043a5ab3632de0d0a5
+      internalID: -664119089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_8
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 550
+        width: 154
+        height: 191
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d19c907c782b4f499e1732c39c43c35
+      internalID: -2136403937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_9
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 555
+        width: 422
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 884f374a2fc23bc418477f142a66b24a
+      internalID: 1211866005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_17
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 260
+        width: 258
+        height: 262
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 976303549c0d24d40a3aa0e88564fa52
+      internalID: -1915212172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_18
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 257
+        width: 260
+        height: 254
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7969ff64e8a17ac44b27e3425d6844f4
+      internalID: -1529682940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_19
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 262
+        width: 249
+        height: 266
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58aac7b46b0f58c499426bb6cee68773
+      internalID: -402198650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_20
+      rect:
+        serializedVersion: 2
+        x: 905
+        y: 255
+        width: 265
+        height: 251
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1f4cbcaa4605154a88aa1af4174d802
+      internalID: -1879808738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_21
+      rect:
+        serializedVersion: 2
+        x: 1203
+        y: 263
+        width: 181
+        height: 213
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44f949dd936eb734082333f3beb70c74
+      internalID: -57355330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_22
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 65
+        width: 151
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9c450af82313144d9175e105f6c9e04
+      internalID: -2092744971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_23
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 46
+        width: 144
+        height: 188
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b9920270669294448111b91904acbb6
+      internalID: -57957556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_24
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 47
+        width: 121
+        height: 194
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1caa3ec8fb1cb884b84941bfe2aa49d5
+      internalID: -26596253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_town_assets_sheet_white_bg_25
+      rect:
+        serializedVersion: 2
+        x: 1003
+        y: 55
+        width: 112
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b951ddee1caf3fb418cf95487262995e
+      internalID: 570449788
       vertices: []
       indices: 
       edges: []
@@ -146,8 +498,37 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      map_town_assets_sheet_white_bg_0: 752789493116830323
+      map_town_assets_sheet_white_bg_1: -224120723
+      map_town_assets_sheet_white_bg_10: 209458961
+      map_town_assets_sheet_white_bg_11: -2024306928
+      map_town_assets_sheet_white_bg_12: 686631826
+      map_town_assets_sheet_white_bg_13: 892889321
+      map_town_assets_sheet_white_bg_14: -2094486774
+      map_town_assets_sheet_white_bg_15: 1074315744
+      map_town_assets_sheet_white_bg_16: -1967454361
+      map_town_assets_sheet_white_bg_17: -1915212172
+      map_town_assets_sheet_white_bg_18: -1529682940
+      map_town_assets_sheet_white_bg_19: -402198650
+      map_town_assets_sheet_white_bg_2: 19301633
+      map_town_assets_sheet_white_bg_20: -1879808738
+      map_town_assets_sheet_white_bg_21: -57355330
+      map_town_assets_sheet_white_bg_22: -2092744971
+      map_town_assets_sheet_white_bg_23: -57957556
+      map_town_assets_sheet_white_bg_24: -26596253
+      map_town_assets_sheet_white_bg_25: 570449788
+      map_town_assets_sheet_white_bg_26: 2061462631
+      map_town_assets_sheet_white_bg_3: -670660833
+      map_town_assets_sheet_white_bg_4: -660744212
+      map_town_assets_sheet_white_bg_5: -664119089
+      map_town_assets_sheet_white_bg_6: -1877288234
+      map_town_assets_sheet_white_bg_7: -1650553166
+      map_town_assets_sheet_white_bg_8: -2136403937
+      map_town_assets_sheet_white_bg_9: 1211866005
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

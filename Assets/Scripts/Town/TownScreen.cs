@@ -201,9 +201,9 @@ namespace ClickerAdventure
                 RuntimeUi.SetRect(recommended, new Vector2(0.50f, 0.88f), new Vector2(180, 42), Vector2.zero);
             }
 
-            var goldIcon = RuntimeUi.SpriteImage(row.transform, "GoldIcon", ArtLibrary.Item("item_gold_coin_stack"));
+            var goldIcon = RuntimeUi.SpriteImage(row.transform, "GoldIcon", ArtLibrary.Reward("reward_gold"));
             RuntimeUi.SetRect(goldIcon.rectTransform, new Vector2(0.71f, 0.75f), new Vector2(44, 44), Vector2.zero);
-            var xpIcon = RuntimeUi.SpriteImage(row.transform, "XpIcon", ArtLibrary.Item("item_xp_star"));
+            var xpIcon = RuntimeUi.SpriteImage(row.transform, "XpIcon", ArtLibrary.Reward("reward_xp"));
             RuntimeUi.SetRect(xpIcon.rectTransform, new Vector2(0.71f, 0.52f), new Vector2(44, 44), Vector2.zero);
 
             var reward = RuntimeUi.Text(row.transform, "Reward", $"+{quest.RewardGold}\n+{quest.RewardXp}", 22, new Color(0.42f, 0.25f, 0.08f), TextAnchor.MiddleLeft);
@@ -271,12 +271,12 @@ namespace ClickerAdventure
             rewardTitle.fontStyle = FontStyle.Bold;
             RuntimeUi.SetRect(rewardTitle.rectTransform, new Vector2(0.5f, 0.36f), new Vector2(500, 60), Vector2.zero);
 
-            var xpIcon = RuntimeUi.SpriteImage(card, "XpIcon", ArtLibrary.Item("item_xp_star"));
+            var xpIcon = RuntimeUi.SpriteImage(card, "XpIcon", ArtLibrary.Reward("reward_xp"));
             RuntimeUi.SetRect(xpIcon.rectTransform, new Vector2(0.29f, 0.29f), new Vector2(76, 76), Vector2.zero);
             var xp = RuntimeUi.Text(card, "Xp", $"+{quest.RewardXp} XP", 31, RuntimeUi.Ink);
             RuntimeUi.SetRect(xp.rectTransform, new Vector2(0.41f, 0.29f), new Vector2(210, 70), Vector2.zero);
 
-            var goldIcon = RuntimeUi.SpriteImage(card, "GoldIcon", ArtLibrary.Item("item_gold_coin_stack"));
+            var goldIcon = RuntimeUi.SpriteImage(card, "GoldIcon", ArtLibrary.Reward("reward_gold"));
             RuntimeUi.SetRect(goldIcon.rectTransform, new Vector2(0.62f, 0.29f), new Vector2(76, 76), Vector2.zero);
             var gold = RuntimeUi.Text(card, "Gold", $"+{quest.RewardGold}", 31, RuntimeUi.Ink);
             RuntimeUi.SetRect(gold.rectTransform, new Vector2(0.73f, 0.29f), new Vector2(160, 70), Vector2.zero);
