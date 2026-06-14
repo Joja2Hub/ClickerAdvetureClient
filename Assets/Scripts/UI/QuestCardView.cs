@@ -48,6 +48,9 @@ namespace ClickerAdventure
             SetSprite(categoryIcon, categorySprite);
             SetSprite(goldIcon, goldSprite);
             SetSprite(xpIcon, xpSprite);
+            rewardText.transform.SetAsLastSibling();
+            goldIcon.transform.SetAsLastSibling();
+            xpIcon.transform.SetAsLastSibling();
 
             titleText.text = $"{quest.Title}\n{quest.Description}";
             rewardText.text = $"+{quest.RewardGold}\n+{quest.RewardXp}";

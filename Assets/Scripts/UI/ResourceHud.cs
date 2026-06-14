@@ -11,6 +11,7 @@ namespace ClickerAdventure
         private Text goldText;
         private RectTransform xpTarget;
         private RectTransform goldTarget;
+        private RectTransform hudRoot;
         private RectTransform animationLayer;
         private GameState pendingState;
         private bool isAnimating;
@@ -22,12 +23,19 @@ namespace ClickerAdventure
                 "ResourceHud",
                 ArtLibrary.Panel("ui_panel_dark_wood"),
                 new Color(0.14f, 0.11f, 0.09f, 0.96f));
-            RuntimeUi.SetRect(root, new Vector2(0.5f, 0.965f), new Vector2(960, 86), Vector2.zero);
+            RuntimeUi.SetRect(root, new Vector2(0.5f, 0.94f), new Vector2(960, 86), Vector2.zero);
             root.SetAsLastSibling();
 
             var hud = root.gameObject.AddComponent<ResourceHud>();
+            hud.hudRoot = root;
             hud.Build(root);
             return hud;
+        }
+
+        private void LateUpdate()
+        {
+            hudRoot?.SetAsLastSibling();
+            animationLayer?.SetAsLastSibling();
         }
 
         private void Build(RectTransform root)

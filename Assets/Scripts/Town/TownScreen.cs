@@ -103,7 +103,7 @@ namespace ClickerAdventure
             var town = SelectionContext.SelectedTown;
             var title = RuntimeUi.Text(root, "TownTitle", town != null ? town.DisplayName : "Гильдия", 46, new Color(1f, 0.88f, 0.56f));
             title.fontStyle = FontStyle.Bold;
-            RuntimeUi.SetRect(title.rectTransform, new Vector2(0.5f, 0.90f), new Vector2(900, 74), Vector2.zero);
+            RuntimeUi.SetRect(title.rectTransform, new Vector2(0.5f, 0.875f), new Vector2(900, 74), Vector2.zero);
 
             CreateTownActions(root);
 
@@ -124,7 +124,7 @@ namespace ClickerAdventure
             CreateFilterButton(guildPanel, "Получено", QuestStatus.Claimed, 0.88f);
 
             var viewport = RuntimeUi.SpriteCard(guildPanel, "QuestViewport", ArtLibrary.Panel("ui_panel_parchment"), new Color(1f, 0.96f, 0.82f, 0.94f));
-            RuntimeUi.SetRect(viewport, new Vector2(0.5f, 0.43f), new Vector2(880, 760), Vector2.zero);
+            RuntimeUi.SetRect(viewport, new Vector2(0.5f, 0.40f), new Vector2(880, 700), Vector2.zero);
             viewport.gameObject.AddComponent<RectMask2D>();
 
             var scroll = viewport.gameObject.AddComponent<ScrollRect>();
@@ -139,7 +139,7 @@ namespace ClickerAdventure
             questList.pivot = new Vector2(0.5f, 1f);
             questList.offsetMin = new Vector2(18f, 0f);
             questList.offsetMax = new Vector2(-18f, 0f);
-            questList.anchoredPosition = Vector2.zero;
+            questList.anchoredPosition = new Vector2(0f, -24f);
             scroll.content = questList;
 
             statusText = RuntimeUi.Text(root, "Status", "", 26, new Color(1f, 0.88f, 0.45f));
@@ -167,7 +167,7 @@ namespace ClickerAdventure
             var rowHeight = GetQuestRowHeight();
             var contentHeight = Mathf.Max(740f, 36f + visibleQuests.Count * (rowHeight + QuestRowGap));
             questList.sizeDelta = new Vector2(0f, contentHeight);
-            questList.anchoredPosition = Vector2.zero;
+            questList.anchoredPosition = new Vector2(0f, -24f);
 
             for (var i = 0; i < visibleQuests.Count; i++)
             {
@@ -239,7 +239,7 @@ namespace ClickerAdventure
                 view.RectTransform,
                 new Vector2(0.5f, 1f),
                 new Vector2(view.RectTransform.sizeDelta.x, rowHeight),
-                new Vector2(0, -120 - index * (rowHeight + QuestRowGap)));
+                new Vector2(0, -(rowHeight * 0.5f + 28f) - index * (rowHeight + QuestRowGap)));
             view.Bind(
                 quest,
                 ArtLibrary.Panel("ui_panel_quest_card"),
