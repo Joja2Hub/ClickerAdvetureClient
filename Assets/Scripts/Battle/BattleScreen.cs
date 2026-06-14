@@ -23,6 +23,7 @@ namespace ClickerAdventure
         private Image rageBar;
         private RectTransform rewardCard;
         private ResourceHud resourceHud;
+        private Coroutine enemyVisualRoutine;
         private bool isCompleted;
 
         private async void Start()
@@ -166,12 +167,9 @@ namespace ClickerAdventure
             }
 
             enemyHp = currentEnemy.MaxHp;
-            if (enemyImage != null)
-            {
-                enemyImage.sprite = currentEnemy.Sprite != null ? currentEnemy.Sprite : ArtLibrary.EnemyIdle(currentEnemy.EnemyId);
-                enemyImage.color = enemyImage.sprite != null ? Color.white : new Color(0.8f, 0.2f, 0.2f, 0.85f);
-            }
+            SetEnemyState("idle");
             StopAllCoroutines();
+            enemyVisualRoutine = null;
             StartCoroutine(EnemyAttackLoop());
             feedbackText.text = "Кликайте по врагу и держите комбо.";
             Refresh();
@@ -192,6 +190,7 @@ namespace ClickerAdventure
 
             enemyHp = Mathf.Max(0, enemyHp - damage);
             session.RegisterHit(strong);
+            SetEnemyState(enemyHp <= 0 ? "defeat" : "hurt");
             feedbackText.text = strong ? $"Критический удар: -{damage}" : $"-{damage}";
 
             if (enemyHp <= 0)
@@ -210,10 +209,11 @@ namespace ClickerAdventure
                     session.AdvanceWave();
                 }
 
-                SpawnEnemy();
+                StartCoroutine(SpawnNextEnemyAfterDefeat());
                 return;
             }
 
+            RestoreEnemyIdleAfter(0.18f);
             Refresh();
         }
 
@@ -222,6 +222,8 @@ namespace ClickerAdventure
             while (currentEnemy != null && enemyHp > 0 && playerHp > 0)
             {
                 yield return new WaitForSeconds(currentEnemy.AttackInterval);
+                SetEnemyState("attack");
+                RestoreEnemyIdleAfter(0.2f);
                 playerHp = Mathf.Max(0, playerHp - currentEnemy.Damage);
                 session.ResetCombo();
                 feedbackText.text = $"{currentEnemy.DisplayName} атакует: -{currentEnemy.Damage} HP";
@@ -233,6 +235,47 @@ namespace ClickerAdventure
                     feedbackText.text = "Поражение. Вернитесь на карту и попробуйте снова.";
                 }
             }
+        }
+
+        private IEnumerator SpawnNextEnemyAfterDefeat()
+        {
+            yield return new WaitForSeconds(0.32f);
+            SpawnEnemy();
+        }
+
+        private void RestoreEnemyIdleAfter(float delay)
+        {
+            if (enemyVisualRoutine != null)
+            {
+                StopCoroutine(enemyVisualRoutine);
+            }
+
+            enemyVisualRoutine = StartCoroutine(RestoreEnemyIdle(delay));
+        }
+
+        private IEnumerator RestoreEnemyIdle(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            if (currentEnemy != null && enemyHp > 0)
+            {
+                SetEnemyState("idle");
+            }
+
+            enemyVisualRoutine = null;
+        }
+
+        private void SetEnemyState(string state)
+        {
+            if (enemyImage == null || currentEnemy == null)
+            {
+                return;
+            }
+
+            var sprite = ArtLibrary.EnemyState(currentEnemy.EnemyId, state);
+            sprite ??= ArtLibrary.EnemyIdle(currentEnemy.EnemyId);
+            sprite ??= currentEnemy.Sprite;
+            enemyImage.sprite = sprite;
+            enemyImage.color = sprite != null ? Color.white : new Color(0.8f, 0.2f, 0.2f, 0.85f);
         }
 
         private async System.Threading.Tasks.Task CompleteVictoryAsync()

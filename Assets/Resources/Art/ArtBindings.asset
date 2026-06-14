@@ -12,4 +12,146 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3440f2653e8d678488ee430c4b269aee, type: 3}
   m_Name: ArtBindings
   m_EditorClassIdentifier: Assembly-CSharp::ClickerAdventure.ArtBindingDatabase
-  entries: []
+  entries:
+  - Key: Art/Characters/Hero/char_child_hero_attack
+    Sprite: {fileID: -2054133453, guid: 3fc342c1ce16726488543d7fe3556b13, type: 3}
+  - Key: Art/Characters/Hero/char_child_hero_block
+    Sprite: {fileID: -2054133453, guid: 3fc342c1ce16726488543d7fe3556b13, type: 3}
+  - Key: Art/Characters/Hero/char_child_hero_defeat
+    Sprite: {fileID: 1630920870, guid: 3fc342c1ce16726488543d7fe3556b13, type: 3}
+  - Key: Art/Characters/Hero/char_child_hero_hurt
+    Sprite: {fileID: 1630920870, guid: 3fc342c1ce16726488543d7fe3556b13, type: 3}
+  - Key: Art/Characters/Hero/char_child_hero_idle
+    Sprite: {fileID: 3894778177915128080, guid: 3fc342c1ce16726488543d7fe3556b13, type: 3}
+  - Key: Art/Characters/Hero/char_child_hero_magic
+    Sprite: {fileID: -2054133453, guid: 3fc342c1ce16726488543d7fe3556b13, type: 3}
+  - Key: Art/Characters/Hero/char_child_hero_portrait
+    Sprite: {fileID: 907227132, guid: 3fc342c1ce16726488543d7fe3556b13, type: 3}
+  - Key: Art/Characters/Hero/char_child_hero_run
+    Sprite: {fileID: 3894778177915128080, guid: 3fc342c1ce16726488543d7fe3556b13, type: 3}
+  - Key: Art/Characters/Hero/char_child_hero_victory
+    Sprite: {fileID: -485288662, guid: 3fc342c1ce16726488543d7fe3556b13, type: 3}
+  - Key: Art/Characters/Enemies/enemy_blue_slime_attack
+    Sprite: {fileID: -1058664665, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_blue_slime_defeat
+    Sprite: {fileID: 1424904035, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_blue_slime_hurt
+    Sprite: {fileID: 2146529201, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_blue_slime_idle
+    Sprite: {fileID: 6056260807129840664, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_mosquito_attack
+    Sprite: {fileID: -641158489, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_mosquito_defeat
+    Sprite: {fileID: -1139086767, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_mosquito_hurt
+    Sprite: {fileID: 996440485, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_mosquito_idle
+    Sprite: {fileID: 1259912496, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_stone_golem_attack
+    Sprite: {fileID: 1738598142, guid: 77c0f145fa9135b42876bb65581794d2, type: 3}
+  - Key: Art/Characters/Enemies/enemy_stone_golem_defeat
+    Sprite: {fileID: -1230520407, guid: 77c0f145fa9135b42876bb65581794d2, type: 3}
+  - Key: Art/Characters/Enemies/enemy_stone_golem_hurt
+    Sprite: {fileID: -981166444, guid: 77c0f145fa9135b42876bb65581794d2, type: 3}
+  - Key: Art/Characters/Enemies/enemy_stone_golem_idle
+    Sprite: {fileID: -3583867948716545291, guid: 77c0f145fa9135b42876bb65581794d2, type: 3}
+  - Key: Art/Town/town_barrel
+    Sprite: {fileID: -57355330, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Town/town_building_alchemist
+    Sprite: {fileID: -402198650, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Town/town_building_blacksmith
+    Sprite: {fileID: -402198650, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Town/town_building_home
+    Sprite: {fileID: -1879808738, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Town/town_building_shop
+    Sprite: {fileID: -1529682940, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/UI/Icons/ui_icon_attack
+    Sprite: {fileID: -2930715019455187136, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/UI/Icons/ui_icon_back
+    Sprite: {fileID: -1147234157, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/UI/Icons/ui_icon_bag
+    Sprite: {fileID: 1235999509, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/UI/Icons/ui_icon_defend
+    Sprite: {fileID: 1205094775, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/UI/Icons/ui_icon_guild
+    Sprite: {fileID: 570437282, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/UI/Icons/ui_icon_home
+    Sprite: {fileID: 2133368348, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/UI/Icons/ui_icon_lock
+    Sprite: {fileID: -261303171, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/UI/Icons/ui_icon_map
+    Sprite: {fileID: -52503116, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/UI/Icons/ui_icon_refresh
+    Sprite: {fileID: 141888192, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/UI/Icons/ui_icon_settings
+    Sprite: {fileID: 178185153, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/Rewards/reward_gold
+    Sprite: {fileID: -1083685790, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/Rewards/reward_xp
+    Sprite: {fileID: -1190917891, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/Characters/Enemies/enemy_slime_green_idle
+    Sprite: {fileID: 6056260807129840664, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_slime_green_hurt
+    Sprite: {fileID: 2146529201, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_slime_green_defeat
+    Sprite: {fileID: 1424904035, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Characters/Enemies/enemy_slime_green_attack
+    Sprite: {fileID: -1058664665, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
+  - Key: Art/Map/map_node_castle
+    Sprite: {fileID: -1182113015, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
+  - Key: Art/Map/map_node_crystal_cave
+    Sprite: {fileID: 19301633, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Map/map_node_home_village
+    Sprite: {fileID: 752789493116830323, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Map/map_node_locked
+    Sprite: {fileID: 624083330, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
+  - Key: Art/Map/map_node_mountain
+    Sprite: {fileID: -1234032196, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
+  - Key: Art/Map/map_node_selected_ring
+    Sprite: {fileID: -660744212, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Map/map_node_sunny_forest
+    Sprite: {fileID: -224120723, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Map/map_node_swamp
+    Sprite: {fileID: -1843569369, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
+  - Key: Art/Map/map_node_tower
+    Sprite: {fileID: -1182113015, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
+  - Key: Art/Map/town_notice_board
+    Sprite: {fileID: 570437282, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/UI/Panels/ui_panel_dark_wood
+    Sprite: {fileID: 103056176, guid: 10f3dba55d35d1049972144296247bd0, type: 3}
+  - Key: Art/UI/Panels/ui_panel_quest_card
+    Sprite: {fileID: 880170184, guid: 10f3dba55d35d1049972144296247bd0, type: 3}
+  - Key: Art/UI/Panels/ui_badge_claimed
+    Sprite: {fileID: -2024026739, guid: 10f3dba55d35d1049972144296247bd0, type: 3}
+  - Key: Art/Quests/quest_board_empty
+    Sprite: {fileID: -5791405057132472968, guid: 10f3dba55d35d1049972144296247bd0, type: 3}
+  - Key: Art/Quests/quest_icon_scroll
+    Sprite: {fileID: 1777621040, guid: 10f3dba55d35d1049972144296247bd0, type: 3}
+  - Key: Art/Quests/quest_icon_study
+    Sprite: {fileID: -8750973254819892435, guid: cf62f1451bcd8bd46a1b1d6592febfde, type: 3}
+  - Key: Art/Quests/quest_icon_reading
+    Sprite: {fileID: 1461670275, guid: cf62f1451bcd8bd46a1b1d6592febfde, type: 3}
+  - Key: Art/Quests/quest_icon_star_reward
+    Sprite: {fileID: 2146992250, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/Quests/quest_icon_sport
+    Sprite: {fileID: -1165443838, guid: cf62f1451bcd8bd46a1b1d6592febfde, type: 3}
+  - Key: Art/Quests/quest_icon_parent_check
+    Sprite: {fileID: 141888192, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
+  - Key: Art/Quests/quest_icon_hygiene
+    Sprite: {fileID: 71825679, guid: cf62f1451bcd8bd46a1b1d6592febfde, type: 3}
+  - Key: Art/Quests/quest_icon_home
+    Sprite: {fileID: 928864643, guid: cf62f1451bcd8bd46a1b1d6592febfde, type: 3}
+  - Key: Art/Quests/quest_icon_health
+    Sprite: {fileID: -1165443838, guid: cf62f1451bcd8bd46a1b1d6592febfde, type: 3}
+  - Key: Art/Quests/quest_icon_family_help
+    Sprite: {fileID: -130986431, guid: cf62f1451bcd8bd46a1b1d6592febfde, type: 3}
+  - Key: Art/Quests/quest_icon_custom
+    Sprite: {fileID: -1120805803, guid: cf62f1451bcd8bd46a1b1d6592febfde, type: 3}
+  - Key: Art/Quests/quest_stamp_submitted
+    Sprite: {fileID: 730596429, guid: 10f3dba55d35d1049972144296247bd0, type: 3}
+  - Key: Art/Quests/quest_stamp_rejected
+    Sprite: {fileID: 2103191256, guid: 10f3dba55d35d1049972144296247bd0, type: 3}
+  - Key: Art/Quests/quest_stamp_approved
+    Sprite: {fileID: 195717119, guid: 10f3dba55d35d1049972144296247bd0, type: 3}
+  - Key: Art/UI/Panels/ui_panel_parchment
+    Sprite: {fileID: 19337722, guid: 10f3dba55d35d1049972144296247bd0, type: 3}

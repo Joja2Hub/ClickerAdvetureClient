@@ -17,16 +17,18 @@ namespace ClickerAdventure
         public static Sprite Quest(string id) => Load($"Art/Quests/{id}");
         public static Sprite Map(string id) => Load($"Art/Map/{id}");
 
-        public static Sprite EnemyIdle(string enemyId)
+        public static Sprite EnemyState(string enemyId, string state)
         {
-            return enemyId switch
+            if (string.IsNullOrWhiteSpace(enemyId))
             {
-                "slime_green" => Enemy("enemy_slime_green_idle"),
-                "cave_bat" => Enemy("enemy_cave_bat_idle"),
-                "stone_golem" => Enemy("enemy_stone_golem_idle"),
-                _ => null
-            };
+                return null;
+            }
+
+            var prefix = enemyId.StartsWith("enemy_") ? enemyId : $"enemy_{enemyId}";
+            return Enemy($"{prefix}_{state}");
         }
+
+        public static Sprite EnemyIdle(string enemyId) => EnemyState(enemyId, "idle");
 
         public static Sprite DungeonBackground(string dungeonId)
         {

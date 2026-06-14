@@ -9,12 +9,14 @@ namespace ClickerAdventure
     {
         private const float QuestRowHeight = 210f;
         private const float QuestRowGap = 18f;
+        private const string QuestCardResourcePath = "Prefabs/UI/QuestCard";
 
         private RectTransform root;
         private RectTransform questList;
         private RectTransform detailOverlay;
         private Text statusText;
         private ResourceHud resourceHud;
+        private QuestCardView questCardPrefab;
         private QuestStatus? filter;
         private List<RealLifeQuest> visibleQuests = new();
         private readonly HashSet<string> viewedQuestIdsThisScreenSession = new();
@@ -96,6 +98,7 @@ namespace ClickerAdventure
             }
 
             root = RuntimeUi.SafeAreaRoot(canvas.transform);
+            questCardPrefab = Resources.Load<QuestCardView>(QuestCardResourcePath);
             resourceHud = ResourceHud.Create(root);
             var town = SelectionContext.SelectedTown;
             var title = RuntimeUi.Text(root, "TownTitle", town != null ? town.DisplayName : "Гильдия", 46, new Color(1f, 0.88f, 0.56f));
@@ -161,14 +164,15 @@ namespace ClickerAdventure
             }
 
             visibleQuests = filter.HasValue ? quests.Where(q => q.Status == filter.Value).ToList() : quests;
-            var contentHeight = Mathf.Max(740f, 36f + visibleQuests.Count * (QuestRowHeight + QuestRowGap));
+            var rowHeight = GetQuestRowHeight();
+            var contentHeight = Mathf.Max(740f, 36f + visibleQuests.Count * (rowHeight + QuestRowGap));
             questList.sizeDelta = new Vector2(0f, contentHeight);
             questList.anchoredPosition = Vector2.zero;
 
             for (var i = 0; i < visibleQuests.Count; i++)
             {
                 var quest = visibleQuests[i];
-                CreateQuestRow(quest, i);
+                CreateQuestCardFromPrefab(quest, i);
                 if (viewedQuestIdsThisScreenSession.Add(quest.Id))
                 {
                     _ = ServiceRegistry.AnalyticsEvents.TrackQuestViewedAsync(quest);
@@ -219,6 +223,41 @@ namespace ClickerAdventure
             action = RuntimeUi.Button(row.transform, "Action", ActionLabel(quest.Status), new Color(0.36f, 0.45f, 0.70f), () => _ = OnQuestActionAsync(quest, action.GetComponent<RectTransform>()));
             RuntimeUi.SetRect(action.GetComponent<RectTransform>(), new Vector2(0.82f, 0.22f), new Vector2(220, 56), Vector2.zero);
             action.interactable = quest.Status is QuestStatus.Assigned or QuestStatus.Rejected or QuestStatus.Approved;
+        }
+
+        private void CreateQuestCardFromPrefab(RealLifeQuest quest, int index)
+        {
+            if (questCardPrefab == null)
+            {
+                Debug.LogError($"Quest card prefab is missing at Resources/{QuestCardResourcePath}.");
+                return;
+            }
+
+            var view = Instantiate(questCardPrefab, questList);
+            var rowHeight = GetQuestRowHeight();
+            RuntimeUi.SetRect(
+                view.RectTransform,
+                new Vector2(0.5f, 1f),
+                new Vector2(view.RectTransform.sizeDelta.x, rowHeight),
+                new Vector2(0, -120 - index * (rowHeight + QuestRowGap)));
+            view.Bind(
+                quest,
+                ArtLibrary.Panel("ui_panel_quest_card"),
+                QuestCategoryIcon(quest.Category),
+                ArtLibrary.Reward("reward_gold"),
+                ArtLibrary.Reward("reward_xp"),
+                StatusLabel(quest.Status),
+                StatusColor(quest.Status),
+                ActionLabel(quest.Status),
+                () => ShowQuestDetails(quest),
+                source => _ = OnQuestActionAsync(quest, source));
+        }
+
+        private float GetQuestRowHeight()
+        {
+            return questCardPrefab != null
+                ? Mathf.Max(1f, questCardPrefab.RectTransform.sizeDelta.y)
+                : QuestRowHeight;
         }
 
         private void ShowQuestDetails(RealLifeQuest quest)
