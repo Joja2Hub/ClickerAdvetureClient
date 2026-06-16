@@ -30,10 +30,10 @@ export default function ChildLoginPage() {
     setBusy(true);
     setStatus("Создаем вход для Unity...");
     try {
-      const uid = await createChildLogin({ childId, email, password, displayName });
+      await createChildLogin({ childId, email, password, displayName });
       const nextChild = await getChildProfile(childId);
       setChild(nextChild);
-      setStatus(`Готово. UID ребенка: ${uid}`);
+      setStatus("Готово. Данные для входа сохранены.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Не удалось создать вход.");
     } finally {
@@ -53,7 +53,7 @@ export default function ChildLoginPage() {
               <input value={child.unityLoginEmail} readOnly />
             </label>
             <label>
-              Пароль для тестов
+              Пароль
               <input value={child.unityLoginPasswordForTesting || "Пароль не сохранен"} readOnly />
             </label>
           </div>

@@ -97,24 +97,6 @@ MonoBehaviour:
     Sprite: {fileID: 1424904035, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
   - Key: Art/Characters/Enemies/enemy_slime_green_attack
     Sprite: {fileID: -1058664665, guid: ba3b7e4a1b299db4990bb43fb0150156, type: 3}
-  - Key: Art/Map/map_node_castle
-    Sprite: {fileID: -1182113015, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
-  - Key: Art/Map/map_node_crystal_cave
-    Sprite: {fileID: 19301633, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
-  - Key: Art/Map/map_node_home_village
-    Sprite: {fileID: 752789493116830323, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
-  - Key: Art/Map/map_node_locked
-    Sprite: {fileID: 624083330, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
-  - Key: Art/Map/map_node_mountain
-    Sprite: {fileID: -1234032196, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
-  - Key: Art/Map/map_node_selected_ring
-    Sprite: {fileID: -660744212, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
-  - Key: Art/Map/map_node_sunny_forest
-    Sprite: {fileID: -224120723, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
-  - Key: Art/Map/map_node_swamp
-    Sprite: {fileID: -1843569369, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
-  - Key: Art/Map/map_node_tower
-    Sprite: {fileID: -1182113015, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
   - Key: Art/Map/town_notice_board
     Sprite: {fileID: 570437282, guid: 86b1474e10753a34d886473a13fbd65d, type: 3}
   - Key: Art/UI/Panels/ui_panel_dark_wood
@@ -155,3 +137,19 @@ MonoBehaviour:
     Sprite: {fileID: 195717119, guid: 10f3dba55d35d1049972144296247bd0, type: 3}
   - Key: Art/UI/Panels/ui_panel_parchment
     Sprite: {fileID: 19337722, guid: 10f3dba55d35d1049972144296247bd0, type: 3}
+  - Key: Art/Map/map_node_castle
+    Sprite: {fileID: -1182113015, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
+  - Key: Art/Map/map_node_crystal_cave
+    Sprite: {fileID: 19301633, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Map/map_node_home_village
+    Sprite: {fileID: 752789493116830323, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Map/map_node_locked
+    Sprite: {fileID: 624083330, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
+  - Key: Art/Map/map_node_mountain
+    Sprite: {fileID: -1234032196, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
+  - Key: Art/Map/map_node_sunny_forest
+    Sprite: {fileID: -224120723, guid: 95dd797f339d7d74787b7fd5ec5af983, type: 3}
+  - Key: Art/Map/map_node_swamp
+    Sprite: {fileID: -1843569369, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}
+  - Key: Art/Map/map_node_tower
+    Sprite: {fileID: -1182113015, guid: c40298cdc1b4a3648b30e5e89af78904, type: 3}

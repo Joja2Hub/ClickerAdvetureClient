@@ -7,13 +7,14 @@ namespace ClickerAdventure
 {
     public sealed class MapPanZoom : MonoBehaviour, IScrollHandler
     {
-        [SerializeField] private float minScale = 0.65f;
+        [SerializeField] private float minScale = 0.78f;
         [SerializeField] private float maxScale = 1.65f;
         [SerializeField] private float wheelStep = 0.12f;
         [SerializeField] private float pinchSensitivity = 0.004f;
 
         private RectTransform content;
         private ScrollRect scrollRect;
+        private RectTransform viewport;
         private float scale = 1f;
         private float previousPinchDistance;
         private bool isPinching;
@@ -22,7 +23,9 @@ namespace ClickerAdventure
         {
             content = mapContent;
             scrollRect = mapScrollRect;
+            viewport = mapScrollRect != null ? mapScrollRect.viewport : null;
             scale = content != null ? content.localScale.x : 1f;
+            SetScale(scale);
         }
 
         private void Update()
@@ -93,12 +96,33 @@ namespace ClickerAdventure
                 return;
             }
 
-            scale = Mathf.Clamp(value, minScale, maxScale);
+            scale = Mathf.Clamp(value, EffectiveMinScale(), maxScale);
             content.localScale = Vector3.one * scale;
             if (scrollRect != null)
             {
                 scrollRect.StopMovement();
+                Canvas.ForceUpdateCanvases();
             }
+        }
+
+        private float EffectiveMinScale()
+        {
+            if (content == null || viewport == null)
+            {
+                return minScale;
+            }
+
+            var contentSize = content.rect.size;
+            var viewportSize = viewport.rect.size;
+            if (contentSize.x <= 0f || contentSize.y <= 0f)
+            {
+                return minScale;
+            }
+
+            var coverScale = Mathf.Max(
+                viewportSize.x / contentSize.x,
+                viewportSize.y / contentSize.y);
+            return Mathf.Clamp(Mathf.Max(minScale, coverScale), minScale, maxScale);
         }
 
         private void EndPinch()

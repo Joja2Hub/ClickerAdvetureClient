@@ -20,7 +20,7 @@ export default function SubmissionsPage() {
     <section className="grid">
       <div>
         <h1>Задания на проверке</h1>
-        <p>В MVP одобрение пока обновляет статус напрямую. В production это лучше перенести в Cloud Functions.</p>
+        <p>Проверьте выполнение задания и выберите, принять результат или вернуть его на доработку.</p>
       </div>
       {quests.length === 0 ? <div className="card">Пока нет заданий на проверке.</div> : quests.map((quest) => (
         <QuestCard

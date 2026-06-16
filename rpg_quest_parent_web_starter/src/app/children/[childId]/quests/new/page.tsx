@@ -131,30 +131,37 @@ export default function NewQuestPage() {
     <section className="questCreateLayout">
       <form className="card grid" onSubmit={submit}>
         <div>
-          <h1>Создать real-life квест</h1>
+          <h1>Создать реальный квест</h1>
           <p>Квест появится у ребенка на доске приключений в Unity.</p>
         </div>
-        <div className="templateSection">
-          <div className="sectionHeading">
+        <details className="templateSection">
+          <summary>
             <div>
-              <h2>Готовые задания</h2>
-              <p>Выберите основу и при необходимости измените текст.</p>
+              <span>Готовые основы</span>
+              <small>
+                {selectedTemplateId
+                  ? `Выбрано: ${questTemplates.find((template) => template.id === selectedTemplateId)?.title}`
+                  : "Можно выбрать основу для быстрого создания"}
+              </small>
+            </div>
+          </summary>
+          <div className="templateSectionBody">
+            <p>Выберите основу и при необходимости измените текст.</p>
+            <div className="templateGrid">
+              {questTemplates.map((template) => (
+                <button
+                  type="button"
+                  key={template.id}
+                  className={`templateOption ${selectedTemplateId === template.id ? "selected" : ""}`}
+                  onClick={() => applyTemplate(template.id)}
+                >
+                  <strong>{template.title}</strong>
+                  <span>{categories.find((item) => item.value === template.category)?.label}</span>
+                </button>
+              ))}
             </div>
           </div>
-          <div className="templateGrid">
-            {questTemplates.map((template) => (
-              <button
-                type="button"
-                key={template.id}
-                className={`templateOption ${selectedTemplateId === template.id ? "selected" : ""}`}
-                onClick={() => applyTemplate(template.id)}
-              >
-                <strong>{template.title}</strong>
-                <span>{categories.find((item) => item.value === template.category)?.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
+        </details>
         <label>Название<input value={title} onChange={(e) => { setTitle(e.target.value); setSelectedTemplateId(null); }} required /></label>
         <label>Описание<textarea value={description} onChange={(e) => { setDescription(e.target.value); setSelectedTemplateId(null); }} required /></label>
         <div className="grid2">

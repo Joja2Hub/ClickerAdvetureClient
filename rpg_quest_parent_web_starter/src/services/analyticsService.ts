@@ -22,6 +22,12 @@ import {
   QuestEvent,
   QuestRecommendation,
 } from "@/lib/types";
+import {
+  demoCategoryAnalytics,
+  demoDailyAnalytics,
+  demoRecommendations,
+  isDemoChild,
+} from "@/lib/demoData";
 
 type TrackQuestEventInput = Omit<
   QuestEvent,
@@ -144,6 +150,8 @@ function dailyCategoryStats(stats: MutableStats): DailyCategoryStats {
 }
 
 export async function trackQuestEvent(event: TrackQuestEventInput): Promise<void> {
+  if (isDemoChild(event.childId)) return;
+
   const now = new Date();
   const parts = localDateParts(now);
   await setDoc(doc(collection(db, "children", event.childId, "questEvents")), compact({
@@ -154,11 +162,17 @@ export async function trackQuestEvent(event: TrackQuestEventInput): Promise<void
 }
 
 export async function getDailyAnalytics(childId: string, date: string): Promise<DailyAnalytics | null> {
+  if (isDemoChild(childId)) {
+    return demoDailyAnalytics.find((item) => item.date === date) ?? null;
+  }
+
   const snap = await getDoc(doc(db, "children", childId, "analyticsDaily", date));
   return snap.exists() ? ({ id: snap.id, ...snap.data() } as DailyAnalytics) : null;
 }
 
 export async function listRecentDailyAnalytics(childId: string, days = 14): Promise<DailyAnalytics[]> {
+  if (isDemoChild(childId)) return demoDailyAnalytics.slice(-days);
+
   const snap = await getDocs(
     query(collection(db, "children", childId, "analyticsDaily"), orderBy("__name__", "desc"), limit(days))
   );
@@ -166,6 +180,8 @@ export async function listRecentDailyAnalytics(childId: string, days = 14): Prom
 }
 
 export async function getCategoryAnalytics(childId: string): Promise<CategoryAnalytics[]> {
+  if (isDemoChild(childId)) return demoCategoryAnalytics;
+
   const snap = await getDocs(collection(db, "children", childId, "analyticsByCategory"));
   return snap.docs
     .map((item) => ({ id: item.id, ...item.data() } as CategoryAnalytics))
@@ -173,6 +189,8 @@ export async function getCategoryAnalytics(childId: string): Promise<CategoryAna
 }
 
 export async function getRecommendations(childId: string): Promise<QuestRecommendation[]> {
+  if (isDemoChild(childId)) return demoRecommendations;
+
   const snap = await getDocs(collection(db, "children", childId, "recommendations"));
   return snap.docs
     .map((item) => ({ id: item.id, ...item.data() } as QuestRecommendation))
@@ -183,6 +201,11 @@ export async function getRecommendationForCategory(
   childId: string,
   category: string
 ): Promise<QuestRecommendation> {
+  if (isDemoChild(childId)) {
+    return demoRecommendations.find((item) => item.targetCategory === category)
+      ?? demoRecommendations[0];
+  }
+
   const snap = await getDoc(doc(db, "children", childId, "recommendations", category));
   if (snap.exists()) return { id: snap.id, ...snap.data() } as QuestRecommendation;
 
@@ -219,6 +242,8 @@ export async function getRecommendationForCategory(
 }
 
 export async function rebuildAnalyticsForChild(childId: string): Promise<void> {
+  if (isDemoChild(childId)) return;
+
   const rebuild = httpsCallable<
     { childId: string },
     { ok: boolean; eventCount: number; writeCount: number }

@@ -14,6 +14,7 @@ import {
 import { db } from "@/lib/firebase/client";
 import { trackQuestEvent } from "@/services/analyticsService";
 import { Quest, QuestCategory, QuestDifficulty, QuestStatus } from "@/lib/types";
+import { demoQuests, isDemoChild } from "@/lib/demoData";
 
 export interface CreateQuestInput {
   childId: string;
@@ -30,6 +31,10 @@ export interface CreateQuestInput {
 }
 
 export async function createQuest(input: CreateQuestInput): Promise<string> {
+  if (isDemoChild(input.childId)) {
+    return `demo-created-${Date.now()}`;
+  }
+
   const ref = await addDoc(collection(db, "children", input.childId, "quests"), {
     title: input.title,
     description: input.description,
@@ -60,6 +65,14 @@ export function listenChildQuests(
   callback: (quests: Quest[]) => void,
   statuses?: QuestStatus[]
 ): () => void {
+  if (isDemoChild(childId)) {
+    const nextQuests = statuses?.length
+      ? demoQuests.filter((quest) => statuses.includes(quest.status))
+      : demoQuests;
+    window.setTimeout(() => callback(nextQuests), 0);
+    return () => undefined;
+  }
+
   const base = collection(db, "children", childId, "quests");
   const constraints = statuses?.length
     ? [where("status", "in", statuses), orderBy("createdAt", "desc")]
@@ -71,11 +84,15 @@ export function listenChildQuests(
 }
 
 export async function listChildQuests(childId: string): Promise<Quest[]> {
+  if (isDemoChild(childId)) return demoQuests;
+
   const snap = await getDocs(query(collection(db, "children", childId, "quests"), orderBy("createdAt", "desc")));
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Quest));
 }
 
 export async function approveQuestDirect(childId: string, questId: string): Promise<void> {
+  if (isDemoChild(childId)) return;
+
   const quest = await getQuest(childId, questId);
   await updateDoc(doc(db, "children", childId, "quests", questId), {
     status: "approved",
@@ -90,6 +107,8 @@ export async function approveQuestDirect(childId: string, questId: string): Prom
 }
 
 export async function rejectQuestDirect(childId: string, questId: string, parentComment: string): Promise<void> {
+  if (isDemoChild(childId)) return;
+
   const quest = await getQuest(childId, questId);
   await updateDoc(doc(db, "children", childId, "quests", questId), {
     status: "rejected",
@@ -104,6 +123,8 @@ export async function rejectQuestDirect(childId: string, questId: string, parent
 }
 
 export async function cancelQuestDirect(childId: string, questId: string): Promise<void> {
+  if (isDemoChild(childId)) return;
+
   const quest = await getQuest(childId, questId);
   await updateDoc(doc(db, "children", childId, "quests", questId), {
     status: "cancelled",
@@ -116,6 +137,12 @@ export async function cancelQuestDirect(childId: string, questId: string): Promi
 }
 
 async function getQuest(childId: string, questId: string): Promise<Quest> {
+  if (isDemoChild(childId)) {
+    const quest = demoQuests.find((item) => item.id === questId);
+    if (!quest) throw new Error("Квест не найден.");
+    return quest;
+  }
+
   const snap = await getDoc(doc(db, "children", childId, "quests", questId));
   if (!snap.exists()) throw new Error("Квест не найден.");
   return { id: snap.id, ...snap.data() } as Quest;
@@ -152,6 +179,19 @@ async function trackParentEventSafely(
   }
 ) {
   try {
+    if (isDemoChild(childId)) {
+      await trackQuestEvent({
+        familyId: "",
+        childId,
+        questId,
+        eventType,
+        actorRole: "parent",
+        sourceClient: "web",
+        ...fields,
+      });
+      return;
+    }
+
     const childSnap = await getDoc(doc(db, "children", childId));
     await trackQuestEvent({
       familyId: childSnap.data()?.familyId ?? "",

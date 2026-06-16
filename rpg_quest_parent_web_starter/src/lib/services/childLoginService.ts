@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { doc, getDoc, setDoc, getFirestore, serverTimestamp } from "firebase/firestore";
 import { db, firebaseConfig } from "@/lib/firebase/client";
+import { demoChild, isDemoChild } from "@/lib/demoData";
 
 interface CreateChildLoginInput {
   childId: string;
@@ -17,6 +18,10 @@ interface CreateChildLoginInput {
 }
 
 export async function createChildLogin(input: CreateChildLoginInput): Promise<string> {
+  if (isDemoChild(input.childId)) {
+    return demoChild.unityAuthUid ?? "demo-child-auth";
+  }
+
   const childSnap = await getDoc(doc(db, "children", input.childId));
   if (!childSnap.exists()) {
     throw new Error("Ребенок не найден. Вернитесь на dashboard и выберите ребенка из списка.");

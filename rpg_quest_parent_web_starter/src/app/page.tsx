@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthProvider";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, register } = useAuth();
+  const { login, loginDemo, register } = useAuth();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +36,7 @@ export default function LoginPage() {
     <main className="centerPage">
       <section className="card narrow">
         <h1>{mode === "login" ? "Вход родителя" : "Регистрация родителя"}</h1>
-        <p>Панель для создания real-life квестов, проверки выполнения и просмотра прогресса ребёнка.</p>
+        <p>Панель для создания заданий, проверки выполнения и просмотра прогресса ребёнка.</p>
         <form onSubmit={submit} className="grid">
           <label>
             Email
@@ -50,6 +50,16 @@ export default function LoginPage() {
           <button disabled={loading}>{loading ? "Подождите..." : mode === "login" ? "Войти" : "Создать аккаунт"}</button>
           <button className="secondary" type="button" onClick={() => setMode(mode === "login" ? "register" : "login")}>
             {mode === "login" ? "Создать новый аккаунт" : "Уже есть аккаунт"}
+          </button>
+          <button
+            className="secondary"
+            type="button"
+            onClick={async () => {
+              await loginDemo();
+              router.push("/dashboard");
+            }}
+          >
+            Войти в демо
           </button>
         </form>
       </section>

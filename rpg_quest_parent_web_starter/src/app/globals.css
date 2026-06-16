@@ -154,9 +154,48 @@ textarea { min-height: 110px; resize: vertical; }
 .recommendationAside { position: sticky; top: 20px; }
 .recommendationScore { color: white; display: flex; align-items: baseline; justify-content: space-between; padding: 16px; margin: 14px 0; }
 .recommendationScore strong { font-size: 32px; }
-.templateSection { display: grid; gap: 12px; }
-.sectionHeading { display: flex; justify-content: space-between; gap: 16px; align-items: end; }
-.sectionHeading p { margin: 0; }
+.templateSection {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.58);
+  overflow: hidden;
+}
+.templateSection summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  list-style: none;
+  padding: 16px;
+  color: var(--accent-strong);
+  font-weight: 900;
+}
+.templateSection summary::-webkit-details-marker { display: none; }
+.templateSection summary::after {
+  content: "⌄";
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel-strong);
+  border: 1px solid var(--border);
+  color: var(--accent-strong);
+  transition: transform 0.15s ease;
+}
+.templateSection[open] summary::after { transform: rotate(180deg); }
+.templateSection summary div { display: grid; gap: 4px; }
+.templateSection summary span { font-size: 18px; }
+.templateSection summary small { color: var(--muted); font-size: 13px; font-weight: 700; }
+.templateSectionBody {
+  display: grid;
+  gap: 12px;
+  border-top: 1px solid var(--border);
+  padding: 14px 16px 16px;
+}
+.templateSectionBody p { margin: 0; }
 .templateGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));

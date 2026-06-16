@@ -59,7 +59,7 @@ export default function AnalyticsPage() {
       await rebuildAnalyticsForChild(childId);
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Не удалось пересчитать аналитику.");
+      setError(err instanceof Error ? err.message : "Не удалось обновить аналитику.");
     } finally {
       setRebuilding(false);
     }
@@ -90,10 +90,10 @@ export default function AnalyticsPage() {
       <div className="toolbar">
         <div>
           <h1>Аналитика ребенка</h1>
-          <p>События квестов агрегируются по дням и категориям. Пересчет можно запускать повторно.</p>
+          <p>Статистика помогает понять, какие задания ребенок выполняет легче, а какие требуют поддержки.</p>
         </div>
         <button onClick={rebuild} disabled={rebuilding}>
-          {rebuilding ? "Пересчет..." : "Пересчитать аналитику"}
+          {rebuilding ? "Обновляем..." : "Обновить аналитику"}
         </button>
       </div>
 
@@ -117,7 +117,7 @@ export default function AnalyticsPage() {
 
           <div className="card">
             <h2>Показатели по категориям</h2>
-            {categories.length === 0 ? <p>Данных пока нет. Создайте и обработайте несколько квестов, затем запустите пересчет.</p> : (
+            {categories.length === 0 ? <p>Данных пока нет. Создайте и обработайте несколько квестов, затем обновите аналитику.</p> : (
               <div className="tableWrap">
                 <table className="analyticsTable">
                   <thead><tr><th>Категория</th><th>Назначено</th><th>Выполнено</th><th>Успешность</th><th>Отклонения</th><th>Среднее время</th><th>Оценка</th></tr></thead>
@@ -142,7 +142,7 @@ export default function AnalyticsPage() {
           <div className="card">
             <h2>Рекомендации</h2>
             <div className="recommendationGrid">
-              {recommendations.length === 0 ? <p>Рекомендации появятся после пересчета событий.</p> : recommendations.map((item) => (
+              {recommendations.length === 0 ? <p>Рекомендации появятся после обновления аналитики.</p> : recommendations.map((item) => (
                 <RecommendationCard key={item.id} item={item} />
               ))}
             </div>
@@ -150,7 +150,7 @@ export default function AnalyticsPage() {
 
           <div className="card">
             <h2>Последние дни</h2>
-            {days.length === 0 ? <p>Дневных агрегатов пока нет.</p> : (
+            {days.length === 0 ? <p>Статистики по дням пока нет.</p> : (
               <div className="dailyStrip">
                 {days.map((day) => (
                   <div className="statCard" key={day.id}>
