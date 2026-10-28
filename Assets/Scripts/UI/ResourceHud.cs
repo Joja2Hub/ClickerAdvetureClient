@@ -18,11 +18,10 @@ namespace ClickerAdventure
 
         public static ResourceHud Create(Transform parent)
         {
-            var root = RuntimeUi.SpriteCard(
+            var root = RuntimeUi.Card(
                 parent,
                 "ResourceHud",
-                ArtLibrary.Panel("ui_panel_dark_wood"),
-                new Color(0.14f, 0.11f, 0.09f, 0.96f));
+                UiTheme.Surface);
             RuntimeUi.SetRect(root, new Vector2(0.5f, 0.94f), new Vector2(960, 86), Vector2.zero);
             root.SetAsLastSibling();
 
@@ -43,7 +42,7 @@ namespace ClickerAdventure
             var levelIcon = RuntimeUi.SpriteImage(root, "LevelIcon", ArtLibrary.Reward("reward_xp"));
             RuntimeUi.SetRect(levelIcon.rectTransform, new Vector2(0.08f, 0.5f), new Vector2(48, 48), Vector2.zero);
             levelText = RuntimeUi.Text(root, "Level", "", 24, Color.white, TextAnchor.MiddleLeft);
-            RuntimeUi.SetRect(levelText.rectTransform, new Vector2(0.19f, 0.5f), new Vector2(190, 62), Vector2.zero);
+            RuntimeUi.SetRect(levelText.rectTransform, new Vector2(0.25f, 0.5f), new Vector2(220, 62), Vector2.zero);
 
             xpTarget = CreateResource(root, "Xp", ArtLibrary.Reward("reward_xp"), new Vector2(0.52f, 0.5f), out xpText);
             goldTarget = CreateResource(root, "Gold", ArtLibrary.Reward("reward_gold"), new Vector2(0.82f, 0.5f), out goldText);

@@ -20,6 +20,7 @@ namespace ClickerAdventure
         private QuestStatus? filter;
         private List<RealLifeQuest> visibleQuests = new();
         private readonly HashSet<string> viewedQuestIdsThisScreenSession = new();
+        private readonly Dictionary<Button, QuestStatus?> filterButtons = new();
         private bool isBusy;
 
         private async void Start()
@@ -98,6 +99,8 @@ namespace ClickerAdventure
             }
 
             root = RuntimeUi.SafeAreaRoot(canvas.transform);
+            var backdropShade = RuntimeUi.Panel(root, "BackdropShade", new Color(0.03f, 0.08f, 0.09f, 0.30f));
+            backdropShade.GetComponent<Image>().raycastTarget = false;
             questCardPrefab = Resources.Load<QuestCardView>(QuestCardResourcePath);
             resourceHud = ResourceHud.Create(root);
             var town = SelectionContext.SelectedTown;
@@ -107,7 +110,7 @@ namespace ClickerAdventure
 
             CreateTownActions(root);
 
-            var guildPanel = RuntimeUi.SpriteCard(root, "GuildBoard", ArtLibrary.Panel("ui_panel_dark_wood"), new Color(0.24f, 0.18f, 0.13f, 0.94f));
+            var guildPanel = RuntimeUi.Card(root, "GuildBoard", UiTheme.Surface);
             RuntimeUi.SetRect(guildPanel, new Vector2(0.5f, 0.50f), new Vector2(960, 1080), Vector2.zero);
 
             var boardIcon = RuntimeUi.SpriteImage(guildPanel, "NoticeBoardIcon", ArtLibrary.Map("town_notice_board"));
@@ -123,8 +126,8 @@ namespace ClickerAdventure
             CreateFilterButton(guildPanel, "Одобрено", QuestStatus.Approved, 0.70f);
             CreateFilterButton(guildPanel, "Получено", QuestStatus.Claimed, 0.88f);
 
-            var viewport = RuntimeUi.SpriteCard(guildPanel, "QuestViewport", ArtLibrary.Panel("ui_panel_parchment"), new Color(1f, 0.96f, 0.82f, 0.94f));
-            RuntimeUi.SetRect(viewport, new Vector2(0.5f, 0.40f), new Vector2(880, 700), Vector2.zero);
+            var viewport = RuntimeUi.Card(guildPanel, "QuestViewport", new Color(0.08f, 0.14f, 0.16f));
+            RuntimeUi.SetRect(viewport, new Vector2(0.5f, 0.44f), new Vector2(880, 760), Vector2.zero);
             viewport.gameObject.AddComponent<RectMask2D>();
 
             var scroll = viewport.gameObject.AddComponent<ScrollRect>();
@@ -256,8 +259,8 @@ namespace ClickerAdventure
         private float GetQuestRowHeight()
         {
             return questCardPrefab != null
-                ? Mathf.Max(1f, questCardPrefab.RectTransform.sizeDelta.y)
-                : QuestRowHeight;
+                ? Mathf.Max(310f, questCardPrefab.RectTransform.sizeDelta.y)
+                : 310;
         }
 
         private void ShowQuestDetails(RealLifeQuest quest)
@@ -268,11 +271,10 @@ namespace ClickerAdventure
             detailOverlay.SetAsLastSibling();
             detailOverlay.gameObject.AddComponent<Button>().onClick.AddListener(CloseQuestDetails);
 
-            var card = RuntimeUi.SpriteCard(
+            var card = RuntimeUi.Card(
                 detailOverlay,
                 "QuestDetailsCard",
-                ArtLibrary.Panel("ui_panel_parchment"),
-                new Color(1f, 0.97f, 0.86f, 1f));
+                UiTheme.Paper);
             RuntimeUi.SetRect(card, new Vector2(0.5f, 0.46f), new Vector2(940, 1420), Vector2.zero);
 
             var icon = RuntimeUi.SpriteImage(card, "CategoryIcon", QuestCategoryIcon(quest.Category));
@@ -398,11 +400,15 @@ namespace ClickerAdventure
                 SetFilter(status);
             });
             RuntimeUi.SetRect(button.GetComponent<RectTransform>(), new Vector2(x, 0.86f), new Vector2(160, 52), Vector2.zero);
+            filterButtons[button] = status;
+            UiTheme.ApplyButton(button, status == filter ? UiTheme.Primary : UiTheme.Secondary);
         }
 
         private void SetFilter(QuestStatus? status)
         {
             filter = status;
+            foreach (var entry in filterButtons)
+                UiTheme.ApplyButton(entry.Key, entry.Value == filter ? UiTheme.Primary : UiTheme.Secondary);
             _ = RefreshQuestsAsync();
         }
 

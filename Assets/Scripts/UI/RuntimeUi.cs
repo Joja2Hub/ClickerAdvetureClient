@@ -9,7 +9,7 @@ namespace ClickerAdventure
 {
     public static class RuntimeUi
     {
-        public static readonly Color Ink = new(0.14f, 0.11f, 0.09f);
+        public static readonly Color Ink = UiTheme.Ink;
         public static readonly Color Parchment = new(0.86f, 0.76f, 0.56f);
         public static readonly Color ParchmentDark = new(0.64f, 0.47f, 0.29f);
         public static readonly Color Night = new(0.06f, 0.10f, 0.14f);
@@ -115,6 +115,7 @@ namespace ClickerAdventure
             var outline = go.GetComponent<Outline>();
             outline.effectColor = new Color(1f, 1f, 1f, 0.16f);
             outline.effectDistance = new Vector2(2, 2);
+            UiTheme.ApplySurface(image, color);
             return go.GetComponent<RectTransform>();
         }
 
@@ -156,9 +157,7 @@ namespace ClickerAdventure
             text.horizontalOverflow = HorizontalWrapMode.Wrap;
             text.verticalOverflow = VerticalWrapMode.Overflow;
             text.raycastTarget = false;
-            var shadow = go.GetComponent<Shadow>();
-            shadow.effectColor = new Color(0f, 0f, 0f, 0.28f);
-            shadow.effectDistance = new Vector2(1.5f, -1.5f);
+            go.GetComponent<Shadow>().enabled = false;
             return text;
         }
 
@@ -177,21 +176,17 @@ namespace ClickerAdventure
             var button = go.GetComponent<Button>();
             button.targetGraphic = image;
             button.transition = Selectable.Transition.ColorTint;
-            button.colors = new ColorBlock
-            {
-                normalColor = color,
-                highlightedColor = Color.Lerp(color, Color.white, 0.12f),
-                pressedColor = Color.Lerp(color, Color.black, 0.18f),
-                selectedColor = color,
-                disabledColor = new Color(0.25f, 0.25f, 0.25f, 0.65f),
-                colorMultiplier = 1f,
-                fadeDuration = 0.08f
-            };
             button.onClick.AddListener(() => onClick?.Invoke());
+            UiTheme.ApplyButton(button, color);
 
             var labelText = Text(go.transform, "Label", label, 30, Color.white);
             labelText.fontStyle = FontStyle.Bold;
             Stretch(labelText.rectTransform);
+            labelText.rectTransform.offsetMin = new Vector2(16, 4);
+            labelText.rectTransform.offsetMax = new Vector2(-16, -4);
+            labelText.resizeTextForBestFit = true;
+            labelText.resizeTextMinSize = 18;
+            labelText.resizeTextMaxSize = 30;
             return button;
         }
 
@@ -206,7 +201,7 @@ namespace ClickerAdventure
             fillRect.offsetMin = new Vector2(6, 6);
             fillRect.offsetMax = new Vector2(-6, -6);
             var fill = fillGo.GetComponent<Image>();
-            fill.color = fillColor;
+            UiTheme.ApplySurface(fill, fillColor);
             fill.type = Image.Type.Filled;
             fill.fillMethod = Image.FillMethod.Horizontal;
             fill.fillAmount = 1f;

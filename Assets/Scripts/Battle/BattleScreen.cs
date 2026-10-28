@@ -135,10 +135,10 @@ namespace ClickerAdventure
             feedbackText = RuntimeUi.Text(canvas.transform, "Feedback", "", 34, new Color(1f, 0.9f, 0.25f));
             RuntimeUi.SetRect(feedbackText.rectTransform, new Vector2(0.5f, 0.17f), new Vector2(920, 90), Vector2.zero);
 
-            var power = RuntimeUi.Button(canvas.transform, "Power Attack", "Power Attack", new Color(0.45f, 0.25f, 0.65f), () => DealDamage(35, true));
+            var power = RuntimeUi.Button(canvas.transform, "Power Attack", "Сильный удар", new Color(0.36f, 0.28f, 0.52f), () => DealDamage(35, true));
             RuntimeUi.SetRect(power.GetComponent<RectTransform>(), new Vector2(0.25f, 0.08f), new Vector2(300, 76), Vector2.zero);
 
-            var heal = RuntimeUi.Button(canvas.transform, "Heal", "Heal", new Color(0.25f, 0.55f, 0.36f), () =>
+            var heal = RuntimeUi.Button(canvas.transform, "Heal", "Лечение", UiTheme.Primary, () =>
             {
                 HealPlayer();
             });
