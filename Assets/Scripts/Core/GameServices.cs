@@ -408,43 +408,6 @@ namespace ClickerAdventure
         }
     }
 
-    public sealed class CloudFunctionsService
-    {
-        private readonly GameStateService gameStateService;
-        private readonly FirebaseRestClient firebaseRest;
-
-        public CloudFunctionsService(GameStateService gameStateService, FirebaseRestClient firebaseRest)
-        {
-            this.gameStateService = gameStateService;
-            this.firebaseRest = firebaseRest;
-        }
-
-        public async Task<BattleReward> ClaimQuestRewardAsync(string childId, RealLifeQuest quest)
-        {
-            var reward = new BattleReward { Xp = quest.RewardXp, Gold = quest.RewardGold };
-            if (firebaseRest is { IsSignedIn: true })
-            {
-                try
-                {
-                    await firebaseRest.ClaimQuestRewardAsync(childId, quest.Id);
-                    await gameStateService.LoadAsync(childId);
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogWarning($"Cloud reward claim failed, using direct Firestore MVP flow: {ex.Message}");
-                    await firebaseRest.ClaimQuestRewardDirectAsync(childId, quest.Id);
-                    await gameStateService.AddBattleRewardAsync(childId, reward);
-                }
-
-                return reward;
-            }
-
-            await Task.Yield();
-            await gameStateService.AddBattleRewardAsync(childId, reward);
-            return reward;
-        }
-    }
-
     public sealed class RewardService
     {
         private readonly GameStateService gameStateService;
