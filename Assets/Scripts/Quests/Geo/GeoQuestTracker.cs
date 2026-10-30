@@ -17,11 +17,14 @@ namespace ClickerAdventure
         private readonly DateTimeOffset endsAt;
         private readonly TimeSpan utcOffset;
         private readonly HashSet<DateTime> visitedDays = new HashSet<DateTime>();
+        private readonly List<long> visitTimes = new List<long>();
+        private readonly string definitionKey;
 
+        public string QuestId { get; }
         public int VisitCount => visitedDays.Count;
         public bool IsCompleted => VisitCount >= requiredVisits;
 
-        public GeoQuestTracker(GeoQuestDefinition definition)
+        public GeoQuestTracker(GeoQuestDefinition definition, GeoQuestProgressData progress = null)
         {
             if (definition == null)
                 throw new ArgumentNullException(nameof(definition));
@@ -42,6 +45,32 @@ namespace ClickerAdventure
             startsAt = DateTimeOffset.FromUnixTimeSeconds(definition.StartsAtUnixSeconds);
             endsAt = DateTimeOffset.FromUnixTimeSeconds(definition.EndsAtUnixSeconds);
             utcOffset = TimeSpan.FromMinutes(definition.UtcOffsetMinutes);
+            QuestId = definition.Id;
+            definitionKey = GeoQuestProgressData.DefinitionHash(definition);
+            if (progress != null)
+                Restore(progress);
+        }
+
+        public GeoQuestProgressData CreateSaveData()
+        {
+            var times = new List<long>(visitTimes);
+            times.Sort();
+            return new GeoQuestProgressData { DefinitionKey = definitionKey, VisitUnixSeconds = times };
+        }
+
+        private void Restore(GeoQuestProgressData progress)
+        {
+            if (progress.Version != 1 || progress.DefinitionKey != definitionKey
+                || progress.VisitUnixSeconds == null || progress.VisitUnixSeconds.Count > requiredVisits)
+                throw new ArgumentException("Saved progress does not match this quest.", nameof(progress));
+
+            foreach (long timestamp in progress.VisitUnixSeconds)
+            {
+                DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(timestamp);
+                if (time < startsAt || time >= endsAt || !visitedDays.Add(time.ToOffset(utcOffset).Date))
+                    throw new ArgumentException("Saved progress contains invalid or duplicate visits.", nameof(progress));
+                visitTimes.Add(timestamp);
+            }
         }
 
         public GeoVisitResult RegisterVisit(double observedLatitude, double observedLongitude,
@@ -67,6 +96,7 @@ namespace ClickerAdventure
             if (!visitedDays.Add(day))
                 return GeoVisitResult.AlreadyVisitedToday;
 
+            visitTimes.Add(observedAt.ToUnixTimeSeconds());
             return GeoVisitResult.Counted;
         }
     }

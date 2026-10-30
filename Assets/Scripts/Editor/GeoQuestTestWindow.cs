@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,6 +18,10 @@ namespace ClickerAdventure.EditorTools
         private float accuracyMeters = 5;
         private int dayOffset;
         private GeoQuestTracker tracker;
+        [SerializeField] private GeoQuestDefinition savedDefinition;
+        private GeoQuestLocalStore Store => new GeoQuestLocalStore(
+            Path.Combine(Application.persistentDataPath, "GeoQuestEditorPreview"));
+        private const string PreviewChildId = "editor-demo-child";
         private DateTimeOffset periodStart;
         private string result = "Создайте тестовый квест.";
 
@@ -26,10 +31,15 @@ namespace ClickerAdventure.EditorTools
             GetWindow<GeoQuestTestWindow>("Геоквесты").minSize = new Vector2(420, 480);
         }
 
+        private void OnEnable()
+        {
+            if (savedDefinition != null) RestoreProgress();
+        }
+
         private void OnGUI()
         {
             EditorGUILayout.HelpBox("Локальная проверка. Координаты вводятся вручную; " +
-                "данные и награды в Firebase не меняются. Прогресс сбрасывается при перезагрузке скриптов.",
+                "данные и награды в Firebase не меняются. Посещения сохраняются локально; сброс создаёт новый прогресс.",
                 MessageType.Info);
 
             EditorGUILayout.LabelField("Условия нового квеста", EditorStyles.boldLabel);
@@ -61,10 +71,16 @@ namespace ClickerAdventure.EditorTools
                     if (dayOffset < -1 || dayOffset > 7)
                         result = "Для проверки выберите день от -1 до 7.";
                     else
+                    {
                         result = Describe(tracker.RegisterVisit(observedLatitude, observedLongitude,
                             accuracyMeters, periodStart.AddDays(dayOffset).AddHours(12)));
+                        SaveProgress();
+                    }
                 }
+                if (GUILayout.Button("Повторить сохранение")) SaveProgress();
             }
+            using (new EditorGUI.DisabledScope(savedDefinition == null))
+                if (GUILayout.Button("Загрузить прогресс с диска")) RestoreProgress();
             EditorGUILayout.HelpBox(result, MessageType.None);
             EditorGUILayout.LabelField("Изменённые условия применяются после сброса квеста.", EditorStyles.wordWrappedLabel);
         }
@@ -78,7 +94,7 @@ namespace ClickerAdventure.EditorTools
                 TimeSpan offset = TimeSpan.FromMinutes(utcOffsetMinutes);
                 DateTime today = DateTimeOffset.UtcNow.ToOffset(offset).Date;
                 var start = new DateTimeOffset(today, offset);
-                var nextTracker = new GeoQuestTracker(new GeoQuestDefinition
+                var definition = new GeoQuestDefinition
                 {
                     Id = "editor-school-week",
                     Title = "Тест посещения школы",
@@ -89,15 +105,49 @@ namespace ClickerAdventure.EditorTools
                     StartsAtUnixSeconds = start.ToUnixTimeSeconds(),
                     EndsAtUnixSeconds = start.AddDays(7).ToUnixTimeSeconds(),
                     UtcOffsetMinutes = utcOffsetMinutes
-                });
+                };
+                var nextTracker = new GeoQuestTracker(definition);
+                Store.Save(PreviewChildId, nextTracker);
                 tracker = nextTracker;
+                savedDefinition = definition;
                 periodStart = start;
                 dayOffset = 0;
                 result = "Квест создан. Отметьте посещение, затем повторите в тот же день или выберите следующий.";
             }
-            catch (ArgumentException exception)
+            catch (Exception exception) when (exception is ArgumentException
+                || exception is IOException || exception is UnauthorizedAccessException)
             {
                 result = "Не удалось создать квест: " + exception.Message;
+            }
+        }
+
+        private void SaveProgress()
+        {
+            try { Store.Save(PreviewChildId, tracker); }
+            catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException)
+            {
+                result = "Прогресс в памяти не сохранён: " + exception.Message;
+            }
+        }
+
+        private void RestoreProgress()
+        {
+            try
+            {
+                tracker = Store.Load(PreviewChildId, savedDefinition);
+                periodStart = DateTimeOffset.FromUnixTimeSeconds(savedDefinition.StartsAtUnixSeconds)
+                    .ToOffset(TimeSpan.FromMinutes(savedDefinition.UtcOffsetMinutes));
+                targetLatitude = savedDefinition.Latitude;
+                targetLongitude = savedDefinition.Longitude;
+                radiusMeters = (float)savedDefinition.RadiusMeters;
+                requiredVisits = savedDefinition.RequiredVisits;
+                utcOffsetMinutes = savedDefinition.UtcOffsetMinutes;
+                result = "Прогресс загружен с диска.";
+            }
+            catch (Exception exception) when (exception is ArgumentException
+                || exception is IOException || exception is UnauthorizedAccessException)
+            {
+                result = "Не удалось восстановить прогресс: " + exception.Message;
             }
         }
 
