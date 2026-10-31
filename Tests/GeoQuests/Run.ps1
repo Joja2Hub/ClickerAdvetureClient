@@ -14,6 +14,7 @@ $sourceRoot = [System.Security.SecurityElement]::Escape($projectRoot)
     <Compile Include="$sourceRoot/Assets/Scripts/Quests/Geo/*.cs" Exclude="$sourceRoot/Assets/Scripts/Quests/Geo/GeoLocationProvider.cs" />
     <Compile Include="$sourceRoot/Tests/GeoQuests/Program.cs" />
     <Compile Include="$sourceRoot/Tests/GeoQuests/UnityDoubles.cs" />
+    <Compile Include="$sourceRoot/Tests/GeoQuests/CheckInChecks.cs" />
   </ItemGroup>
 </Project>
 "@ | Set-Content -LiteralPath (Join-Path $runner 'GeoQuestChecks.csproj') -Encoding UTF8

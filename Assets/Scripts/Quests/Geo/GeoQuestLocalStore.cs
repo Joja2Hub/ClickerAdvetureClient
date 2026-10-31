@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ClickerAdventure
 {
     /// <summary>Local cache only; never an authoritative proof for server rewards.</summary>
-    public sealed class GeoQuestLocalStore
+    public sealed class GeoQuestLocalStore : IGeoQuestProgressStore
     {
         private readonly string directory;
 

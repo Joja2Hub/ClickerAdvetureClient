@@ -114,6 +114,7 @@ internal static class Program
         try { store.Load("child-a", definition); throw new Exception("Broken save accepted."); }
         catch (InvalidDataException) { checks++; }
         Equal("{broken", File.ReadAllText(savePath));
+        checks += CheckInChecks.Run().GetAwaiter().GetResult();
         Console.WriteLine($"Geo quests: {checks} checks passed.");
     }
 }

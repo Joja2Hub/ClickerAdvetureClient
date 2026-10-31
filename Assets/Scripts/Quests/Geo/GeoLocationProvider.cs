@@ -4,18 +4,8 @@ using UnityEngine;
 
 namespace ClickerAdventure
 {
-    public enum GeoLocationError
-    {
-        Unavailable,
-        Busy,
-        DisabledOrDenied,
-        Failed,
-        Timeout,
-        Cancelled
-    }
-
     /// <summary>One foreground location request at a time; never starts GPS on scene load.</summary>
-    public sealed class GeoLocationProvider : MonoBehaviour
+    public sealed class GeoLocationProvider : MonoBehaviour, IGeoLocationSource
     {
     #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
         [SerializeField, Min(1)] private float timeoutSeconds = 20;
