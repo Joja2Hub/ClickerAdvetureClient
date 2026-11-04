@@ -12,6 +12,7 @@ namespace ClickerAdventure
         [SerializeField] private MapNodeConfig[] nodes = System.Array.Empty<MapNodeConfig>();
 
         private Text statusText;
+        private GeoQuestPanel geoQuestPanel;
         private RectTransform mapSurface;
         private List<MapNodeState> nodeStates = new();
         private bool isApplyingTestReward;
@@ -106,13 +107,33 @@ namespace ClickerAdventure
             statusText = RuntimeUi.Text(root, "Status", "", 25, new Color(0.28f, 0.16f, 0.08f));
             RuntimeUi.SetRect(statusText.rectTransform, new Vector2(0.5f, 0.145f), new Vector2(900, 68), Vector2.zero);
 
-            CreateBottomButton(root, "GuildButton", "Гильдия", ArtLibrary.Icon("ui_icon_guild"), new Vector2(0.33f, 0.07f), OpenTownFromFirstTownNode);
+            CreateBottomButton(root, "GuildButton", "Гильдия", ArtLibrary.Icon("ui_icon_guild"), new Vector2(0.20f, 0.07f), OpenTownFromFirstTownNode);
+            CreateBottomButton(root, "GeoQuestsButton", "Геоквесты", ArtLibrary.Icon("ui_icon_map"), new Vector2(0.5f, 0.07f), () =>
+            {
+                if (geoQuestPanel == null)
+                {
+                    geoQuestPanel = GeoQuestPanel.OpenDemo(root, ServiceRegistry.Auth.CurrentUser.ChildId);
+                    mapScroll.StopMovement();
+                    mapScroll.enabled = false;
+                    mapZoom.enabled = false;
+                    geoQuestPanel.Closed += () =>
+                    {
+                        if (mapScroll != null) mapScroll.enabled = true;
+                        if (mapZoom != null) mapZoom.enabled = true;
+                    };
+                }
+            });
             CreateBottomButton(root, "InventoryButton", "Инвентарь", ArtLibrary.Icon("ui_icon_bag"), new Vector2(0.5f, 0.07f), () => statusText.text = "Инвентарь откроется в следующем этапе.");
-            CreateBottomButton(root, "SettingsButton", "Настройки", ArtLibrary.Icon("ui_icon_settings"), new Vector2(0.67f, 0.07f), () => statusText.text = "Настройки откроются в следующем этапе.");
+            CreateBottomButton(root, "SettingsButton", "Настройки", ArtLibrary.Icon("ui_icon_settings"), new Vector2(0.80f, 0.07f), () => statusText.text = "Настройки откроются в следующем этапе.");
         }
 
         private void Update()
         {
+            if (geoQuestPanel != null)
+            {
+                if (DesktopTestMode.Pressed(KeyCode.Escape)) geoQuestPanel.Close();
+                return;
+            }
             if (!DesktopTestMode.IsEnabled || isApplyingTestReward)
             {
                 return;

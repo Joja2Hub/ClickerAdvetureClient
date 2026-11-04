@@ -54,6 +54,11 @@ namespace ClickerAdventure.EditorTools
                         i == 0 ? "Выполнить" : "Забрать награду", null, null);
                 }
             });
+            Render(directory, "geo-quest", () =>
+            {
+                var canvas = RuntimeUi.CreateCanvas("GeoQuestPreview");
+                GeoQuestPanel.OpenDemo(RuntimeUi.SafeAreaRoot(canvas.transform), "ui-preview-child");
+            });
             Debug.Log("UI previews exported: " + directory);
         }
 
