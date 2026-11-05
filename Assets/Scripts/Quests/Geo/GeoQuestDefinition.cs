@@ -15,6 +15,7 @@ namespace ClickerAdventure
         public long StartsAtUnixSeconds;
         public long EndsAtUnixSeconds;
         public int UtcOffsetMinutes = 180;
+        public GeoQuestDefinition Clone() => (GeoQuestDefinition)MemberwiseClone();
     }
 
     public enum GeoVisitResult

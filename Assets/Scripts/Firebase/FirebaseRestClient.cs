@@ -268,7 +268,7 @@ namespace ClickerAdventure
         private static RealLifeQuest ToQuest(Dictionary<string, object> document)
         {
             var fields = GetFields(document);
-            return new RealLifeQuest
+            var quest = new RealLifeQuest
             {
                 Id = ExtractDocumentId(GetString(document, "name")),
                 Title = FireString(fields, "title", "Квест"),
@@ -288,6 +288,9 @@ namespace ClickerAdventure
                 ApprovedAt = FireTimestamp(fields, "approvedAt"),
                 ClaimedAt = FireTimestamp(fields, "claimedAt")
             };
+            try { quest.Geo = GeoQuestFirestoreReader.Read(fields, quest.Id, quest.Title); }
+            catch (FormatException) { quest.GeoValidationError = "Не удалось прочитать условия геоквеста. Попроси родителя проверить задание."; }
+            return quest;
         }
 
         private static Dictionary<string, object> GetFields(Dictionary<string, object> document)

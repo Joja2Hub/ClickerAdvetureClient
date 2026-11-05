@@ -403,7 +403,9 @@ namespace ClickerAdventure
                 AssignedAt = quest.AssignedAt,
                 SubmittedAt = quest.SubmittedAt,
                 ApprovedAt = quest.ApprovedAt,
-                ClaimedAt = quest.ClaimedAt
+                ClaimedAt = quest.ClaimedAt,
+                Geo = quest.Geo?.Clone(),
+                GeoValidationError = quest.GeoValidationError
             };
         }
     }

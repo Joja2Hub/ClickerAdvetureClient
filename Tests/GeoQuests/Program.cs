@@ -115,6 +115,7 @@ internal static class Program
         catch (InvalidDataException) { checks++; }
         Equal("{broken", File.ReadAllText(savePath));
         checks += CheckInChecks.Run().GetAwaiter().GetResult();
+        checks += FirestoreReaderChecks.Run();
         Console.WriteLine($"Geo quests: {checks} checks passed.");
     }
 }

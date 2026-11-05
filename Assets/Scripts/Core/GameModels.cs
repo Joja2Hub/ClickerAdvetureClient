@@ -89,6 +89,9 @@ namespace ClickerAdventure
         public string SubmittedAt;
         public string ApprovedAt;
         public string ClaimedAt;
+        public GeoQuestDefinition Geo;
+        public string GeoValidationError;
+        public bool HasGeoConditions => Geo != null || !string.IsNullOrEmpty(GeoValidationError);
     }
 
     [Serializable]

@@ -50,7 +50,7 @@ namespace ClickerAdventure
             overlay.SetAsLastSibling();
             var panel = overlay.gameObject.AddComponent<GeoQuestPanel>();
             panel.childId = childId;
-            panel.definition = definition;
+            panel.definition = definition.Clone();
             panel.store = new GeoQuestLocalStore();
             var provider = overlay.gameObject.AddComponent<GeoLocationProvider>();
             panel.checkIns = new GeoQuestCheckInService(provider, panel.store);

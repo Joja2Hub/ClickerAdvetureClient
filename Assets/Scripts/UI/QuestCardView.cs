@@ -94,7 +94,8 @@ namespace ClickerAdventure
             detailsButton.onClick.RemoveAllListeners();
             detailsButton.onClick.AddListener(() => onDetails?.Invoke());
 
-            actionButtonText.text = actionLabel;
+            actionButtonText.text = quest.HasGeoConditions && (quest.Status is QuestStatus.Assigned or QuestStatus.Rejected)
+                ? "Геоквест" : actionLabel;
             actionButton.interactable = quest.Status is QuestStatus.Assigned
                 or QuestStatus.Rejected
                 or QuestStatus.Approved;

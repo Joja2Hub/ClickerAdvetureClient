@@ -22,6 +22,7 @@ namespace ClickerAdventure
         private readonly HashSet<string> viewedQuestIdsThisScreenSession = new();
         private readonly Dictionary<Button, QuestStatus?> filterButtons = new();
         private bool isBusy;
+        private GeoQuestPanel geoQuestPanel;
 
         private async void Start()
         {
@@ -38,6 +39,11 @@ namespace ClickerAdventure
 
         private void Update()
         {
+            if (geoQuestPanel != null)
+            {
+                if (DesktopTestMode.Pressed(KeyCode.Escape)) geoQuestPanel.Close();
+                return;
+            }
             if (!DesktopTestMode.IsEnabled || isBusy)
             {
                 return;
@@ -333,7 +339,8 @@ namespace ClickerAdventure
             RuntimeUi.SetRect(close.GetComponent<RectTransform>(), new Vector2(0.28f, 0.07f), new Vector2(300, 76), Vector2.zero);
 
             Button action = null;
-            action = RuntimeUi.Button(card, "Action", ActionLabel(quest.Status), new Color(0.31f, 0.48f, 0.71f), () => _ = OnQuestActionAsync(quest, action.GetComponent<RectTransform>()));
+            action = RuntimeUi.Button(card, "Action", quest.HasGeoConditions && (quest.Status is QuestStatus.Assigned or QuestStatus.Rejected)
+                ? "Геоквест" : ActionLabel(quest.Status), new Color(0.31f, 0.48f, 0.71f), () => _ = OnQuestActionAsync(quest, action.GetComponent<RectTransform>()));
             RuntimeUi.SetRect(action.GetComponent<RectTransform>(), new Vector2(0.70f, 0.07f), new Vector2(360, 76), Vector2.zero);
             action.interactable = quest.Status is QuestStatus.Assigned or QuestStatus.Rejected or QuestStatus.Approved;
 
@@ -480,7 +487,7 @@ namespace ClickerAdventure
 
         private async System.Threading.Tasks.Task OnQuestActionAsync(RealLifeQuest quest, RectTransform rewardSource)
         {
-            if (isBusy)
+            if (isBusy || geoQuestPanel != null)
             {
                 return;
             }
@@ -491,6 +498,19 @@ namespace ClickerAdventure
             {
                 if (quest.Status is QuestStatus.Assigned or QuestStatus.Rejected)
                 {
+                    if (quest.HasGeoConditions)
+                    {
+                        if (!string.IsNullOrEmpty(quest.GeoValidationError))
+                        {
+                            statusText.text = quest.GeoValidationError;
+                            return;
+                        }
+                        CloseQuestDetails();
+                        if (geoQuestPanel == null)
+                            geoQuestPanel = GeoQuestPanel.Open(root, childId, quest.Geo,
+                                quest.Description + "\nПосещения сохраняются на этом устройстве.");
+                        return;
+                    }
                     var previousStatus = quest.Status.ToString().ToLowerInvariant();
                     await ServiceRegistry.Quests.SubmitQuestAsync(childId, quest.Id, "Готово!");
                     _ = ServiceRegistry.AnalyticsEvents.TrackQuestSubmittedAsync(quest, previousStatus);
