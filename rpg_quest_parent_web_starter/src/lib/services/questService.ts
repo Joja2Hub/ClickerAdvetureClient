@@ -13,7 +13,8 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import { trackQuestEvent } from "@/services/analyticsService";
-import { Quest, QuestCategory, QuestDifficulty, QuestStatus } from "@/lib/types";
+import { Quest, QuestCategory, QuestDifficulty, QuestStatus, GeoQuestConditions } from "@/lib/types";
+import { validateGeoQuest } from "@/lib/geoQuest";
 import { demoQuests, isDemoChild } from "@/lib/demoData";
 
 export interface CreateQuestInput {
@@ -28,9 +29,12 @@ export interface CreateQuestInput {
   recommendationScore?: number;
   recommended?: boolean;
   dueDate?: Date | null;
+  geo?: GeoQuestConditions;
 }
 
 export async function createQuest(input: CreateQuestInput): Promise<string> {
+  const geo = input.geo ? { ...input.geo } : undefined;
+  if (geo) validateGeoQuest(geo);
   if (isDemoChild(input.childId)) {
     return `demo-created-${Date.now()}`;
   }
@@ -49,6 +53,7 @@ export async function createQuest(input: CreateQuestInput): Promise<string> {
     recommended: input.recommended ?? false,
     createdAt: serverTimestamp(),
     dueDate: input.dueDate ?? null,
+    ...(geo ? { geo } : {}),
   });
   await trackParentEventSafely(input.childId, ref.id, "quest_created", {
     category: input.category,

@@ -8,6 +8,8 @@ import { createQuest } from "@/lib/services/questService";
 import { getRecommendationForCategory } from "@/services/analyticsService";
 import { QuestCategory, QuestDifficulty, QuestRecommendation } from "@/lib/types";
 import { questTemplates, rewardsByDifficulty } from "@/lib/questTemplates";
+import { GeoQuestFields } from "@/components/GeoQuestFields";
+import { buildGeoQuest, newGeoQuestDraft, GeoQuestDraft } from "@/lib/geoQuest";
 
 const categories: { value: QuestCategory; label: string }[] = [
   { value: "study", label: "Учеба" },
@@ -37,6 +39,8 @@ export default function NewQuestPage() {
   const [recommendationLoading, setRecommendationLoading] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [geoEnabled, setGeoEnabled] = useState(false);
+  const [geoDraft, setGeoDraft] = useState<GeoQuestDraft>({ latitude: "", longitude: "", radiusMeters: "100", requiredVisits: "5", startDate: "", lastDate: "", utcOffsetMinutes: "180" });
 
   useEffect(() => {
     let active = true;
@@ -61,6 +65,7 @@ export default function NewQuestPage() {
     setError("");
     setLoading(true);
     try {
+      const geo = geoEnabled ? buildGeoQuest(geoDraft) : undefined;
       if (!profile || profile.role !== "parent") {
         throw new Error("Создавать квесты может только родительский аккаунт.");
       }
@@ -79,6 +84,7 @@ export default function NewQuestPage() {
         createdByParentId: user.uid,
         recommendationScore: recommendation?.score ?? 0,
         recommended: (recommendation?.score ?? 0) >= 70,
+        geo,
       });
       router.push(`/children/${childId}/quests`);
     } catch (err) {
@@ -134,6 +140,16 @@ export default function NewQuestPage() {
           <h1>Создать реальный квест</h1>
           <p>Квест появится у ребенка на доске приключений в Unity.</p>
         </div>
+        <label>Тип задания<select value={geoEnabled ? "geo" : "regular"} disabled={loading} onChange={e => {
+          const enabled = e.target.value === "geo";
+          setGeoEnabled(enabled);
+          setError("");
+          if (enabled && !geoDraft.startDate) setGeoDraft(newGeoQuestDraft());
+        }}>
+          <option value="regular">Обычное задание</option>
+          <option value="geo">Геоквест — посещение места</option>
+        </select></label>
+        {geoEnabled && <GeoQuestFields value={geoDraft} onChange={value => { setGeoDraft(value); setError(""); }} disabled={loading} />}
         <details className="templateSection">
           <summary>
             <div>

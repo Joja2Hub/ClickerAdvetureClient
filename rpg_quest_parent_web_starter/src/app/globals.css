@@ -14,6 +14,10 @@
   --shadow: 0 16px 40px rgba(57, 37, 18, 0.12);
 }
 
+.geoQuestFields { margin: 0; min-width: 0; padding: 20px; border: 1px solid var(--border); border-radius: 18px; }
+.geoQuestFields legend { padding: 0 8px; font-weight: 800; }
+.geoQuestFields p { margin: 0; }
+
 * { box-sizing: border-box; }
 body {
   margin: 0;

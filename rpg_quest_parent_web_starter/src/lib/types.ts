@@ -69,6 +69,17 @@ export interface QuestRewardItem {
   quantity: number;
 }
 
+export interface GeoQuestConditions {
+  version: 1;
+  latitude: number;
+  longitude: number;
+  radiusMeters: number;
+  requiredVisits: number;
+  startsAtUnixSeconds: number;
+  endsAtUnixSeconds: number;
+  utcOffsetMinutes: number;
+}
+
 export interface Quest {
   id: string;
   title: string;
@@ -91,6 +102,7 @@ export interface Quest {
   difficulty?: QuestDifficulty;
   recommendationScore?: number;
   recommended?: boolean;
+  geo?: GeoQuestConditions | null;
 }
 
 export interface QuestEvent {
