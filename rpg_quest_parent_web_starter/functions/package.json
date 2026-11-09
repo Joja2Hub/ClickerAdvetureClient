@@ -4,6 +4,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
+    "test:geo": "npm run build && node --test test/geoCheckIn.test.cjs",
     "serve": "npm run build && firebase emulators:start --only functions,firestore",
     "deploy": "firebase deploy --only functions",
     "lint": "echo \"No lint configured\""

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.claimQuestReward = exports.createChildLogin = exports.rejectQuest = exports.approveQuest = exports.generateQuestRecommendations = exports.rebuildChildAnalytics = exports.onQuestEventCreated = void 0;
+exports.claimQuestReward = exports.createChildLogin = exports.rejectQuest = exports.approveQuest = exports.checkInGeoQuest = exports.generateQuestRecommendations = exports.rebuildChildAnalytics = exports.onQuestEventCreated = void 0;
 const app_1 = require("firebase-admin/app");
 const auth_1 = require("firebase-admin/auth");
 const firestore_1 = require("firebase-admin/firestore");
@@ -10,6 +10,8 @@ Object.defineProperty(exports, "onQuestEventCreated", { enumerable: true, get: f
 Object.defineProperty(exports, "rebuildChildAnalytics", { enumerable: true, get: function () { return analytics_js_1.rebuildChildAnalytics; } });
 var recommendations_js_1 = require("./recommendations.js");
 Object.defineProperty(exports, "generateQuestRecommendations", { enumerable: true, get: function () { return recommendations_js_1.generateQuestRecommendations; } });
+var geoCheckIn_js_1 = require("./geoCheckIn.js");
+Object.defineProperty(exports, "checkInGeoQuest", { enumerable: true, get: function () { return geoCheckIn_js_1.checkInGeoQuest; } });
 if ((0, app_1.getApps)().length === 0)
     (0, app_1.initializeApp)();
 const db = (0, firestore_1.getFirestore)();

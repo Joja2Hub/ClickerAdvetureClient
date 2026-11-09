@@ -36,7 +36,16 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read, create, update: if signedIn() && request.auth.uid == userId;
+      allow read: if signedIn() && request.auth.uid == userId;
+      // Parent setup creates a family first. Child bindings are written by Admin SDK.
+      allow create: if signedIn() && request.auth.uid == userId
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.role == "parent"
+        && !("childId" in request.resource.data)
+        && request.resource.data.familyId is string
+        && get(/databases/$(database)/documents/families/$(request.resource.data.familyId)).data.ownerParentId == request.auth.uid;
+      allow update: if signedIn() && request.auth.uid == userId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["displayName", "email", "updatedAt"]);
     }
 
     match /families/{familyId} {
@@ -78,12 +87,21 @@ service cloud.firestore {
         allow update: if isChild()
           && currentUser().childId == childId
           && resource.data.status in ["assigned", "rejected"]
+          && (!("geo" in resource.data) || resource.data.geo == null)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["status", "childComment", "submittedAt"])
           && request.resource.data.status == "submitted";
         allow update: if isChild()
           && currentUser().childId == childId
           && resource.data.status == "approved"
+          && (!("geo" in resource.data) || resource.data.geo == null)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["status", "claimedAt"])
           && request.resource.data.status == "claimed";
         allow delete: if false;
+        match /geoVisits/{visitId} {
+          allow read: if (isParent() && sameFamily(childFamily(childId)))
+            || (isChild() && currentUser().childId == childId);
+          allow write: if false;
+        }
       }
 
       match /rewardLedger/{rewardId} {

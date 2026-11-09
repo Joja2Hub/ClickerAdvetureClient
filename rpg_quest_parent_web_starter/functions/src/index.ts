@@ -5,6 +5,7 @@ import { HttpsError, onCall } from "firebase-functions/v2/https";
 
 export { onQuestEventCreated, rebuildChildAnalytics } from "./analytics.js";
 export { generateQuestRecommendations } from "./recommendations.js";
+export { checkInGeoQuest } from "./geoCheckIn.js";
 
 if (getApps().length === 0) initializeApp();
 const db = getFirestore();
