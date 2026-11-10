@@ -54,7 +54,7 @@ namespace ClickerAdventure
             throw new FormatException("Missing or invalid geo field: " + name);
         }
 
-        private static int Integer(Dictionary<string, object> fields, string name)
+        internal static int Integer(Dictionary<string, object> fields, string name)
         {
             double number = Number(fields, name);
             if (number != Math.Truncate(number) || number < int.MinValue || number > int.MaxValue)

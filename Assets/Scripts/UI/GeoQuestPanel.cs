@@ -13,6 +13,9 @@ namespace ClickerAdventure
         private string childId;
         private GeoQuestLocalStore store;
         private GeoQuestCheckInService checkIns;
+        private IGeoQuestRemoteClient remote;
+        private string remoteStatus;
+        private Button refresh;
         private Text progressText;
         private Text statusText;
         private Text actionText;
@@ -40,7 +43,8 @@ namespace ClickerAdventure
             }, "Учебное задание: посещение тестовой точки. Прогресс сохраняется на этом устройстве. Задание без награды.");
         }
 
-        public static GeoQuestPanel Open(Transform parent, string childId, GeoQuestDefinition definition, string instructions)
+        public static GeoQuestPanel Open(Transform parent, string childId, GeoQuestDefinition definition, string instructions,
+            IGeoQuestRemoteClient remote = null)
         {
             if (definition == null) throw new ArgumentNullException(nameof(definition));
             if (string.IsNullOrWhiteSpace(childId)) throw new ArgumentException("Child ID is required.", nameof(childId));
@@ -52,8 +56,9 @@ namespace ClickerAdventure
             panel.childId = childId;
             panel.definition = definition.Clone();
             panel.store = new GeoQuestLocalStore();
+            panel.remote = remote;
             var provider = overlay.gameObject.AddComponent<GeoLocationProvider>();
-            panel.checkIns = new GeoQuestCheckInService(provider, panel.store);
+            panel.checkIns = new GeoQuestCheckInService(provider, remote == null ? panel.store : null, remote: remote);
             panel.Build(instructions);
             panel.LoadProgress();
             return panel;
@@ -95,26 +100,46 @@ namespace ClickerAdventure
             action = RuntimeUi.Button(card, "CheckIn", "Отметить посещение", UiTheme.Primary, CheckIn);
             RuntimeUi.SetRect(action.GetComponent<RectTransform>(), new Vector2(0.5f, 0.09f), new Vector2(760, 86), Vector2.zero);
             actionText = action.GetComponentInChildren<Text>();
+            if (remote != null)
+            {
+                refresh = RuntimeUi.Button(transform, "Refresh", "Обновить прогресс", UiTheme.Secondary, LoadProgress);
+                RuntimeUi.SetRect(refresh.GetComponent<RectTransform>(), new Vector2(0.5f, 0.17f), new Vector2(430, 64), Vector2.zero);
+            }
             var close = RuntimeUi.Button(transform, "Close", "Вернуться к карте", UiTheme.Secondary, Close);
             RuntimeUi.SetRect(close.GetComponent<RectTransform>(), new Vector2(0.5f, 0.10f), new Vector2(430, 78), Vector2.zero);
         }
 
-        private void LoadProgress()
+        private async void LoadProgress()
         {
+            if (checking) return;
+            checking = true;
+            loaded = false;
+            statusText.text = "Загружаем прогресс…";
+            UpdateAction();
             try
             {
-                var tracker = store.Load(childId, definition);
+                int count;
+                if (remote != null)
+                {
+                    var progress = await remote.LoadGeoProgressAsync(childId, definition);
+                    if (this == null || !isActiveAndEnabled) return;
+                    count = progress.VisitCount;
+                    remoteStatus = progress.Status;
+                }
+                else count = store.Load(childId, definition).VisitCount;
                 loaded = true;
-                SetProgress(tracker.VisitCount);
-                statusText.text = completed ? "Цель достигнута. Все посещения сохранены." : "Подойди к нужной точке и отметь посещение.";
+                SetProgress(count);
+                statusText.text = ServerStatusMessage() ?? (completed ? "Цель достигнута. Все посещения сохранены." : "Подойди к нужной точке и отметь посещение.");
             }
-            catch (Exception exception) when (IsStorageError(exception))
+            catch (Exception exception) when (IsGeoError(exception))
             {
+                if (this == null) return;
                 loaded = false;
                 progressText.text = "Прогресс недоступен";
-                statusText.text = "Не удалось загрузить прогресс. Повтори попытку. Сохранённые посещения не сбрасываются.";
+                statusText.text = remote != null ? "Не удалось загрузить серверный прогресс. Проверь связь и повтори попытку."
+                    : "Не удалось загрузить прогресс. Повтори попытку. Сохранённые посещения не сбрасываются.";
             }
-            UpdateAction();
+            finally { if (this != null) { checking = false; UpdateAction(); } }
         }
 
         private async void CheckIn()
@@ -129,12 +154,15 @@ namespace ClickerAdventure
                 var result = await checkIns.CheckInAsync(childId, definition);
                 if (this == null || !isActiveAndEnabled) return;
                 if (result.Status != GeoCheckInStatus.Busy) SetProgress(result.VisitCount);
-                statusText.text = Describe(result);
+                if (result.RemoteStatus != null) remoteStatus = result.RemoteStatus;
+                statusText.text = ServerStatusMessage() ?? (remote != null && result.VisitResult == GeoVisitResult.Counted
+                    ? "Посещение подтверждено сервером!" : Describe(result));
             }
-            catch (Exception exception) when (IsStorageError(exception))
+            catch (Exception exception) when (IsGeoError(exception))
             {
                 if (this != null && isActiveAndEnabled)
-                    statusText.text = "Не удалось сохранить или загрузить посещение. Проверь свободное место и повтори попытку.";
+                    statusText.text = remote != null ? "Сервер не подтвердил результат. Обнови прогресс перед повторной попыткой."
+                        : "Не удалось сохранить или загрузить посещение. Проверь свободное место и повтори попытку.";
             }
             finally
             {
@@ -153,9 +181,11 @@ namespace ClickerAdventure
         {
             long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             bool active = now >= definition.StartsAtUnixSeconds && now < definition.EndsAtUnixSeconds;
-            action.interactable = !checking && (!loaded || (!completed && active));
-            actionText.text = checking ? "Ищем точку…" : !loaded ? "Повторить загрузку"
-                : completed ? "Цель достигнута" : !active ? "Задание вне срока" : "Отметить посещение";
+            bool accepting = remote == null || remoteStatus == "assigned" || remoteStatus == "rejected";
+            action.interactable = !checking && (!loaded || (!completed && active && accepting));
+            if (refresh != null) refresh.interactable = !checking;
+            actionText.text = checking ? "Проверяем…" : !loaded ? "Повторить загрузку"
+                : !accepting ? "Отметки завершены" : completed ? "Цель достигнута" : !active ? "Задание вне срока" : "Отметить посещение";
         }
 
         public void Close() => Destroy(gameObject);
@@ -169,8 +199,21 @@ namespace ClickerAdventure
 
         private void OnDestroy() => Closed?.Invoke();
 
-        private static bool IsStorageError(Exception exception) => exception is IOException
-            || exception is UnauthorizedAccessException || exception is ArgumentException;
+        private static bool IsGeoError(Exception exception) => exception is IOException
+            || exception is UnauthorizedAccessException || exception is ArgumentException
+            || exception is InvalidOperationException || exception is FormatException;
+
+        private string ServerStatusMessage()
+        {
+            switch (remoteStatus)
+            {
+                case "submitted": return "Задание отправлено родителю на проверку.";
+                case "approved": return "Родитель одобрил задание. Награду можно забрать в гильдии.";
+                case "claimed": return "Награда за это задание уже получена.";
+                case "cancelled": return "Родитель отменил это задание.";
+                default: return null;
+            }
+        }
 
         private static string Describe(GeoCheckInResult result)
         {

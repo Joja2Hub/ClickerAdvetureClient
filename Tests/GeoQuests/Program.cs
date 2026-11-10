@@ -116,6 +116,7 @@ internal static class Program
         Equal("{broken", File.ReadAllText(savePath));
         checks += CheckInChecks.Run().GetAwaiter().GetResult();
         checks += FirestoreReaderChecks.Run();
+        checks += RemoteChecks.Run().GetAwaiter().GetResult();
         Console.WriteLine($"Geo quests: {checks} checks passed.");
     }
 }

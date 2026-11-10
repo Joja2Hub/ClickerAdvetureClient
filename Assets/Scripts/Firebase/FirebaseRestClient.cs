@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 
 namespace ClickerAdventure
 {
-    public sealed class FirebaseRestClient
+    public sealed class FirebaseRestClient : IGeoQuestRemoteClient
     {
         private readonly FirebaseWebConfig config;
 
@@ -225,6 +225,26 @@ namespace ClickerAdventure
                 true);
         }
 
+        public async Task<GeoServerProgress> LoadGeoProgressAsync(string childId, GeoQuestDefinition definition)
+        {
+            if (definition == null) throw new ArgumentNullException(nameof(definition));
+            if (!IsSignedIn) throw new InvalidOperationException("Нужен вход в детский аккаунт.");
+            GeoQuestRemoteProtocol.ValidateId(childId);
+            GeoQuestRemoteProtocol.ValidateId(definition.Id);
+            var document = await GetDocumentAsync($"children/{Uri.EscapeDataString(childId)}/quests/{Uri.EscapeDataString(definition.Id)}");
+            return GeoQuestRemoteProtocol.Document(document, definition);
+        }
+
+        public async Task<GeoServerProgress> CheckInGeoQuestAsync(string childId, GeoQuestDefinition definition, GeoLocationReading reading)
+        {
+            if (definition == null) throw new ArgumentNullException(nameof(definition));
+            if (!IsSignedIn) throw new InvalidOperationException("Нужен вход в детский аккаунт.");
+            var body = GeoQuestRemoteProtocol.Request(childId, definition.Id, reading);
+            var result = await SendJsonAsync("POST",
+                $"https://{config.FunctionsRegion}-{config.ProjectId}.cloudfunctions.net/checkInGeoQuest", body, true);
+            return GeoQuestRemoteProtocol.Response(result, definition.RequiredVisits);
+        }
+
         private async Task<Dictionary<string, object>> GetDocumentAsync(string path)
         {
             return await SendJsonAsync("GET", FirestoreUrl(path), null, true);
@@ -237,7 +257,8 @@ namespace ClickerAdventure
 
         private async Task<Dictionary<string, object>> SendJsonAsync(string method, string url, Dictionary<string, object> body, bool authorize)
         {
-            var request = new UnityWebRequest(url, method);
+            using var request = new UnityWebRequest(url, method);
+            request.timeout = 30;
             request.downloadHandler = new DownloadHandlerBuffer();
             if (body != null)
             {

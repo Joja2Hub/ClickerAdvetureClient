@@ -16,6 +16,8 @@ $sourceRoot = [System.Security.SecurityElement]::Escape($projectRoot)
     <Compile Include="$sourceRoot/Tests/GeoQuests/UnityDoubles.cs" />
     <Compile Include="$sourceRoot/Tests/GeoQuests/CheckInChecks.cs" />
     <Compile Include="$sourceRoot/Tests/GeoQuests/FirestoreReaderChecks.cs" />
+    <Compile Include="$sourceRoot/Tests/GeoQuests/RemoteChecks.cs" />
+    <Compile Include="$sourceRoot/Assets/Scripts/Firebase/FirebaseJson.cs" />
   </ItemGroup>
 </Project>
 "@ | Set-Content -LiteralPath (Join-Path $runner 'GeoQuestChecks.csproj') -Encoding UTF8

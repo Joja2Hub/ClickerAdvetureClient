@@ -507,8 +507,19 @@ namespace ClickerAdventure
                         }
                         CloseQuestDetails();
                         if (geoQuestPanel == null)
+                        {
                             geoQuestPanel = GeoQuestPanel.Open(root, childId, quest.Geo,
-                                quest.Description + "\nПосещения сохраняются на этом устройстве.");
+                                quest.Description + "\nПосещения подтверждаются сервером.", ServiceRegistry.FirebaseRest);
+                            geoQuestPanel.Closed += async () =>
+                            {
+                                if (this == null) return;
+                                try { await RefreshQuestsAsync(); }
+                                catch (System.Exception)
+                                {
+                                    if (this != null) statusText.text = "Не удалось обновить задания. Проверь связь и повтори обновление.";
+                                }
+                            };
+                        }
                         return;
                     }
                     var previousStatus = quest.Status.ToString().ToLowerInvariant();
