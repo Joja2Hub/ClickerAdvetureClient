@@ -5,6 +5,7 @@ const app_1 = require("firebase-admin/app");
 const auth_1 = require("firebase-admin/auth");
 const firestore_1 = require("firebase-admin/firestore");
 const https_1 = require("firebase-functions/v2/https");
+const geoPolicy_js_1 = require("./geoPolicy.js");
 var analytics_js_1 = require("./analytics.js");
 Object.defineProperty(exports, "onQuestEventCreated", { enumerable: true, get: function () { return analytics_js_1.onQuestEventCreated; } });
 Object.defineProperty(exports, "rebuildChildAnalytics", { enumerable: true, get: function () { return analytics_js_1.rebuildChildAnalytics; } });
@@ -65,6 +66,17 @@ exports.approveQuest = (0, https_1.onCall)({ region: "europe-west1" }, async (re
         const quest = questSnap.data();
         if (quest.status !== "submitted") {
             throw new https_1.HttpsError("failed-precondition", "Одобрить можно только квест на проверке.");
+        }
+        if (quest.geo != null) {
+            try {
+                (0, geoPolicy_js_1.assertCompletedGeoQuest)(quest.geo, quest.geoProgress);
+            }
+            catch (error) {
+                if (error instanceof geoPolicy_js_1.GeoPolicyError) {
+                    throw new https_1.HttpsError("failed-precondition", "Посещения по текущим условиям ещё не подтверждены.");
+                }
+                throw error;
+            }
         }
         const rewardSnap = await tx.get(rewardRef);
         if (rewardSnap.exists) {

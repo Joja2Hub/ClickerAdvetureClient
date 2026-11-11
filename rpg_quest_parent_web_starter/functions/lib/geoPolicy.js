@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GeoPolicyError = void 0;
+exports.assertCompletedGeoQuest = assertCompletedGeoQuest;
 exports.evaluateGeoVisit = evaluateGeoVisit;
 const node_crypto_1 = require("node:crypto");
 class GeoPolicyError extends Error {
@@ -22,9 +23,8 @@ function number(data, field, min, max, integer = false) {
         throw new GeoPolicyError("invalid-argument", `Некорректное поле: ${field}.`);
     return value;
 }
-function evaluateGeoVisit(conditions, observation, serverNow) {
+function readConditions(conditions) {
     const geo = object(conditions);
-    const reading = object(observation);
     if (geo.version !== 1)
         throw new GeoPolicyError("failed-precondition", "Неизвестная версия геоквеста.");
     const latitude = number(geo, "latitude", -90, 90);
@@ -36,6 +36,21 @@ function evaluateGeoVisit(conditions, observation, serverNow) {
     const end = number(geo, "endsAtUnixSeconds", -62135596800, 253402300799, true);
     if (end <= start)
         throw new GeoPolicyError("failed-precondition", "Некорректный срок задания.");
+    const definitionHash = (0, node_crypto_1.createHash)("sha256").update(JSON.stringify([
+        1, latitude, longitude, radius, goal, start, end, offset,
+    ])).digest("hex");
+    return { latitude, longitude, radius, goal, offset, start, end, definitionHash };
+}
+function assertCompletedGeoQuest(conditions, progress) {
+    const { goal, definitionHash } = readConditions(conditions);
+    const stored = object(progress);
+    if (stored.visitCount !== goal || stored.definitionHash !== definitionHash) {
+        throw new GeoPolicyError("failed-precondition", "Посещения по текущим условиям ещё не подтверждены.");
+    }
+}
+function evaluateGeoVisit(conditions, observation, serverNow) {
+    const { latitude, longitude, radius, goal, offset, start, end, definitionHash } = readConditions(conditions);
+    const reading = object(observation);
     const lat = number(reading, "latitude", -90, 90);
     const lon = number(reading, "longitude", -180, 180);
     const accuracy = number(reading, "accuracyMeters", 0, Number.MAX_VALUE);
@@ -54,9 +69,6 @@ function evaluateGeoVisit(conditions, observation, serverNow) {
     if (localTime < -62135596800 || localTime > 253402300799)
         throw new GeoPolicyError("invalid-argument", "Некорректное местное время.");
     const day = new Date(localTime * 1000).toISOString().slice(0, 10);
-    const definitionHash = (0, node_crypto_1.createHash)("sha256").update(JSON.stringify([
-        1, latitude, longitude, radius, goal, start, end, offset,
-    ])).digest("hex");
     return { day, definitionHash, goal, distance, observedAt };
 }
 //# sourceMappingURL=geoPolicy.js.map

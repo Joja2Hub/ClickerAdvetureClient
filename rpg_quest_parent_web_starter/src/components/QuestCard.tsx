@@ -13,7 +13,7 @@ export function QuestCard({ quest, actions }: { quest: Quest; actions?: React.Re
         <QuestStatusBadge status={quest.status} />
       </div>
       <p>{quest.description}</p>
-      {quest.geo && <p className="note">Геоквест · {quest.geo.requiredVisits} посещений · радиус {quest.geo.radiusMeters} м</p>}
+      {quest.geo && <p className="note">Геоквест · засчитано {quest.geoProgress?.visitCount ?? 0} из {quest.geo.requiredVisits} посещений · радиус {quest.geo.radiusMeters} м</p>}
       {quest.childComment && <p className="note"><b>Комментарий ребёнка:</b> {quest.childComment}</p>}
       {quest.parentComment && <p className="note"><b>Комментарий родителя:</b> {quest.parentComment}</p>}
       <div className="rewardRow">

@@ -18,9 +18,8 @@ function number(data: RecordData, field: string, min: number, max: number, integ
   return value;
 }
 
-export function evaluateGeoVisit(conditions: unknown, observation: unknown, serverNow: number) {
+function readConditions(conditions: unknown) {
   const geo = object(conditions);
-  const reading = object(observation);
   if (geo.version !== 1) throw new GeoPolicyError("failed-precondition", "Неизвестная версия геоквеста.");
   const latitude = number(geo, "latitude", -90, 90);
   const longitude = number(geo, "longitude", -180, 180);
@@ -30,6 +29,23 @@ export function evaluateGeoVisit(conditions: unknown, observation: unknown, serv
   const start = number(geo, "startsAtUnixSeconds", -62135596800, 253402300799, true);
   const end = number(geo, "endsAtUnixSeconds", -62135596800, 253402300799, true);
   if (end <= start) throw new GeoPolicyError("failed-precondition", "Некорректный срок задания.");
+  const definitionHash = createHash("sha256").update(JSON.stringify([
+    1, latitude, longitude, radius, goal, start, end, offset,
+  ])).digest("hex");
+  return { latitude, longitude, radius, goal, offset, start, end, definitionHash };
+}
+
+export function assertCompletedGeoQuest(conditions: unknown, progress: unknown) {
+  const { goal, definitionHash } = readConditions(conditions);
+  const stored = object(progress);
+  if (stored.visitCount !== goal || stored.definitionHash !== definitionHash) {
+    throw new GeoPolicyError("failed-precondition", "Посещения по текущим условиям ещё не подтверждены.");
+  }
+}
+
+export function evaluateGeoVisit(conditions: unknown, observation: unknown, serverNow: number) {
+  const { latitude, longitude, radius, goal, offset, start, end, definitionHash } = readConditions(conditions);
+  const reading = object(observation);
   const lat = number(reading, "latitude", -90, 90);
   const lon = number(reading, "longitude", -180, 180);
   const accuracy = number(reading, "accuracyMeters", 0, Number.MAX_VALUE);
@@ -48,8 +64,5 @@ export function evaluateGeoVisit(conditions: unknown, observation: unknown, serv
   if (localTime < -62135596800 || localTime > 253402300799)
     throw new GeoPolicyError("invalid-argument", "Некорректное местное время.");
   const day = new Date(localTime * 1000).toISOString().slice(0, 10);
-  const definitionHash = createHash("sha256").update(JSON.stringify([
-    1, latitude, longitude, radius, goal, start, end, offset,
-  ])).digest("hex");
   return { day, definitionHash, goal, distance, observedAt };
 }

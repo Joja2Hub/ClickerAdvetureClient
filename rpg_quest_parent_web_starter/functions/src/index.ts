@@ -2,6 +2,7 @@ import { getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore, FieldValue, Timestamp } from "firebase-admin/firestore";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
+import { assertCompletedGeoQuest, GeoPolicyError } from "./geoPolicy.js";
 
 export { onQuestEventCreated, rebuildChildAnalytics } from "./analytics.js";
 export { generateQuestRecommendations } from "./recommendations.js";
@@ -67,6 +68,16 @@ export const approveQuest = onCall({ region: "europe-west1" }, async (request) =
     const quest = questSnap.data()!;
     if (quest.status !== "submitted") {
       throw new HttpsError("failed-precondition", "Одобрить можно только квест на проверке.");
+    }
+    if (quest.geo != null) {
+      try {
+        assertCompletedGeoQuest(quest.geo, quest.geoProgress);
+      } catch (error) {
+        if (error instanceof GeoPolicyError) {
+          throw new HttpsError("failed-precondition", "Посещения по текущим условиям ещё не подтверждены.");
+        }
+        throw error;
+      }
     }
 
     const rewardSnap = await tx.get(rewardRef);

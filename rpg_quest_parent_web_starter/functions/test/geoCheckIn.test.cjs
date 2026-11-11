@@ -1,7 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { registerGeoVisit } = require('../lib/geoCheckIn.js');
-const { evaluateGeoVisit } = require('../lib/geoPolicy.js');
+const { assertCompletedGeoQuest, evaluateGeoVisit } = require('../lib/geoPolicy.js');
 const start = Date.parse('2026-11-09T00:00:00+03:00') / 1000;
 const geo = () => ({ version: 1, latitude: 55.75, longitude: 37.62, radiusMeters: 100,
   requiredVisits: 2, startsAtUnixSeconds: start, endsAtUnixSeconds: start + 7 * 86400, utcOffsetMinutes: 180 });
@@ -65,6 +65,11 @@ test('final visit submits to the parent without crediting rewards', async () => 
   assert.equal(final.status, 'submitted');
   assert.equal(final.visitCount, 2);
   assert.ok(db.docs.get(questPath).submittedAt);
+  const progress = db.docs.get(questPath).geoProgress;
+  assert.doesNotThrow(() => assertCompletedGeoQuest(geo(), progress));
+  assert.throws(() => assertCompletedGeoQuest(geo(), { ...progress, visitCount: 1 }));
+  assert.throws(() => assertCompletedGeoQuest({ ...geo(), radiusMeters: 200 }, progress));
+  assert.throws(() => assertCompletedGeoQuest(geo(), undefined));
   const repeat = await registerGeoVisit(db, 'uid', reading(next), next);
   assert.equal(repeat.alreadyVisitedToday, true);
   assert.equal(db.docs.get('children/child').gold, undefined);

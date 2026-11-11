@@ -11,7 +11,8 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { httpsCallable } from "firebase/functions";
+import { db, functions } from "@/lib/firebase/client";
 import { trackQuestEvent } from "@/services/analyticsService";
 import { Quest, QuestCategory, QuestDifficulty, QuestStatus, GeoQuestConditions } from "@/lib/types";
 import { validateGeoQuest } from "@/lib/geoQuest";
@@ -95,15 +96,11 @@ export async function listChildQuests(childId: string): Promise<Quest[]> {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Quest));
 }
 
-export async function approveQuestDirect(childId: string, questId: string): Promise<void> {
+export async function approveQuest(childId: string, questId: string): Promise<void> {
   if (isDemoChild(childId)) return;
 
   const quest = await getQuest(childId, questId);
-  await updateDoc(doc(db, "children", childId, "quests", questId), {
-    status: "approved",
-    approvedAt: serverTimestamp(),
-    parentComment: "",
-  });
+  await httpsCallable(functions, "approveQuest")({ childId, questId });
   await trackParentEventSafely(childId, questId, "quest_approved", {
     ...eventFields(quest),
     statusBefore: quest.status,
@@ -111,15 +108,11 @@ export async function approveQuestDirect(childId: string, questId: string): Prom
   });
 }
 
-export async function rejectQuestDirect(childId: string, questId: string, parentComment: string): Promise<void> {
+export async function rejectQuest(childId: string, questId: string, parentComment: string): Promise<void> {
   if (isDemoChild(childId)) return;
 
   const quest = await getQuest(childId, questId);
-  await updateDoc(doc(db, "children", childId, "quests", questId), {
-    status: "rejected",
-    rejectedAt: serverTimestamp(),
-    parentComment,
-  });
+  await httpsCallable(functions, "rejectQuest")({ childId, questId, parentComment });
   await trackParentEventSafely(childId, questId, "quest_rejected", {
     ...eventFields(quest),
     statusBefore: quest.status,

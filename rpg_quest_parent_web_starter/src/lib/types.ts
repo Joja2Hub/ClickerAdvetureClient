@@ -103,6 +103,7 @@ export interface Quest {
   recommendationScore?: number;
   recommended?: boolean;
   geo?: GeoQuestConditions | null;
+  geoProgress?: { visitCount: number; lastVisitDay?: string };
 }
 
 export interface QuestEvent {
