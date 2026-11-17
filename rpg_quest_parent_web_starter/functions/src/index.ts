@@ -3,6 +3,7 @@ import { getAuth } from "firebase-admin/auth";
 import { getFirestore, FieldValue, Timestamp } from "firebase-admin/firestore";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { assertCompletedGeoQuest, GeoPolicyError } from "./geoPolicy.js";
+import { claimReward } from "./claimQuestReward.js";
 
 export { onQuestEventCreated, rebuildChildAnalytics } from "./analytics.js";
 export { generateQuestRecommendations } from "./recommendations.js";
@@ -210,40 +211,5 @@ export const createChildLogin = onCall({ region: "europe-west1" }, async (reques
   return { ok: true, uid: childUser.uid };
 });
 
-export const claimQuestReward = onCall({ region: "europe-west1" }, async (request) => {
-  const { childId, questId } = request.data as { childId?: string; questId?: string };
-  if (!childId || !questId) throw new HttpsError("invalid-argument", "childId и questId обязательны.");
-  if (!request.auth?.uid) throw new HttpsError("unauthenticated", "Нужна авторизация.");
-
-  const userSnap = await db.doc(`users/${request.auth.uid}`).get();
-  const user = userSnap.data();
-  if (!user || user.role !== "child" || user.childId !== childId) {
-    throw new HttpsError("permission-denied", "Награду может забрать только ребёнок-владелец профиля.");
-  }
-
-  const questRef = db.doc(`children/${childId}/quests/${questId}`);
-  const rewardRef = db.doc(`children/${childId}/rewardLedger/quest_${questId}`);
-  const childRef = db.doc(`children/${childId}`);
-  const gameStateRef = db.doc(`children/${childId}/gameState/main`);
-  const analyticsRef = db.doc(`children/${childId}/analyticsDaily/${todayId()}`);
-
-  await db.runTransaction(async (tx) => {
-    const [questSnap, rewardSnap] = await Promise.all([tx.get(questRef), tx.get(rewardRef)]);
-    if (!questSnap.exists || !rewardSnap.exists) throw new HttpsError("not-found", "Награда не найдена.");
-    const quest = questSnap.data()!;
-    const reward = rewardSnap.data()!;
-    if (quest.status !== "approved") throw new HttpsError("failed-precondition", "Квест ещё не одобрен.");
-    if (reward.claimed) throw new HttpsError("already-exists", "Награда уже получена.");
-
-    const xp = reward.xp ?? 0;
-    const gold = reward.gold ?? 0;
-
-    tx.update(rewardRef, { claimed: true, claimedAt: Timestamp.now() });
-    tx.update(questRef, { status: "claimed", claimedAt: Timestamp.now() });
-    tx.set(childRef, { xp: FieldValue.increment(xp), gold: FieldValue.increment(gold), updatedAt: Timestamp.now() }, { merge: true });
-    tx.set(gameStateRef, { xp: FieldValue.increment(xp), gold: FieldValue.increment(gold), lastActiveAt: Timestamp.now() }, { merge: true });
-    tx.set(analyticsRef, { xpEarned: FieldValue.increment(xp), goldEarned: FieldValue.increment(gold) }, { merge: true });
-  });
-
-  return { ok: true };
-});
+export const claimQuestReward = onCall({ region: "europe-west1" }, request =>
+  claimReward(db, request.auth?.uid, request.data));

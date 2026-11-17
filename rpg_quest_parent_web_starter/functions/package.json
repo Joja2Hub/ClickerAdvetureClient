@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsc",
     "test:geo": "npm run build && node --test test/geoCheckIn.test.cjs",
+    "test:rewards": "npm run build && node --test test/claimQuestReward.test.cjs",
     "serve": "npm run build && firebase emulators:start --only functions,firestore",
     "deploy": "firebase deploy --only functions",
     "lint": "echo \"No lint configured\""

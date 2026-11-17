@@ -82,8 +82,12 @@ service cloud.firestore {
         allow create: if isParent()
           && sameFamily(childFamily(childId))
           && request.resource.data.status == "assigned"
+          && !request.resource.data.keys().hasAny(["approvedAt", "claimedAt", "geoProgress"])
           && request.resource.data.createdByParentId == request.auth.uid;
-        allow update: if isParent() && sameFamily(childFamily(childId));
+        allow update: if isParent()
+          && sameFamily(childFamily(childId))
+          && request.resource.data.status == "cancelled"
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["status"]);
         allow update: if isChild()
           && currentUser().childId == childId
           && resource.data.status in ["assigned", "rejected"]
